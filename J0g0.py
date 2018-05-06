@@ -30,7 +30,8 @@ class Mamadeira (pygame.sprite.Sprite):
         self.rect.y = pos_y
     def move(self):
         self.rect.x+=self.vx
-        self.rect.y+=self.vy+ 1/2*self.g
+        self.vy+=1/2*self.g
+        self.rect.y+=self.vy 
     #criando tela
 pygame.init()
 tela = pygame.display.set_mode([800,600])
@@ -42,7 +43,7 @@ for i in range(randrange(2,4)):
     z=randrange(700)
     bebe+=[Bebe('bbbravo.jpg',z,300)]
     bebe_group.add(bebe[i])
-    m_normal=Mamadeira('mamadeira.png',(z+81),355,10,(-10),(8))
+    m_normal=Mamadeira('mamadeira.png',(z+81),355,10,(-50),(8))
 #criando grupos
     mamadeira_group.add(m_normal)
 #Relogio
