@@ -39,11 +39,21 @@ pygame.display.set_caption("Bem vindo ao jogo")
 bebe=[]
 bebe_group = pygame.sprite.Group()
 mamadeira_group=pygame.sprite.Group()
+ex=0
+ey=0
 for i in range(randrange(2,4)):
-    z=randrange(700)
-    bebe+=[Bebe('bbbravo.jpg',z,300)]
+    x=randrange(700)
+    y=randrange(400)
+    while (x-ex)<70:
+        x=randrange(700)
+    while (y-ey)<70:
+        y=randrange(500)
+    bebe+=[Bebe('bbbravo.jpg',x,y)]
     bebe_group.add(bebe[i])
-    m_normal=Mamadeira('mamadeira.png',(z+81),355,10,(-50),(8))
+    pygame.draw.rect(tela, gray, [x-30,y-30,100,10])
+    m_normal=Mamadeira('mamadeira.png',(x+70),(y+55),10,(-50),(8))
+    ex=x
+    ey=y
 #criando grupos
     mamadeira_group.add(m_normal)
 #Relogio
@@ -51,12 +61,17 @@ relogio=pygame.time.Clock()
 sair = False
 while sair!= True:
     for event in pygame.event.get():
-        print(event)
         if event.type == pygame.QUIT:
             sair = True 
         if event.type == pygame.KEYDOWN:
             if event.key== pygame.K_BACKSPACE:
-                m_normal.move()    
+                m_normal.move()
+            if event.key==pygame.K_LEFT and m_normal.rect.x==(x+70):
+                m_normal.rect.x-=60
+                m_normal.vx=-m_normal.vx
+            if event.key==pygame.K_RIGHT and m_normal.rect.x==(x+70-60):
+                    m_normal.rect.x+=60
+                    m_normal.vx=-m_normal.vx
     tela.fill(white)
     bebe_group.draw(tela)
     mamadeira_group.draw(tela)
