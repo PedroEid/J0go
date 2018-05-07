@@ -15,8 +15,8 @@ class Bebe (pygame.sprite.Sprite):
         self.image=pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
-        pygame.draw.rect(self.image, black, [400,300,100,10])
         self.rect.y = pos_y
+    
 class Mamadeira (pygame.sprite.Sprite):
     def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
         self.vx=vel_x
@@ -33,18 +33,14 @@ class Mamadeira (pygame.sprite.Sprite):
         self.vy+=1/2*self.g
         self.rect.y+=self.vy 
     #criando tela
-
 pygame.init()
-tela = pygame.display.set_mode([1000,900])
-tela.fill(white)
+tela = pygame.display.set_mode([800,600])
 pygame.display.set_caption("Bem vindo ao jogo")
 bebe=[]
 bebe_group = pygame.sprite.Group()
 mamadeira_group=pygame.sprite.Group()
 ex=0
 ey=0
-d_mao_mao=55
-d_mao_pe=70
 for i in range(randrange(2,4)):
     x=randrange(700)
     y=randrange(400)
@@ -54,7 +50,8 @@ for i in range(randrange(2,4)):
         y=randrange(500)
     bebe+=[Bebe('bbbravo.jpg',x,y)]
     bebe_group.add(bebe[i])
-    m_normal=Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-50),(8))
+    pygame.draw.rect(tela, gray, [x-30,y-30,100,10])
+    m_normal=Mamadeira('mamadeira.png',(x+70),(y+55),10,(-50),(8))
     ex=x
     ey=y
 #criando grupos
@@ -67,15 +64,15 @@ while sair!= True:
         if event.type == pygame.QUIT:
             sair = True 
         if event.type == pygame.KEYDOWN:
-            if event.key== pygame.K_RETURN:
+            if event.key== pygame.K_BACKSPACE:
                 m_normal.move()
-            if event.key==pygame.K_LEFT and m_normal.rect.x==(x+d_mao_pe):
+            if event.key==pygame.K_LEFT and m_normal.rect.x==(x+70):
                 m_normal.rect.x-=60
                 m_normal.vx=-m_normal.vx
-            if event.key==pygame.K_RIGHT and m_normal.rect.x==(x+d_mao_pe-60):
+            if event.key==pygame.K_RIGHT and m_normal.rect.x==(x+70-60):
                     m_normal.rect.x+=60
                     m_normal.vx=-m_normal.vx
-    pygame.draw.rect(tela, black, [1000,600,-1000,10])
+    tela.fill(white)
     bebe_group.draw(tela)
     mamadeira_group.draw(tela)
     pygame.display.update()
