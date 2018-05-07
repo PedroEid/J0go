@@ -13,6 +13,7 @@ class Bebe (pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imbebe)
         self.image=pygame.transform.scale(self.image,(100,100))
+        pygame.draw.rect(self.image, black, [pos_x-30,pos_y-30,100,100])
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -34,7 +35,7 @@ class Mamadeira (pygame.sprite.Sprite):
         self.rect.y+=self.vy 
     #criando tela
 pygame.init()
-tela = pygame.display.set_mode([800,600])
+tela = pygame.display.set_mode([1000,900])
 pygame.display.set_caption("Bem vindo ao jogo")
 bebe=[]
 bebe_group = pygame.sprite.Group()
@@ -50,7 +51,6 @@ for i in range(randrange(2,4)):
         y=randrange(500)
     bebe+=[Bebe('bbbravo.jpg',x,y)]
     bebe_group.add(bebe[i])
-    pygame.draw.rect(tela, gray, [x-30,y-30,100,10])
     m_normal=Mamadeira('mamadeira.png',(x+70),(y+55),10,(-50),(8))
     ex=x
     ey=y
