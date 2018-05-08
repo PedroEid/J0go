@@ -20,16 +20,28 @@ class Bebe (pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
-        
+#        self.draw(tela)
         
     def draw(self, tela):
         print('a')
         tela.blit(self.image, self.rect)
+        pygame.draw.rect(tela, black, [70,70,100,10])
         
     
-        
-        
-
+#        
+#class Plataforma(pygame.sprit)       
+# def __init__(self, color, width, height):
+#       # Call the parent class (Sprite) constructor
+#       pygame.sprite.Sprite.__init__(self)
+#
+#       # Create an image of the block, and fill it with a color.
+#       # This could also be an image loaded from the disk.
+#       self.image = pygame.Surface([width, height])
+#       self.image.fill(color)
+#
+#       # Fetch the rectangle object that has the dimensions of the image
+#       # Update the position of this object by setting the values of rect.x and rect.y
+#       self.rect = self.image.get_rect()
 class Mamadeira (pygame.sprite.Sprite):
     def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
         pygame.sprite.Sprite.__init__(self)
@@ -84,7 +96,7 @@ for i in range(randrange(2,4)):
     while (y - ey) < 70:
         y = randrange(500)
     bebe += [Bebe('bbbravo.jpg',x,y,tela)]
-#    plataforma+=[pygame.draw.rect(tela, black, [x,y,100,10])]
+    plataforma+=[pygame.draw.rect(tela, black, [x,y,100,10])]
     bebe_group.add(bebe[i])
     m_normal+= [Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))]
     mamadeira_group.add(m_normal[i])
@@ -113,7 +125,6 @@ while not sair:
                    sua_m.vx=-sua_m.vx
 
     sua_m.move()
-
     tela.fill(white)
 #    plataforma_group.draw(tela)
     bebe_group.draw(tela)
