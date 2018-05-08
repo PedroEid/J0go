@@ -2,84 +2,126 @@ import pygame
 import sys
 from pygame.locals import *
 from random import randrange
-#cores
-white=(255,255,255)
-gray=(125,125,125)
-black=(0,0,0)
-red=(255,0,0)
-#criando classe bebe
+
+# Cores.
+white = (255,255,255)
+gray = (125,125,125)
+black = (0,0,0)
+red = (255,0,0)
+
+FPS = 30
+
+# Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
-    def __init__(self, imbebe, pos_x, pos_y):
+    def __init__(self, imbebe, pos_x, pos_y,tela):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imbebe)
-        self.image=pygame.transform.scale(self.image,(100,100))
+        self.image = pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
-        pygame.draw.rect(self.image, black, [400,300,100,10])
         self.rect.y = pos_y
+        
+        
+    def draw(self, tela):
+        print('a')
+        tela.blit(self.image, self.rect)
+        
+    
+        
+        
+
 class Mamadeira (pygame.sprite.Sprite):
     def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
-        self.vx=vel_x
-        self.vy=vel_y
-        self.g=g
         pygame.sprite.Sprite.__init__(self)
+        self.vx = vel_x
+        self.vy = vel_y
+        self.g = g
         self.image = pygame.image.load(immadeira)
-        self.image=pygame.transform.scale(self.image,(20,20))
+        self.image = pygame.transform.scale(self.image,(20,20))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+        self.movendo = False
+        self.passos = 0  # DEBUG
+        
+        
+    def atira(self):
+        
+        self.movendo = True
+
     def move(self):
-        self.rect.x+=self.vx
-        self.vy+=1/2*self.g
-        self.rect.y+=self.vy 
-    #criando tela
+        if self.movendo:
+            self.vy += self.g/FPS
+            self.rect.x += self.vx
+            self.rect.y += self.vy
+            self.passos += 1
+            
+        if self.passos == 10:
+            self.movendo = False
+        
+    # Criando tela.
 
 pygame.init()
-tela = pygame.display.set_mode([1000,900])
-tela.fill(white)
+
+tela = pygame.display.set_mode([1000,700])
 pygame.display.set_caption("Bem vindo ao jogo")
+
 bebe=[]
+m_normal=[]
 bebe_group = pygame.sprite.Group()
-mamadeira_group=pygame.sprite.Group()
-ex=0
-ey=0
-d_mao_mao=55
-d_mao_pe=70
+mamadeira_group = pygame.sprite.Group()
+plataforma=[]
+plataforma_group=pygame.sprite.Group
+ex = 0
+ey = 0
+d_mao_mao = 55
+d_mao_pe = 70
 for i in range(randrange(2,4)):
-    x=randrange(700)
-    y=randrange(400)
-    while (x-ex)<70:
-        x=randrange(700)
-    while (y-ey)<70:
-        y=randrange(500)
-    bebe+=[Bebe('bbbravo.jpg',x,y)]
+    x = randrange(700)
+    y = randrange(400)
+    while (x - ex) < 70:
+        x = randrange(700)
+    while (y - ey) < 70:
+        y = randrange(500)
+    bebe += [Bebe('bbbravo.jpg',x,y,tela)]
+#    plataforma+=[pygame.draw.rect(tela, black, [x,y,100,10])]
     bebe_group.add(bebe[i])
-    m_normal=Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-50),(8))
+    m_normal+= [Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))]
+    mamadeira_group.add(m_normal[i])
+#    plataforma_group.add(plataforma[i])
+    sua_m=m_normal[i]
     ex=x
     ey=y
+#plataforma_group.add(pygame.draw.rect(tela, black, [1000,600,-1000,10]))
 #criando grupos
-    mamadeira_group.add(m_normal)
 #Relogio
-relogio=pygame.time.Clock()
+relogio = pygame.time.Clock()
 sair = False
-while sair!= True:
+while not sair:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sair = True 
         if event.type == pygame.KEYDOWN:
             if event.key== pygame.K_RETURN:
-                m_normal.move()
-            if event.key==pygame.K_LEFT and m_normal.rect.x==(x+d_mao_pe):
-                m_normal.rect.x-=60
-                m_normal.vx=-m_normal.vx
-            if event.key==pygame.K_RIGHT and m_normal.rect.x==(x+d_mao_pe-60):
-                    m_normal.rect.x+=60
-                    m_normal.vx=-m_normal.vx
-    pygame.draw.rect(tela, black, [1000,600,-1000,10])
+                print('BANG!')
+                sua_m.atira()
+            if event.key==pygame.K_LEFT and sua_m.rect.x==(x+d_mao_pe):
+                sua_m.rect.x-=60
+                sua_m.vx=-sua_m.vx
+            if event.key==pygame.K_RIGHT and sua_m.rect.x==(x+d_mao_pe-60):
+                   sua_m.rect.x+=60
+                   sua_m.vx=-sua_m.vx
+
+    sua_m.move()
+
+    tela.fill(white)
+#    plataforma_group.draw(tela)
+    bebe_group.draw(tela)
     bebe_group.draw(tela)
     mamadeira_group.draw(tela)
     pygame.display.update()
-    relogio.tick(10)
+    relogio.tick(FPS)
+
 pygame.display.quit()
     
     
