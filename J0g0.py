@@ -16,8 +16,8 @@ tela.fill(white)
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
-    def __init__(self, imbebe, pos_x, pos_y,tela,vida):
-        pygame.sprite.Sprite.__init__(self)
+    def _init_(self, imbebe, pos_x, pos_y,tela,vida):
+        pygame.sprite.Sprite._init_(self)
         self.image = pygame.image.load(imbebe)
         self.image = pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
@@ -32,23 +32,21 @@ class Bebe (pygame.sprite.Sprite):
         
     
 ##        
-#class Plataforma(pygame.sprite.Sprite):    
-#    def __init__(self,pos_x,pos_y, width, height):
-#
-#        super().__init__()
-#     
-#        # Set the background color and set it to be transparent
-#        self.image = pygame.Surface([width, height])
-#        self.image.fill(white)
-#        self.image.set_colorkey(white)
-#     
-#        # Draw the ellipse
-#        pygame.draw.ellipse(self.image, black, [pos_x, pos_y, width, height])
-#        self.rect = self.image.get_rect()
+class Plataforma(pygame.sprite.Sprite):    
+    def _init_(self,pos_x,pos_y, width, height):
+        pygame.sprite.Sprite._init_(self)
+        # Set the background color and set it to be transparent
+        self.image = pygame.Surface([width, height])
+        # Draw the ellipse
+        pygame.draw.ellipse(self.image, black, [0, 0, width, height])
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        
     
 class Mamadeira (pygame.sprite.Sprite):
-    def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
-        pygame.sprite.Sprite.__init__(self)
+    def _init_(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
+        pygame.sprite.Sprite._init_(self)
         self.vx = vel_x
         self.vy = vel_y
         self.g = g
@@ -78,7 +76,7 @@ class Mamadeira (pygame.sprite.Sprite):
 
 pygame.init()
 
-tela = pygame.display.set_mode([1000,700])
+tela = pygame.display.set_mode([900,500])
 pygame.display.set_caption("Bem vindo ao jogo")
 
 bebe=[]
@@ -86,7 +84,7 @@ m_normal=[]
 bebe_group = pygame.sprite.Group()
 mamadeira_group = pygame.sprite.Group()
 plataforma=[]
-plataforma_group=pygame.sprite.Group
+plataforma_group=pygame.sprite.Group()
 ex = 0
 ey = 0
 d_mao_mao = 55
@@ -96,16 +94,16 @@ for i in range(randrange(2,4)):
     x = randrange(700)
     y = randrange(400)
     bebe += [Bebe('bbbravo.jpg',x,y,tela,100)]
-#    plataforma+=[Plataforma(x,y,10,50)]
+    plataforma+=[Plataforma(x,y+90,100,10)]
     bebe_group.add(bebe[i])
     m_normal+= [Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))]
     mamadeira_group.add(m_normal[i])
-#    plataforma_group.add(plataforma[i])
+    plataforma_group.add(plataforma[i])
     sua_m=m_normal[i]
     ex=x
     ey=y
-#plataforma+=[Plataforma(1000,600,10,10)]
-#plataforma_group.add(plataforma[i+1])
+plataforma+=[Plataforma(0,450,10000,10)]
+plataforma_group.add(plataforma[i+1])
 
 #criando grupos
 #Relogio
@@ -122,8 +120,8 @@ while not sair:
                 print('BANG!')
                 sua_m.atira()
                 z=True
-            colisao = pygame.sprite.spritecollide(sua_m,bebe_group, z)
-            print(colisao)
+#            colisao = pygame.sprite.spritecollide(sua_m,bebe_group, z)
+#            print(colisao)
 
             if event.key==pygame.K_LEFT and sua_m.rect.x==(x+d_mao_pe):
                 sua_m.rect.x-=60
@@ -134,12 +132,11 @@ while not sair:
 
     sua_m.move()
     tela.fill(white)
-#    plataforma_group.draw(tela)
+
     bebe_group.draw(tela)
     mamadeira_group.draw(tela)
+    plataforma_group.draw(tela)
     pygame.display.update()
     relogio.tick(FPS)
 
 pygame.display.quit()
-    
-    
