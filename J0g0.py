@@ -27,7 +27,6 @@ class Bebe (pygame.sprite.Sprite):
         self.health(tela)
         
     def health(self, tela):
-        print('a')
         tela.blit(self.image, self.rect)
         pygame.draw.rect(self.image, red, [0,0,self.vida,10])
         
@@ -65,7 +64,6 @@ class Mamadeira (pygame.sprite.Sprite):
     def atira(self):
         
         self.movendo = True
-
     def move(self):
         if self.movendo:
             self.vy += self.g/FPS
@@ -73,7 +71,7 @@ class Mamadeira (pygame.sprite.Sprite):
             self.rect.y += self.vy
             self.passos += 1
             
-        if self.passos == 10:
+        if self.passos == 30:
             self.movendo = False
         
     # Criando tela.
@@ -97,10 +95,6 @@ d_mao_pe = 70
 for i in range(randrange(2,4)):
     x = randrange(700)
     y = randrange(400)
-    while (x - ex) < 70:
-        x = randrange(700)
-    while (y - ey) < 70:
-        y = randrange(500)
     bebe += [Bebe('bbbravo.jpg',x,y,tela,100)]
 #    plataforma+=[Plataforma(x,y,10,50)]
     bebe_group.add(bebe[i])
@@ -117,7 +111,9 @@ for i in range(randrange(2,4)):
 #Relogio
 relogio = pygame.time.Clock()
 sair = False
+z=False
 while not sair:
+#    print('b')
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sair = True 
@@ -125,6 +121,10 @@ while not sair:
             if event.key== pygame.K_RETURN:
                 print('BANG!')
                 sua_m.atira()
+                z=True
+            colisao = pygame.sprite.spritecollide(sua_m,bebe_group, z)
+            print(colisao)
+
             if event.key==pygame.K_LEFT and sua_m.rect.x==(x+d_mao_pe):
                 sua_m.rect.x-=60
                 sua_m.vx=-sua_m.vx
