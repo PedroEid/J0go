@@ -16,8 +16,8 @@ tela.fill(white)
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
-    def _init_(self, imbebe, pos_x, pos_y,tela,vida):
-        pygame.sprite.Sprite._init_(self)
+    def __init__(self, imbebe, pos_x, pos_y,tela,vida):
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imbebe)
         self.image = pygame.transform.scale(self.image,(100,100))
         self.rect = self.image.get_rect()
@@ -33,8 +33,8 @@ class Bebe (pygame.sprite.Sprite):
     
 ##        
 class Plataforma(pygame.sprite.Sprite):    
-    def _init_(self,pos_x,pos_y, width, height):
-        pygame.sprite.Sprite._init_(self)
+    def __init__(self,pos_x,pos_y, width, height):
+        pygame.sprite.Sprite.__init__(self)
         # Set the background color and set it to be transparent
         self.image = pygame.Surface([width, height])
         # Draw the ellipse
@@ -45,8 +45,8 @@ class Plataforma(pygame.sprite.Sprite):
         
     
 class Mamadeira (pygame.sprite.Sprite):
-    def _init_(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
-        pygame.sprite.Sprite._init_(self)
+    def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
+        pygame.sprite.Sprite.__init__(self)
         self.vx = vel_x
         self.vy = vel_y
         self.g = g
