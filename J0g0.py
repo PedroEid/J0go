@@ -79,62 +79,87 @@ pygame.init()
 tela = pygame.display.set_mode([900,500])
 pygame.display.set_caption("Bem vindo ao jogo")
 
-bebe=[]
-m_normal=[]
-bebe_group = pygame.sprite.Group()
-mamadeira_group = pygame.sprite.Group()
-plataforma=[]
+#bebe=[]
+#m_normal=[]
+bebe_1 = pygame.sprite.Group()
+mamadeira_1 = pygame.sprite.Group()
+mamadeira_2 = pygame.sprite.Group()
+bebe_2 = pygame.sprite.Group()
+#plataforma=[]
 plataforma_group=pygame.sprite.Group()
-ex = 0
-ey = 0
+#costantes
+
 d_mao_mao = 55
 d_mao_pe = 70
+by_p=90
+#localizacoa bebe:
+x = 700
+y = 300
+ex = 100
+ey = 100
+#criando os bebes
+b_1= Bebe('bbbravo.jpg',x,y,tela,100)
+b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
+#criando as plataformas
+p_1=Plataforma(x,y+by_p,100,10)
+p_2=Plataforma(ex,ey+by_p,100,10)
+p_baixo=Plataforma(0,490,10000,10)
+#criando mamadeiras
+m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),5,(-10),(10))
+m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
 
-for i in range(randrange(2,4)):
-    x = randrange(700)
-    y = randrange(400)
-    bebe += [Bebe('bbbravo.jpg',x,y,tela,100)]
-    plataforma+=[Plataforma(x,y+90,100,10)]
-    bebe_group.add(bebe[i])
-    m_normal+= [Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))]
-    mamadeira_group.add(m_normal[i])
-    plataforma_group.add(plataforma[i])
-    sua_m=m_normal[i]
-    ex=x
-    ey=y
-plataforma+=[Plataforma(0,450,10000,10)]
-plataforma_group.add(plataforma[i+1])
+#adicionando nos grupos
+bebe_1.add(b_1)
+bebe_2.add(b_2)
+mamadeira_1.add(m_1)
+plataforma_group.add(p_baixo)
+plataforma_group.add(p_1)
+plataforma_group.add(p_2)
+mamadeira_2.add(m_2)
+#    ex=x
+#    ey=y
 
-#criando grupos
+
+
+
+
+
 #Relogio
 relogio = pygame.time.Clock()
 sair = False
-z=False
+#Looping principal
 while not sair:
 #    print('b')
     for event in pygame.event.get():
+        colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, True)
+        
+        #saida do jogo
         if event.type == pygame.QUIT:
             sair = True 
+            
+        #botoes
         if event.type == pygame.KEYDOWN:
             if event.key== pygame.K_RETURN:
                 print('BANG!')
-                sua_m.atira()
+                m_2.atira()
                 z=True
-#            colisao = pygame.sprite.spritecollide(sua_m,bebe_group, z)
-#            print(colisao)
+        
 
-            if event.key==pygame.K_LEFT and sua_m.rect.x==(x+d_mao_pe):
-                sua_m.rect.x-=60
-                sua_m.vx=-sua_m.vx
-            if event.key==pygame.K_RIGHT and sua_m.rect.x==(x+d_mao_pe-60):
-                   sua_m.rect.x+=60
-                   sua_m.vx=-sua_m.vx
+            if event.key==pygame.K_LEFT and m_2.rect.x==(ex+d_mao_pe):
+                m_2.rect.x-=60
+                m_2.vx=-m_2.vx
+            if event.key==pygame.K_RIGHT and m_2.rect.x==(ex+d_mao_pe-60):
+                   m_2.rect.x+=60
+                   m_2.vx=-m_2.vx
 
-    sua_m.move()
+
+    m_2.move()
     tela.fill(white)
 
-    bebe_group.draw(tela)
-    mamadeira_group.draw(tela)
+    bebe_2.draw(tela)
+    bebe_1.draw(tela)
+    mamadeira_1.draw(tela)
+    mamadeira_2.draw(tela)
     plataforma_group.draw(tela)
     pygame.display.update()
     relogio.tick(FPS)
