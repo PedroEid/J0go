@@ -8,6 +8,7 @@ white = (255,255,255)
 gray = (125,125,125)
 black = (0,0,0)
 red = (255,0,0)
+blue =(50,255,20)
 
 FPS = 30
 
@@ -131,18 +132,39 @@ relogio = pygame.time.Clock()
 sair = False
 a=True
 atirou=False
+inicio=True
 #Looping principal
 while not sair:
 #    print('b')
+    
     for event in pygame.event.get():
-        
-        
-        #saida do jogo
-        if event.type == pygame.QUIT:
-            sair = True 
+#        if event.type == pygame.QUIT:
+#                sair = True
+#        while inicio and not sair:
+#            if event.type == pygame.QUIT:
+#                sair = True
+#            font = pygame.font.SysFont("comicsansms", 32)
+#            text = font.render("Bem Vindo ao Jogo Baby Fight", True, (red))
+#            font1 = pygame.font.SysFont("Arial", 32)
+#            text1 = font1.render("Jogar", True, (red))
+#
+#            if event.type == pygame.KEYDOWN:
+#                if event.type == MOUSEBUTTONDOWN and event.button == 1:
+#                    mouse = pygame.mouse.getpos
+#                    if text1.collidrect(mouse):
+#                        inicio=False
+#
+#            tela.fill(white)
+#            tela.blit(text,(420 - text.get_width() // 2, 30 - text.get_height() // 2))
+#            tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+#            pygame.display.update()
+#            relogio.tick(FPS)
+        if event.type == pygame.KEYDOWN:
+         
+            
             
         #tecla
-        if event.type == pygame.KEYDOWN:
+        
 #            if event.key==pygame.K_t:  
                 if event.key== pygame.K_RETURN:
                     m_2.atira()
@@ -178,7 +200,6 @@ while not sair:
     if colisao:
         m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
         mamadeira_2.add(m_2)
-        
         b_1.vida-=20
         b_1.health(tela)
         atirou=False
@@ -189,7 +210,7 @@ while not sair:
     bebe_1.draw(tela)
     mamadeira_1.draw(tela)
     mamadeira_2.draw(tela)
-    
+
     plataforma_group.draw(tela)
     pygame.display.update()
     relogio.tick(FPS)
