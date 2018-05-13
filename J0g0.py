@@ -9,7 +9,7 @@ gray = (125,125,125)
 black = (0,0,0)
 red = (255,0,0)
 purple =(150,150,255)
-blue=(100,0,255)
+blue=(50,0,255)
 
 FPS = 30
 
@@ -26,11 +26,13 @@ class Bebe (pygame.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.vida=vida
+
 #        self.health(tela)
         
     def health(self, tela):
-        tela.blit(self.image, self.rect)
-        pygame.draw.rect(self.image, red, [0,0,self.vida,5])
+        pygame.draw.rect(self.image,white,[0,0,100,5])
+        if self.vida>0:
+            pygame.draw.rect(self.image, red, [0,0,self.vida,5])
         
     
 #criando classe de plataforma       
@@ -63,7 +65,7 @@ class Mamadeira (pygame.sprite.Sprite):
         
     def atira(self):
         self.movendo = True
-    def parar_tiro(self):
+    def parar_atirar(self):
         self.movendo=False
     def move(self):
         if self.movendo:
@@ -131,7 +133,7 @@ mamadeira_2.add(m_2)
 #Relogio
 relogio = pygame.time.Clock()
 sair = False
-a=True
+trocou_de_mao=False
 atirou=False
 inicio=True
 #Looping principal
@@ -144,7 +146,7 @@ while not sair:
                 sair = True
         if inicio:
             font = pygame.font.SysFont("Algerian", 50)
-            text = font.render("Bem Vindo ao Baby Fight", True, (red))
+            text = font.render("Bem Vindo ao Baby Fight", True, (black))
             font1 = pygame.font.SysFont("Algerian", 32)
             text1 = font1.render("Jogar", True, (blue))
 
@@ -155,20 +157,22 @@ while not sair:
 
             if event.type == pygame.KEYDOWN:                
                     if event.key== pygame.K_RETURN:
+                        vy_inicial=m_2.vy
                         m_2.atira()
                         atirou=True
-                    if event.key==pygame.K_LEFT and a and not atirou:
+                    if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                         m_2.rect.x-=60
                         m_2.vx=-m_2.vx
-                        a=False
+                        trocou_de_mao=True
                         
-                    if event.key==pygame.K_RIGHT and not a and not atirou:
+                    if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
                             m_2.rect.x+=60
                             m_2.vx=-m_2.vx
-                            a=True
-    #            if event.type==pygame.K_m:
-    #               while a:
-    #                   print('a')
+                            trocou_de_mao=False
+                    if event.key==pygame.K_UP and not atirou:
+                        m_2.vy-=2
+                    if event.key==pygame.K_DOWN and not atirou:
+                        m_2.vy+=2
                     if event.key==pygame.K_d:
                         b_2.rect.x+=20
                         m_2.rect.x+=20
@@ -188,12 +192,17 @@ while not sair:
 
             
             
-    colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, True)
-    if colisao:
-        m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
-        mamadeira_2.add(m_2)
-        b_1.vida-=20
-        b_1.health(tela)
+    colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, False)
+    colisao1=pygame.sprite.spritecollide(m_2,plataforma_group, False)
+    if colisao1 or colisao:
+        m_2.vy=vy_inicial
+        m_2.rect.x=ex+d_mao_pe
+        m_2.rect.y=ey+d_mao_mao
+        m_2.parar_atirar()
+        print("a")
+        if colisao:
+            b_1.vida-=20
+            b_1.health(tela)
         atirou=False
     if not inicio:
         tela.fill(white)
@@ -211,7 +220,6 @@ while not sair:
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
             if t.collidepoint(mouse_posicao):
-                print('a')
                 inicio=False
     pygame.display.update()
     relogio.tick(FPS)
