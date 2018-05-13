@@ -8,7 +8,8 @@ white = (255,255,255)
 gray = (125,125,125)
 black = (0,0,0)
 red = (255,0,0)
-blue =(50,255,20)
+purple =(150,150,255)
+blue=(100,0,255)
 
 FPS = 30
 
@@ -136,66 +137,57 @@ inicio=True
 #Looping principal
 while not sair:
 #    print('b')
-    
+
     for event in pygame.event.get():
-#        if event.type == pygame.QUIT:
-#                sair = True
-#        while inicio and not sair:
-#            if event.type == pygame.QUIT:
-#                sair = True
-#            font = pygame.font.SysFont("comicsansms", 32)
-#            text = font.render("Bem Vindo ao Jogo Baby Fight", True, (red))
-#            font1 = pygame.font.SysFont("Arial", 32)
-#            text1 = font1.render("Jogar", True, (red))
-#
-#            if event.type == pygame.KEYDOWN:
-#                if event.type == MOUSEBUTTONDOWN and event.button == 1:
-#                    mouse = pygame.mouse.getpos
-#                    if text1.collidrect(mouse):
-#                        inicio=False
-#
-#            tela.fill(white)
-#            tela.blit(text,(420 - text.get_width() // 2, 30 - text.get_height() // 2))
-#            tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-#            pygame.display.update()
-#            relogio.tick(FPS)
-        if event.type == pygame.KEYDOWN:
-         
+
+        if event.type == pygame.QUIT:
+                sair = True
+        if inicio:
+            font = pygame.font.SysFont("Algerian", 50)
+            text = font.render("Bem Vindo ao Baby Fight", True, (red))
+            font1 = pygame.font.SysFont("Algerian", 32)
+            text1 = font1.render("Jogar", True, (blue))
+
+
+
             
-            
-        #tecla
-        
-#            if event.key==pygame.K_t:  
-                if event.key== pygame.K_RETURN:
-                    m_2.atira()
-                    atirou=True
-                if event.key==pygame.K_LEFT and a and not atirou:
-                    m_2.rect.x-=60
-                    m_2.vx=-m_2.vx
-                    a=False
-                    
-                if event.key==pygame.K_RIGHT and not a and not atirou:
-                        m_2.rect.x+=60
+        else:
+
+            if event.type == pygame.KEYDOWN:                
+                    if event.key== pygame.K_RETURN:
+                        m_2.atira()
+                        atirou=True
+                    if event.key==pygame.K_LEFT and a and not atirou:
+                        m_2.rect.x-=60
                         m_2.vx=-m_2.vx
-                        a=True
-#            if event.type==pygame.K_m:
-#               while a:
-#                   print('a')
-                if event.key==pygame.K_d:
-                    b_2.rect.x+=20
-                    m_2.rect.x+=20
-                if event.key==pygame.K_a:
-                    b_2.rect.x-=20
-                    m_2.rect.x-=20
-                if event.key==pygame.K_w:
-                    b_2.rect.y-=20
-                    m_2.rect.y-=20
-#                        a=False
-                
-#    gravidade=pygame.sprite.spritecollide(b_1,plataforma_group, True)
-#    if gravidade:
-#        b_2.rect.y+=2
-#        m_2.rect.y+=2
+                        a=False
+                        
+                    if event.key==pygame.K_RIGHT and not a and not atirou:
+                            m_2.rect.x+=60
+                            m_2.vx=-m_2.vx
+                            a=True
+    #            if event.type==pygame.K_m:
+    #               while a:
+    #                   print('a')
+                    if event.key==pygame.K_d:
+                        b_2.rect.x+=20
+                        m_2.rect.x+=20
+                    if event.key==pygame.K_a:
+                        b_2.rect.x-=20
+                        m_2.rect.x-=20
+                    if event.key==pygame.K_w:
+                        b_2.rect.y-=20
+                        m_2.rect.y-=20
+    #                        a=False
+                    
+    #    gravidade=pygame.sprite.spritecollide(b_1,plataforma_group, True)
+    #    if gravidade:
+    #        b_2.rect.y+=2
+    #        m_2.rect.y+=2
+            
+
+            
+            
     colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, True)
     if colisao:
         m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
@@ -203,15 +195,24 @@ while not sair:
         b_1.vida-=20
         b_1.health(tela)
         atirou=False
-    m_2.move()
-    tela.fill(white)
-    
-    bebe_2.draw(tela)
-    bebe_1.draw(tela)
-    mamadeira_1.draw(tela)
-    mamadeira_2.draw(tela)
+    if not inicio:
+        tela.fill(white)
+        m_2.move()
+        bebe_2.draw(tela)
+        bebe_1.draw(tela)
+        mamadeira_1.draw(tela)
+        mamadeira_2.draw(tela)
+        plataforma_group.draw(tela)
 
-    plataforma_group.draw(tela)
+    else:
+        tela.fill(purple)
+        tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+        t=tela.blit(text1,(420 - text1.get_width() // 2, 330 - text1.get_height() // 2))
+        if event.type == pygame.MOUSEBUTTONDOWN:            
+            mouse_posicao=pygame.mouse.get_pos()
+            if t.collidepoint(mouse_posicao):
+                print('a')
+                inicio=False
     pygame.display.update()
     relogio.tick(FPS)
 
