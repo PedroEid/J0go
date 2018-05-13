@@ -24,14 +24,14 @@ class Bebe (pygame.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
         self.vida=vida
-        self.health(tela)
+#        self.health(tela)
         
     def health(self, tela):
         tela.blit(self.image, self.rect)
-        pygame.draw.rect(self.image, red, [0,0,self.vida,10])
+        pygame.draw.rect(self.image, red, [0,0,self.vida,5])
         
     
-##        
+#criando classe de plataforma       
 class Plataforma(pygame.sprite.Sprite):    
     def __init__(self,pos_x,pos_y, width, height):
         pygame.sprite.Sprite.__init__(self)
@@ -43,7 +43,7 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect.x = pos_x
         self.rect.y = pos_y
         
-    
+#criando classe de mamadeira    
 class Mamadeira (pygame.sprite.Sprite):
     def __init__(self, immadeira, pos_x, pos_y,vel_x,vel_y,g):
         pygame.sprite.Sprite.__init__(self)
@@ -60,8 +60,9 @@ class Mamadeira (pygame.sprite.Sprite):
         
         
     def atira(self):
-        
         self.movendo = True
+    def parar_tiro(self):
+        self.movendo=False
     def move(self):
         if self.movendo:
             self.vy += self.g/FPS
@@ -69,8 +70,9 @@ class Mamadeira (pygame.sprite.Sprite):
             self.rect.y += self.vy
             self.passos += 1
             
-        if self.passos == 30:
+        if self.passos == 90:
             self.movendo = False
+    
         
     # Criando tela.
 
@@ -127,39 +129,67 @@ mamadeira_2.add(m_2)
 #Relogio
 relogio = pygame.time.Clock()
 sair = False
+a=True
+atirou=False
 #Looping principal
 while not sair:
 #    print('b')
     for event in pygame.event.get():
-        colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, True)
+        
         
         #saida do jogo
         if event.type == pygame.QUIT:
             sair = True 
             
-        #botoes
+        #tecla
         if event.type == pygame.KEYDOWN:
-            if event.key== pygame.K_RETURN:
-                print('BANG!')
-                m_2.atira()
-                z=True
+#            if event.key==pygame.K_t:  
+                if event.key== pygame.K_RETURN:
+                    m_2.atira()
+                    atirou=True
+                if event.key==pygame.K_LEFT and a and not atirou:
+                    m_2.rect.x-=60
+                    m_2.vx=-m_2.vx
+                    a=False
+                    
+                if event.key==pygame.K_RIGHT and not a and not atirou:
+                        m_2.rect.x+=60
+                        m_2.vx=-m_2.vx
+                        a=True
+#            if event.type==pygame.K_m:
+#               while a:
+#                   print('a')
+                if event.key==pygame.K_d:
+                    b_2.rect.x+=20
+                    m_2.rect.x+=20
+                if event.key==pygame.K_a:
+                    b_2.rect.x-=20
+                    m_2.rect.x-=20
+                if event.key==pygame.K_w:
+                    b_2.rect.y-=20
+                    m_2.rect.y-=20
+#                        a=False
+                
+#    gravidade=pygame.sprite.spritecollide(b_1,plataforma_group, True)
+#    if gravidade:
+#        b_2.rect.y+=2
+#        m_2.rect.y+=2
+    colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, True)
+    if colisao:
+        m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
+        mamadeira_2.add(m_2)
         
-
-            if event.key==pygame.K_LEFT and m_2.rect.x==(ex+d_mao_pe):
-                m_2.rect.x-=60
-                m_2.vx=-m_2.vx
-            if event.key==pygame.K_RIGHT and m_2.rect.x==(ex+d_mao_pe-60):
-                   m_2.rect.x+=60
-                   m_2.vx=-m_2.vx
-
-
+        b_1.vida-=20
+        b_1.health(tela)
+        atirou=False
     m_2.move()
     tela.fill(white)
-
+    
     bebe_2.draw(tela)
     bebe_1.draw(tela)
     mamadeira_1.draw(tela)
     mamadeira_2.draw(tela)
+    
     plataforma_group.draw(tela)
     pygame.display.update()
     relogio.tick(FPS)
