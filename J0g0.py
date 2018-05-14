@@ -59,7 +59,7 @@ class Mamadeira (pygame.sprite.Sprite):
         self.vy = vel_y
         self.g = g
         self.image = pygame.image.load(immadeira)
-        self.image = pygame.transform.scale(self.image,(20,20))
+        self.image = pygame.transform.scale(self.image,(30,30))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -117,8 +117,8 @@ plataforma_group.add(p_baixo_esquerda)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 #criando mamadeiras
-m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))
-m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
+m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(10))
+m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(10))
 
 #adicionando nos grupos
 bebe_1.add(b_1)
@@ -148,6 +148,7 @@ m_bebe=0
 b=0
 vx_inicial=m_2.vx
 #Looping principal
+vy_inicial=m_2.vy
 while not sair:
     m_2.move()
     m_1.move()  
@@ -172,9 +173,9 @@ while not sair:
 
         else:    
             if not movimento_1:
-    
+                
                 if event.type == pygame.KEYDOWN:  
-                        vy_inicial=m_2.vy
+                        
                         if event.key== pygame.K_RETURN:
                             m_2.atira()
                             atirou=True
@@ -209,48 +210,48 @@ while not sair:
                             b_2.rect.y-=200
                             m_2.rect.y-=200
                             m_bebe+=1
-                         
-            if movimento_1:
-                    if event.type == pygame.KEYDOWN:  
-                        vy_inicial=m_1.vy
-                        if event.key== pygame.K_RETURN:
-                            m_1.atira()
-                            atirou=True
-                            m_bebe=0
-                        if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
-                            m_1.rect.x-=d_mao_mao
+                        vy_inicial2=m_2.vy
+            if movimento_1:               
+                if event.type == pygame.KEYDOWN:  
+                    vy_inicial1=m_1.vy
+                    if event.key== pygame.K_RETURN:
+                        m_1.atira()
+                        atirou=True
+                        m_bebe=0
+                    if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
+                        m_1.rect.x-=d_mao_mao
+                        m_1.vx=-m_1.vx
+                        trocou_de_mao=True
+                    if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
+                            m_1.rect.x+=d_mao_mao
                             m_1.vx=-m_1.vx
-                            trocou_de_mao=True
-                        if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
-                                m_1.rect.x+=d_mao_mao
-                                m_1.vx=-m_1.vx
-                                trocou_de_mao=False
-    
-                            
-                        if event.key==pygame.K_UP and not atirou:
-                            m_1.vy-=tela_y-498
-    
-                        if event.key==pygame.K_DOWN and not atirou:
-                            m_1.vy+=tela_y-498
-                        if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
-                            b_1.rect.x+=50
-                            m_1.rect.x+=50
-                            m_bebe-=1
+                            trocou_de_mao=False
 
-                        if event.key==pygame.K_a and b_1.rect.x>0:
-                            b_1.rect.x-=50
-                            m_1.rect.x-=50
-                            m_bebe-=1
+                        
+                    if event.key==pygame.K_UP and not atirou:
+                        m_1.vy-=tela_y-498
 
-                        if event.key==pygame.K_w:
-                            
-                            b_1.rect.y-=200
-                            m_1.rect.y-=200
-                            m_bebe-=1
+                    if event.key==pygame.K_DOWN and not atirou:
+                        m_1.vy+=tela_y-498
+                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
+                        b_1.rect.x+=50
+                        m_1.rect.x+=50
+                        m_bebe-=1
 
-    if m_bebe==0:
+                    if event.key==pygame.K_a and b_1.rect.x>0:
+                        b_1.rect.x-=50
+                        m_1.rect.x-=50
+                        m_bebe-=1
+
+                    if event.key==pygame.K_w:
+                        
+                        b_1.rect.y-=200
+                        m_1.rect.y-=200
+                        m_bebe-=1
+                    vy_inicial1=m_1.vy
+    if m_bebe<=0:
         movimento_1=False
-    if m_bebe==3:
+    if m_bebe>3:
         movimento_1=True                
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
@@ -272,9 +273,9 @@ while not sair:
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
-        m_2.vy=vy_inicial
+        m_2.vy=vy_inicial2
         m_2.rect.x=b_2.rect.x+d_mao_pe
-        m_2.rect.y=b_2.rect.y+d_mao_mao
+        m_2.rect.y=b_2.rect.y+d_mao_mao-10
         m_2.parar_atirar()
         if colisao_b_m2:
             b_1.vida-=20
@@ -290,9 +291,9 @@ while not sair:
     colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
     colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
     if colisao_b_m1 or colisao_m_p1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
-        m_1.vy=vy_inicial
+        m_1.vy=vy_inicial1
         m_1.rect.x=b_1.rect.x+d_mao_pe
-        m_1.rect.y=b_1.rect.y+d_mao_mao
+        m_1.rect.y=b_1.rect.y+d_mao_mao-10
         m_1.parar_atirar()
         if colisao_b_m1:
             b_2.vida-=20
@@ -333,16 +334,19 @@ while not sair:
                 b_1= Bebe('bbbravo.jpg',x,y,tela,100)
                 b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
                 #criando mamadeiras
-                m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))
-                m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
+                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(10))
+                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(10))
                 #adicionando nos grupos
                 bebe_1.add(b_1)
                 bebe_2.add(b_2)
                 mamadeira_1.add(m_1)
                 mamadeira_2.add(m_2)
-        elif m_bebe==0 or m_bebe==3:
-            final_jogar=font3.render("Sua Vez", True, (black))
-            tela.blit(final_jogar,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
+        elif m_bebe<=0 or m_bebe>=3:
+            if m_bebe<=0:
+                vez=font3.render("Vez do player 1", True, (black))
+            else:
+                vez=font3.render("Vez do player 2", True, (black))
+            tela.blit(vez,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
         
 
                 
