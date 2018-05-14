@@ -178,6 +178,7 @@ while not sair:
                         if event.key== pygame.K_RETURN:
                             m_2.atira()
                             atirou=True
+                            m_bebe=3
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                             m_2.rect.x-=d_mao_mao
@@ -215,6 +216,7 @@ while not sair:
                         if event.key== pygame.K_RETURN:
                             m_1.atira()
                             atirou=True
+                            m_bebe=0
                         if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                             m_1.rect.x-=d_mao_mao
                             m_1.vx=-m_1.vx
@@ -270,7 +272,7 @@ while not sair:
     else:
         pulou=False
             
-#colisao do bebe1            
+#colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
@@ -314,15 +316,14 @@ while not sair:
         plataforma_group.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
-        if m_bebe==0 or m_bebe==3:
-            final_jogar=font3.render("Sua Vez", True, (black))
-            tela.blit(final_jogar,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
         if b_2.vida<=0 or b_1.vida<=0:
-            bebe_2.remove(b_2)
+            if b_2.vida<=0:
+                bebe_2.remove(b_2)
+            if b_1.vida<=0:
+                bebe_1.remove(b_1)
             mamadeira_2.remove(m_2)
-            bebe_1.remove(b_1)
             mamadeira_1.remove(m_1)
-            final=font1.render("Parabens, você fez o bebe chorar", True, (green))
+            final=font1.render("Parabens, você fez o bebe chorar, seu monstro", True, (green))
             final_jogar=font3.render("Jogar de novo", True, (blue))
             tela.blit(final,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
@@ -331,6 +332,8 @@ while not sair:
             if jogar_de_novo.collidepoint(mouse_posicao):
                 inicio=True
                 rules=False
+                bebe_2 = pygame.sprite.Group()
+                bebe_1 = pygame.sprite.Group()
                 b_1= Bebe('bbbravo.jpg',x,y,tela,100)
                 b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
                 #criando mamadeiras
@@ -341,6 +344,10 @@ while not sair:
                 bebe_2.add(b_2)
                 mamadeira_1.add(m_1)
                 mamadeira_2.add(m_2)
+        elif m_bebe==0 or m_bebe==3:
+            final_jogar=font3.render("Sua Vez", True, (black))
+            tela.blit(final_jogar,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
+        
 
                 
 
