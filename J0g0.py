@@ -197,21 +197,18 @@ while not sair:
                             b_2.rect.x+=50
                             m_2.rect.x+=50
                             m_bebe+=1
-                            if m_bebe==3:
-                                movimento_1=True
+                            
                         if event.key==pygame.K_a and b_2.rect.x>0:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
                             m_bebe+=1
-                            if m_bebe==3:
-                                movimento_1=True
+                        
                         if event.key==pygame.K_w and not pulou:
                             pulou=True
                             b_2.rect.y-=200
                             m_2.rect.y-=200
                             m_bebe+=1
-                            if m_bebe==3:
-                                movimento_1=True
+                         
             if movimento_1:
                     if event.type == pygame.KEYDOWN:  
                         vy_inicial=m_1.vy
@@ -233,26 +230,26 @@ while not sair:
     
                         if event.key==pygame.K_DOWN and not atirou:
                             m_1.vy+=tela_y-498
-#                        if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
-#                            b_1.rect.x+=50
-#                            m_1.rect.x+=50
-#                            m_bebe+=1
-#                            if m_bebe==3:
-#                                movimento_1=False
-#                        if event.key==pygame.K_a and b_1.rect.x>0:
-#                            b_1.rect.x-=50
-#                            m_1.rect.x-=50
-#                            m_bebe+=1
-#                            if m_bebe==3:
-#                                movimento_1=False
-    #                    if event.key==pygame.K_w and not pulou:
-    #                        pulou=True
-    #                        b_1.rect.y-=200
-    #                        m_1.rect.y-=200
-    #                        m_bebe+=1
-    #                        if m_bebe==3:
-    #                            movimento_1=False
-                
+                        if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
+                            b_1.rect.x+=50
+                            m_1.rect.x+=50
+                            m_bebe-=1
+
+                        if event.key==pygame.K_a and b_1.rect.x>0:
+                            b_1.rect.x-=50
+                            m_1.rect.x-=50
+                            m_bebe-=1
+
+                        if event.key==pygame.K_w and not pulou:
+                            pulou=True
+                            b_1.rect.y-=200
+                            m_1.rect.y-=200
+                            m_bebe-=1
+
+    if m_bebe==0:
+        movimento_1=False
+    if m_bebe==3:
+        movimento_1=True                
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
