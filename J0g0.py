@@ -142,7 +142,7 @@ rules=False
 trocou_de_mao=False
 atirou=False
 
-pulou=False
+
 movimento_1=False
 m_bebe=0
 b=0
@@ -204,8 +204,8 @@ while not sair:
                             m_2.rect.x-=50
                             m_bebe+=1
                         
-                        if event.key==pygame.K_w and not pulou:
-                            pulou=True
+                        if event.key==pygame.K_w:
+                           
                             b_2.rect.y-=200
                             m_2.rect.y-=200
                             m_bebe+=1
@@ -242,8 +242,8 @@ while not sair:
                             m_1.rect.x-=50
                             m_bebe-=1
 
-                        if event.key==pygame.K_w and not pulou:
-                            pulou=True
+                        if event.key==pygame.K_w:
+                            
                             b_1.rect.y-=200
                             m_1.rect.y-=200
                             m_bebe-=1
@@ -257,8 +257,6 @@ while not sair:
     if not gravidade2:
         b_2.rect.y+=5
         m_2.rect.y+=5
-    else:
-        pulou=False
         
         
         
@@ -269,8 +267,6 @@ while not sair:
     if not gravidade1:
         b_1.rect.y+=5
         m_1.rect.y+=5
-    else:
-        pulou=False
             
 #colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
@@ -304,7 +300,7 @@ while not sair:
         trocou_de_mao=False
         movimento_1=False
         atirou=False
-        pulou=False
+
         m_1.vx=vx_inicial
         
 #desenho do jogo
@@ -359,7 +355,6 @@ while not sair:
         rule=tela.blit(regras,(432 - text1.get_width() // 2, 290 - text1.get_height() // 2))
         trocou_de_mao=False
         atirou=False        
-        pulou=False
         movimento_1=False
         m_bebe=0
         b=0
