@@ -28,9 +28,9 @@ class Bebe (pygame.sprite.Sprite):
         self.rect.y = pos_y
         self.vida=vida
 
-#        self.health(tela)
+
         
-    def health(self, tela):
+    def health(self):
         pygame.draw.rect(self.image,white,[0,0,100,5])
         if self.vida>0:
             pygame.draw.rect(self.image, red, [0,0,self.vida,5])
@@ -77,11 +77,7 @@ class Mamadeira (pygame.sprite.Sprite):
             self.rect.x += self.vx
             self.rect.y += self.vy
             self.passos += 1
-            
-        if self.passos == 90:
-            self.movendo = False
-    
-        
+                
     # Criando tela.
 
 pygame.init()
@@ -114,16 +110,18 @@ b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
 #criando as plataformas
 p_1=Plataforma(x,y+by_p,100,10)
 p_2=Plataforma(ex,ey+by_p,100,10)
-p_baixo=Plataforma(0,tela_y-10,10000,100)
+p_baixo_direita=Plataforma(0,tela_y-10,10000,100)
+p_baixo_esquerda=Plataforma(0,1000+tela_y-10,(10000),100)
 #criando mamadeiras
-m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),5,(-10),(10))
+m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))
 m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
 
 #adicionando nos grupos
 bebe_1.add(b_1)
 bebe_2.add(b_2)
 mamadeira_1.add(m_1)
-plataforma_group.add(p_baixo)
+plataforma_group.add(p_baixo_direita)
+plataforma_group.add(p_baixo_esquerda)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 mamadeira_2.add(m_2)
@@ -143,8 +141,14 @@ atirou=False
 inicio=True
 rules=False
 pulou=False
+movimento_1=False
+m_bebe=0
+b=0
+vx_inicial=m_2.vx
 #Looping principal
 while not sair:
+    m_2.move()
+    m_1.move()  
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
@@ -156,8 +160,7 @@ while not sair:
             font2= pygame.font.SysFont("Algerian", tela_x-880)
             text1 = font1.render("Jogar", True, (blue))
             regras=font2.render("Regras",True,blue)
-        elif rules:
-            font3=pygame.font.SysFont('Aharoni',tela_x-20)
+            font3=pygame.font.SysFont('Aharoni',tela_x-880)
             regra0=font1.render("REGRAS", True, (black))
             regra1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
             regra2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
@@ -165,63 +168,140 @@ while not sair:
             voltar=font2.render("VOLTAR",True,black)
 
 
-            
-        else:
-
-            if event.type == pygame.KEYDOWN:  
-                    vy_inicial=m_2.vy
-                    if event.key== pygame.K_RETURN:
-                        m_2.atira()
-                        atirou=True
-                    if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
-                        m_2.rect.x-=d_mao_mao
-                        m_2.vx=-m_2.vx
-                        trocou_de_mao=d_mao_mao
-                        
-                    if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
-                            m_2.rect.x+=d_mao_mao
+        else:    
+            if not movimento_1:
+    
+                if event.type == pygame.KEYDOWN:  
+                        vy_inicial=m_2.vy
+                        if event.key== pygame.K_RETURN:
+                            m_2.atira()
+                            atirou=True
+    
+                        if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
+                            m_2.rect.x-=d_mao_mao
                             m_2.vx=-m_2.vx
-                            trocou_de_mao=False
-                    if event.key==pygame.K_UP and not atirou:
-                        m_2.vy-=tela_y-498
-                    if event.key==pygame.K_DOWN and not atirou:
-                        m_2.vy+=tela_y-498
-                    if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50):
-                        b_2.rect.x+=20
-                        m_2.rect.x+=20
-                    if event.key==pygame.K_a and b_2.rect.x>0:
-                        b_2.rect.x-=20
-                        m_2.rect.x-=20
-                    if event.key==pygame.K_w and not pulou:
-                        pulou=True
-                        b_2.rect.y-=200
-                        m_2.rect.y-=200
-    #                        a=False
+                            trocou_de_mao=d_mao_mao
+                            
+                        if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
+                                m_2.rect.x+=d_mao_mao
+                                m_2.vx=-m_2.vx
+                                trocou_de_mao=False
+                        if event.key==pygame.K_UP and not atirou:
+                            m_2.vy-=tela_y-498
+    
+                        if event.key==pygame.K_DOWN and not atirou:
+                            m_2.vy+=tela_y-498
+                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50):
+                            b_2.rect.x+=50
+                            m_2.rect.x+=50
+                            m_bebe+=1
+                            if m_bebe==3:
+                                movimento_1=True
+                        if event.key==pygame.K_a and b_2.rect.x>0:
+                            b_2.rect.x-=50
+                            m_2.rect.x-=50
+                            m_bebe+=1
+                            if m_bebe==3:
+                                movimento_1=True
+                        if event.key==pygame.K_w and not pulou:
+                            pulou=True
+                            b_2.rect.y-=200
+                            m_2.rect.y-=200
+                            m_bebe+=1
+                            if m_bebe==3:
+                                movimento_1=True
+            if movimento_1:
+                    if event.type == pygame.KEYDOWN:  
+                        vy_inicial=m_1.vy
+                        if event.key== pygame.K_RETURN:
+                            m_1.atira()
+                            atirou=True
+                        if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
+                            m_1.rect.x-=d_mao_mao
+                            m_1.vx=-m_1.vx
+                            trocou_de_mao=d_mao_mao
+                        if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
+                                m_1.rect.x+=d_mao_mao
+                                m_1.vx=-m_1.vx
+    
+                            
+                        if event.key==pygame.K_UP and not atirou:
+                            m_1.vy-=tela_y-498
+    
+                        if event.key==pygame.K_DOWN and not atirou:
+                            m_1.vy+=tela_y-498
+#                        if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
+#                            b_1.rect.x+=50
+#                            m_1.rect.x+=50
+#                            m_bebe+=1
+#                            if m_bebe==3:
+#                                movimento_1=False
+#                        if event.key==pygame.K_a and b_1.rect.x>0:
+#                            b_1.rect.x-=50
+#                            m_1.rect.x-=50
+#                            m_bebe+=1
+#                            if m_bebe==3:
+#                                movimento_1=False
+    #                    if event.key==pygame.K_w and not pulou:
+    #                        pulou=True
+    #                        b_1.rect.y-=200
+    #                        m_1.rect.y-=200
+    #                        m_bebe+=1
+    #                        if m_bebe==3:
+    #                            movimento_1=False
+                
                    
-    gravidade=pygame.sprite.spritecollide(b_2,plataforma_group, False)
-    print(gravidade)
-    if not gravidade:
+    gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
+    if not gravidade2:
         b_2.rect.y+=5
         m_2.rect.y+=5
     else:
         pulou=False
-
+    gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
+    
+    if not gravidade1:
+        b_1.rect.y+=5
+        m_1.rect.y+=5
+    else:
+        pulou=False
             
-    m_2.move()        
-    colisao = pygame.sprite.spritecollide(b_1,mamadeira_2, False)
-    colisao1=pygame.sprite.spritecollide(m_2,plataforma_group, False)
-    if colisao1 or colisao:
+          
+    colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
+    colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
+    if colisao_b_m2 or colisao_m_p2:
         m_2.vy=vy_inicial
         m_2.rect.x=b_2.rect.x+d_mao_pe
         m_2.rect.y=b_2.rect.y+d_mao_mao
         m_2.parar_atirar()
-        if colisao:
+        if colisao_b_m2:
             b_1.vida-=20
-            b_1.health(tela)
+            b_1.health()
             if b_1.vida==0:
                 bebe_1.remove(b_1)
                 mamadeira_1.remove(m_1)
+        trocou_de_mao=False
+        movimento_1=True
         atirou=False
+        m_2.vx=vx_inicial
+        
+    colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
+    colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
+    if colisao_b_m1 or colisao_m_p1:
+        m_1.vy=vy_inicial
+        m_1.rect.x=b_1.rect.x+d_mao_pe
+        m_1.rect.y=b_1.rect.y+d_mao_mao
+        m_1.parar_atirar()
+        if colisao_b_m1:
+            b_2.vida-=20
+            b_2.health()
+            if b_2.vida==0:
+                bebe_2.remove(b_2)
+                mamadeira_2.remove(m_2)
+        trocou_de_mao=False
+        movimento_1=False
+        atirou=False
+        pulou=False
+        m_1.vx=vx_inicial
     if not inicio and not rules:
         tela.fill(white)
         bebe_2.draw(tela)
