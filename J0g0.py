@@ -141,6 +141,7 @@ inicio=True
 control=False
 trocou_de_mao=False
 atirou=False
+rules=False
 
 
 movimento_1=False
@@ -161,13 +162,21 @@ while not sair:
             text = font.render("Bem Vindo ao Baby Fight", True, (green))
             font1 = pygame.font.SysFont("Algerian", tela_x-872)
             font2= pygame.font.SysFont("Algerian", tela_x-880)
+            font3=pygame.font.SysFont('Aharoni',tela_x-880)
             text1 = font1.render("Jogar", True, (blue))
             controles=font2.render("Controles",True,blue)
-            font3=pygame.font.SysFont('Aharoni',tela_x-880)
+            regras=font2.render("Regras",True,blue)
+            #Controles
             controle0=font1.render("CONTROLES", True, (black))
             controle1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
             controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
             controle3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,green)
+            #Regras
+            regra0=font2.render("REGRAS",True,blue)
+            regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
+            regra2=font3.render("MAS NAO FACA ISSO ELES SAO APENAS BEBES", True, (green))
+            regra3=font3.render("CADA JOGAR TEM 3 MOVIMENTOS OU UM TIROS",True,green)
+            regra4=font3.render("NÃO USE HACK, CASO CONTRARIO TE CAÇAREMOS COM NOSSAS FRALDAS... SUJAS!!!",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
@@ -306,7 +315,7 @@ while not sair:
         
 #desenho do jogo
 
-    if not inicio and not control:
+    if not inicio and not control and not rules:
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -357,6 +366,8 @@ while not sair:
         tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+        rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
+        
         trocou_de_mao=False
         atirou=False        
         movimento_1=False
@@ -368,9 +379,16 @@ while not sair:
             if jogar.collidepoint(mouse_posicao):
                 inicio=False
                 control=False
+                rules=False
             elif cont.collidepoint(mouse_posicao):
                 inicio=False
                 control=True
+                rules=False
+            elif rule.collidepoint(mouse_posicao):
+                inicio=False
+                control=False
+                rules=True
+                
 
 
 #desenho tela dos cpntroles
@@ -380,6 +398,19 @@ while not sair:
         tela.blit(controle1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         tela.blit(controle2,(420 - text1.get_width() // 2, 330 - text1.get_height() // 2))
         tela.blit(controle3,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+        if event.type == pygame.MOUSEBUTTONDOWN:            
+            mouse_posicao=pygame.mouse.get_pos()
+            if volt.collidepoint(mouse_posicao):
+                control=False
+                inicio=True
+    elif rules:
+        tela.fill(gray)
+        tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+        tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+        tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
+        tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
+        tela.blit(regra4,(370 - text1.get_width() // 2, 350 - text1.get_height() // 2))
         volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
