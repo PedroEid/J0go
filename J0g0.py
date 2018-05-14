@@ -314,6 +314,9 @@ while not sair:
         plataforma_group.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
+        if m_bebe==0 or m_bebe==3:
+            final_jogar=font3.render("Sua Vez", True, (black))
+            tela.blit(final_jogar,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
         if b_2.vida<=0 or b_1.vida<=0:
             bebe_2.remove(b_2)
             mamadeira_2.remove(m_2)
