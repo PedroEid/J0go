@@ -162,12 +162,12 @@ while not sair:
             font1 = pygame.font.SysFont("Algerian", tela_x-872)
             font2= pygame.font.SysFont("Algerian", tela_x-880)
             text1 = font1.render("Jogar", True, (blue))
-            regras=font2.render("Regras",True,blue)
+            regras=font2.render("Controles",True,blue)
             font3=pygame.font.SysFont('Aharoni',tela_x-880)
             regra0=font1.render("REGRAS", True, (black))
             regra1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
             regra2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
-            regra3=font3.render("TECLAS W,A,D = MOVIMENTO DO BEBE",True,green)
+            regra3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
@@ -205,7 +205,7 @@ while not sair:
                             m_2.rect.x-=50
                             m_bebe+=1
                         
-                        if event.key==pygame.K_w:
+                        if event.key==pygame.K_SPACE:
                            
                             b_2.rect.y-=200
                             m_2.rect.y-=200
@@ -243,7 +243,7 @@ while not sair:
                         m_1.rect.x-=50
                         m_bebe-=1
 
-                    if event.key==pygame.K_w:
+                    if event.key==pygame.K_SPACE:
                         
                         b_1.rect.y-=200
                         m_1.rect.y-=200
