@@ -138,7 +138,7 @@ mamadeira_2.add(m_2)
 relogio = pygame.time.Clock()
 sair = False
 inicio=True
-rules=False
+control=False
 trocou_de_mao=False
 atirou=False
 
@@ -162,12 +162,12 @@ while not sair:
             font1 = pygame.font.SysFont("Algerian", tela_x-872)
             font2= pygame.font.SysFont("Algerian", tela_x-880)
             text1 = font1.render("Jogar", True, (blue))
-            regras=font2.render("Controles",True,blue)
+            controles=font2.render("Controles",True,blue)
             font3=pygame.font.SysFont('Aharoni',tela_x-880)
-            regra0=font1.render("REGRAS", True, (black))
-            regra1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
-            regra2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
-            regra3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,green)
+            controle0=font1.render("CONTROLES", True, (black))
+            controle1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
+            controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
+            controle3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
@@ -306,7 +306,7 @@ while not sair:
         
 #desenho do jogo
 
-    if not inicio and not rules:
+    if not inicio and not control:
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -328,7 +328,7 @@ while not sair:
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
                 inicio=True
-                rules=False
+                control=False
                 bebe_2 = pygame.sprite.Group()
                 bebe_1 = pygame.sprite.Group()
                 b_1= Bebe('bbbravo.jpg',x,y,tela,100)
@@ -356,7 +356,7 @@ while not sair:
         tela.fill(purple)
         tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-        rule=tela.blit(regras,(432 - text1.get_width() // 2, 290 - text1.get_height() // 2))
+        cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
         trocou_de_mao=False
         atirou=False        
         movimento_1=False
@@ -367,24 +367,24 @@ while not sair:
             mouse_posicao=pygame.mouse.get_pos()
             if jogar.collidepoint(mouse_posicao):
                 inicio=False
-                rules=False
-            elif rule.collidepoint(mouse_posicao):
+                control=False
+            elif cont.collidepoint(mouse_posicao):
                 inicio=False
-                rules=True
+                control=True
 
 
-#desenho tela de regras
-    elif rules:
+#desenho tela dos cpntroles
+    elif control:
         tela.fill(gray)
-        tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-        tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-        tela.blit(regra2,(420 - text1.get_width() // 2, 330 - text1.get_height() // 2))
-        tela.blit(regra3,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+        tela.blit(controle0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+        tela.blit(controle1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+        tela.blit(controle2,(420 - text1.get_width() // 2, 330 - text1.get_height() // 2))
+        tela.blit(controle3,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
             if volt.collidepoint(mouse_posicao):
-                rules=False
+                control=False
                 inicio=True
     pygame.display.update()
     relogio.tick(FPS)
