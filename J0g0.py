@@ -112,6 +112,10 @@ p_1=Plataforma(x,y+by_p,100,10)
 p_2=Plataforma(ex,ey+by_p,100,10)
 p_baixo_direita=Plataforma(0,tela_y-10,10000,100)
 p_baixo_esquerda=Plataforma(0,1000+tela_y-10,(10000),100)
+plataforma_group.add(p_baixo_direita)
+plataforma_group.add(p_baixo_esquerda)
+plataforma_group.add(p_1)
+plataforma_group.add(p_2)
 #criando mamadeiras
 m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))
 m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
@@ -120,10 +124,7 @@ m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
 bebe_1.add(b_1)
 bebe_2.add(b_2)
 mamadeira_1.add(m_1)
-plataforma_group.add(p_baixo_direita)
-plataforma_group.add(p_baixo_esquerda)
-plataforma_group.add(p_1)
-plataforma_group.add(p_2)
+
 mamadeira_2.add(m_2)
 #    ex=x
 #    ey=y
@@ -136,10 +137,11 @@ mamadeira_2.add(m_2)
 #Relogio
 relogio = pygame.time.Clock()
 sair = False
-trocou_de_mao=False
-atirou=False
 inicio=True
 rules=False
+trocou_de_mao=False
+atirou=False
+
 pulou=False
 movimento_1=False
 m_bebe=0
@@ -219,10 +221,11 @@ while not sair:
                         if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                             m_1.rect.x-=d_mao_mao
                             m_1.vx=-m_1.vx
-                            trocou_de_mao=d_mao_mao
+                            trocou_de_mao=True
                         if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
                                 m_1.rect.x+=d_mao_mao
                                 m_1.vx=-m_1.vx
+                                trocou_de_mao=False
     
                             
                         if event.key==pygame.K_UP and not atirou:
@@ -250,13 +253,18 @@ while not sair:
     #                        if m_bebe==3:
     #                            movimento_1=False
                 
-                   
+#gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
         b_2.rect.y+=5
         m_2.rect.y+=5
     else:
         pulou=False
+        
+        
+        
+        
+#gravidade do bebe2        
     gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
     
     if not gravidade1:
@@ -265,10 +273,10 @@ while not sair:
     else:
         pulou=False
             
-          
+#colisao do bebe1            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
-    if colisao_b_m2 or colisao_m_p2:
+    if colisao_b_m2 or colisao_m_p2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
         m_2.vy=vy_inicial
         m_2.rect.x=b_2.rect.x+d_mao_pe
         m_2.rect.y=b_2.rect.y+d_mao_mao
@@ -283,10 +291,10 @@ while not sair:
         movimento_1=True
         atirou=False
         m_2.vx=vx_inicial
-        
+#colisao do bebe1       
     colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
     colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
-    if colisao_b_m1 or colisao_m_p1:
+    if colisao_b_m1 or colisao_m_p1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
         m_1.vy=vy_inicial
         m_1.rect.x=b_1.rect.x+d_mao_pe
         m_1.rect.y=b_1.rect.y+d_mao_mao
@@ -294,35 +302,72 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.vida==0:
-                bebe_2.remove(b_2)
-                mamadeira_2.remove(m_2)
         trocou_de_mao=False
         movimento_1=False
         atirou=False
         pulou=False
         m_1.vx=vx_inicial
+        
+#desenho do jogo
+
     if not inicio and not rules:
         tela.fill(white)
-        bebe_2.draw(tela)
         bebe_1.draw(tela)
+        bebe_2.draw(tela)
+        plataforma_group.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
-        plataforma_group.draw(tela)
+        if b_2.vida<=0 or b_1.vida<=0:
+            bebe_2.remove(b_2)
+            mamadeira_2.remove(m_2)
+            bebe_1.remove(b_1)
+            mamadeira_1.remove(m_1)
+            final=font1.render("Parabens, você fez o bebe chorar", True, (green))
+            final_jogar=font3.render("Jogar de novo", True, (blue))
+            tela.blit(final,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+            jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            if event.type == pygame.MOUSEBUTTONDOWN:            
+                mouse_posicao=pygame.mouse.get_pos()
+            if jogar_de_novo.collidepoint(mouse_posicao):
+                inicio=True
+                rules=False
+                b_1= Bebe('bbbravo.jpg',x,y,tela,100)
+                b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
+                #criando mamadeiras
+                m_1= Mamadeira('mamadeira.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(10))
+                m_2=Mamadeira('mamadeira.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(10))
+                #adicionando nos grupos
+                bebe_1.add(b_1)
+                bebe_2.add(b_2)
+                mamadeira_1.add(m_1)
+                mamadeira_2.add(m_2)
 
+                
+
+#desenho tela de inicio
     elif inicio:
         tela.fill(purple)
         tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         rule=tela.blit(regras,(432 - text1.get_width() // 2, 290 - text1.get_height() // 2))
+        trocou_de_mao=False
+        atirou=False        
+        pulou=False
+        movimento_1=False
+        m_bebe=0
+        b=0
+        vx_inicial=m_2.vx
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
             if jogar.collidepoint(mouse_posicao):
                 inicio=False
-                volt=False
+                rules=False
             elif rule.collidepoint(mouse_posicao):
                 inicio=False
                 rules=True
+
+
+#desenho tela de regras
     elif rules:
         tela.fill(gray)
         tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
