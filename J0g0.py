@@ -419,5 +419,7 @@ while not sair:
                 inicio=True
     pygame.display.update()
     relogio.tick(FPS)
+    
+
 
 pygame.display.quit()
