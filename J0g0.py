@@ -65,8 +65,11 @@ class Mamadeira (pygame.sprite.Sprite):
         self.rect.y = pos_y
         self.movendo = False
         self.passos = 0  # DEBUG
-        
-        
+        self.pre_vy=self.vy 
+        self.pre_x=self.rect.x 
+        self.pre_y=self.rect.y
+        self.pre_vx=self.vx
+
     def atira(self):
         self.movendo = True
     def parar_atirar(self):
@@ -76,7 +79,20 @@ class Mamadeira (pygame.sprite.Sprite):
             self.vy += self.g/FPS
             self.rect.x += self.vx
             self.rect.y += self.vy
-            self.passos += 1
+    def pre_move(self,tela):
+        lista=[]
+        self.pre_vy=self.vy 
+        self.pre_x=self.rect.x 
+        self.pre_y=self.rect.y
+        self.pre_vx=self.vx
+        lista.append([self.pre_x,self.pre_y])
+        for i in range(20):
+            self.pre_vy+= self.g/FPS        
+            self.pre_x+=self.pre_vx
+            self.pre_y+= self.pre_vy
+            lista.append([self.pre_x,self.pre_y])
+        pygame.draw.aalines(tela, black,False,lista)
+            
                 
     # Criando tela.
 
@@ -175,8 +191,8 @@ while not sair:
             regra0=font2.render("REGRAS",True,blue)
             regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
             regra2=font3.render("MAS NAO FACA ISSO ELES SAO APENAS BEBES", True, (green))
-            regra3=font3.render("CADA JOGAR TEM 3 MOVIMENTOS OU UM TIROS",True,green)
-            regra4=font3.render("NÃO USE HACK, CASO CONTRARIO TE CAÇAREMOS COM NOSSAS FRALDAS... SUJAS!!!",True,green)
+            regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
+            regra4=font3.render("NÃO USE HACK, CASO CONTRARIO FARA OS BEBES CHORAREM",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
@@ -220,6 +236,7 @@ while not sair:
                             m_2.rect.y-=200
                             m_bebe+=1
                         vy_inicial2=m_2.vy
+                        
             if movimento_1:               
                 if event.type == pygame.KEYDOWN:  
                     vy_inicial1=m_1.vy
@@ -260,13 +277,15 @@ while not sair:
                     vy_inicial1=m_1.vy
     if m_bebe<=0:
         movimento_1=False
-    if m_bebe>3:
-        movimento_1=True                
+        a=mamadeira_2 
+    if m_bebe>=3:
+        movimento_1=True
+        a=mamadeira_1               
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
-        b_2.rect.y+=5
-        m_2.rect.y+=5
+        b_2.rect.y+=8
+        m_2.rect.y+=8
         
         
         
@@ -275,8 +294,8 @@ while not sair:
     gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
     
     if not gravidade1:
-        b_1.rect.y+=5
-        m_1.rect.y+=5
+        b_1.rect.y+=8
+        m_1.rect.y+=8
             
 #colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
@@ -322,6 +341,9 @@ while not sair:
         plataforma_group.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
+        m=0
+        for m in a:
+            m.pre_move(tela)
         if b_2.vida<=0 or b_1.vida<=0:
             if b_2.vida<=0:
                 bebe_2.remove(b_2)
@@ -410,7 +432,7 @@ while not sair:
         tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
         tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-        tela.blit(regra4,(370 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+        tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
         volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
