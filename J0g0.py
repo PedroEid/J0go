@@ -91,9 +91,9 @@ class Mamadeira (pygame.sprite.Sprite):
             self.pre_x+=self.pre_vx
             self.pre_y+= self.pre_vy
             lista.append([self.pre_x,self.pre_y])
-            a=[lista[i],lista[i+1]]
+            listapre=[lista[i],lista[i+1]]
             if i%2==0:
-                pygame.draw.aalines(tela,blue ,False,a)
+                pygame.draw.aalines(tela,blue ,False,listapre)
                 
 
             
@@ -228,7 +228,10 @@ while not sair:
                             b_2.rect.x+=50
                             m_2.rect.x+=50
                             m_bebe+=1
-                            
+                        if event.key==pygame.K_w and not atirou:
+                            m_2.vx+=2
+                        if event.key==pygame.K_s and not atirou:
+                            m_2.vx-=2
                         if event.key==pygame.K_a and b_2.rect.x>0:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
@@ -256,6 +259,10 @@ while not sair:
                             m_1.rect.x+=d_mao_mao
                             m_1.vx=-m_1.vx
                             trocou_de_mao=False
+                    if event.key==pygame.K_w and not atirou:
+                        m_1.vx+=2
+                    if event.key==pygame.K_s and not atirou:
+                        m_1.vx-=2
 
                         
                     if event.key==pygame.K_UP and not atirou:
@@ -281,10 +288,10 @@ while not sair:
                     vy_inicial1=m_1.vy
     if m_bebe<=0:
         movimento_1=False
-        a=mamadeira_2 
+        mamadeira=mamadeira_2 
     if m_bebe>=3:
         movimento_1=True
-        a=mamadeira_1               
+        mamadeira=mamadeira_1               
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
@@ -346,7 +353,7 @@ while not sair:
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
-        for m in a:
+        for m in mamadeira:
             m.pre_move(tela)
         if b_2.vida<=0 or b_1.vida<=0:
             if b_2.vida<=0:
