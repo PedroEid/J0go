@@ -82,16 +82,20 @@ class Mamadeira (pygame.sprite.Sprite):
     def pre_move(self,tela):
         lista=[]
         self.pre_vy=self.vy 
-        self.pre_x=self.rect.x 
-        self.pre_y=self.rect.y
+        self.pre_x=self.rect.x+10 
+        self.pre_y=self.rect.y+15
         self.pre_vx=self.vx
-        lista.append([self.pre_x,self.pre_y])
+        lista.append([self.pre_x,self.pre_y])    
         for i in range(20):
             self.pre_vy+= self.g/FPS        
             self.pre_x+=self.pre_vx
             self.pre_y+= self.pre_vy
             lista.append([self.pre_x,self.pre_y])
-        pygame.draw.aalines(tela, black,False,lista)
+            a=[lista[i],lista[i+1]]
+            if i%2==0:
+                pygame.draw.aalines(tela,blue ,False,a)
+                
+
             
                 
     # Criando tela.
