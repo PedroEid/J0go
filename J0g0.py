@@ -13,6 +13,7 @@ black=(0,0,0)
 red = (255,0,0)
 purple =(150,150,255)
 blue=(20,20,255)
+azul=(0,200,250)
 
 FPS = 60
 
@@ -468,7 +469,7 @@ while not sair:
 
 #desenho tela de inicio
     elif inicio:
-        tela.fill(purple)
+        tela.fill(azul)
         tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
