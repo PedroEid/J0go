@@ -2,6 +2,8 @@ import pygame
 import sys
 from pygame.locals import *
 from random import randrange
+import pygame.mixer
+
 
 # Cores.
 white = (255,255,255)
@@ -16,6 +18,7 @@ FPS = 60
 
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
+
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
@@ -153,9 +156,10 @@ mamadeira_2.add(m_2)
 #    ex=x
 #    ey=y
 
+#    adicionando musica de fundo
 
-
-
+pygame.mixer.music.load('babyfight.mp3')
+pygame.mixer.music.play(-1)
 
 
 #Relogio
@@ -196,15 +200,16 @@ while not sair:
             regras=font2.render("Regras",True,blue)
             #Controles
             controle0=font1.render("CONTROLES", True, (black))
-            controle1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE DA ALTURA DO TIRO", True, (green))
-            controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇAO DO TIRO", True, (green))
-            controle3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,green)
+            controle1=font3.render("SETAS PARA CIMA E BAIXO = CONTROLE A INCLINAÇÃO DO TIRO", True, (green))
+            controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
+            controle3=font3.render("TECLAS A, BARRA DE ESPAÇO,D = MOVIMENTO DO BEBE",True,(green))
+            controle4=font3.render('TECLAS W & E CONTROLAM A VELOCIDADE DO TIRO',True,(green))
             #Regras
             regra0=font2.render("REGRAS",True,blue)
             regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
-            regra2=font3.render("MAS NAO FACA ISSO ELES SAO APENAS BEBES", True, (green))
+            regra2=font3.render("MAS NÃO FAÇA ISSO ELES SAO APENAS BEBES", True, (green))
             regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
-            regra4=font3.render("NÃO USE HACK, CASO CONTRARIO FARA OS BEBES CHORAREM",True,green)
+            regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
@@ -354,6 +359,8 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
+            
+            
             if trocou_de_mao:
                 b_1.rect.x-=50
                 m_1.rect.x-=50
@@ -466,7 +473,6 @@ while not sair:
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
         rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
-        
         trocou_de_mao=False
         atirou=False        
         movimento_1=False
@@ -493,10 +499,11 @@ while not sair:
 #desenho tela dos cpntroles
     elif control:
         tela.fill(gray)
-        tela.blit(controle0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-        tela.blit(controle1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-        tela.blit(controle2,(420 - text1.get_width() // 2, 330 - text1.get_height() // 2))
-        tela.blit(controle3,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+        tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
+        tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
+        tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+        tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
+        tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
