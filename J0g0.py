@@ -86,13 +86,13 @@ class Mamadeira (pygame.sprite.Sprite):
         self.pre_y=self.rect.y+15
         self.pre_vx=self.vx
         lista.append([self.pre_x,self.pre_y])    
-        for i in range(20):
+        for i in range(12):
             self.pre_vy+= self.g/FPS        
             self.pre_x+=self.pre_vx
             self.pre_y+= self.pre_vy
             lista.append([self.pre_x,self.pre_y])
             listapre=[lista[i],lista[i+1]]
-            if i%2==0:
+            if i%2!=0:
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
 
@@ -170,11 +170,13 @@ b=0
 vx_inicial=m_2.vx
 #Looping principal
 vy_inicial=m_2.vy
+velmax_x=False
+velmin_x=False
 while not sair:
     m_2.move()
     m_1.move()  
     for event in pygame.event.get():
-
+        print(m_2.vx)
         if event.type == pygame.QUIT:
                 sair = True
         if inicio:
@@ -200,7 +202,9 @@ while not sair:
             voltar=font2.render("VOLTAR",True,black)
 
 
-        else:    
+        else:
+            velmax_x=False
+            velmin_x=False
             if not movimento_1:
                 
                 if event.type == pygame.KEYDOWN:  
@@ -229,9 +233,21 @@ while not sair:
                             m_2.rect.x+=50
                             m_bebe+=1
                         if event.key==pygame.K_w and not atirou:
-                            m_2.vx+=2
+                            if m_2.vx!=16 and m_2.vx!=-16:
+                                if trocou_de_mao:
+                                    m_2.vx-=2
+                                else:
+                                    m_2.vx+=2
+                            else:
+                                velmax_x=True
                         if event.key==pygame.K_s and not atirou:
-                            m_2.vx-=2
+                            if m_2.vx!=0:
+                                if trocou_de_mao:
+                                    m_2.vx+=2
+                                else:
+                                    m_2.vx-=2
+                            else:
+                                velmin_x=True
                         if event.key==pygame.K_a and b_2.rect.x>0:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
@@ -244,7 +260,9 @@ while not sair:
                             m_bebe+=1
                         vy_inicial2=m_2.vy
                         
-            if movimento_1:               
+            if movimento_1:
+                velmax_x=False
+                velmin_x=False
                 if event.type == pygame.KEYDOWN:  
                     vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
@@ -260,9 +278,21 @@ while not sair:
                             m_1.vx=-m_1.vx
                             trocou_de_mao=False
                     if event.key==pygame.K_w and not atirou:
-                        m_1.vx+=2
+                        if m_1.vx!=16 and m_1.vx!=(-16):
+                            if trocou_de_mao:
+                                m_1.vx-=2
+                            else:
+                                m_1.vx+=2
+                        else:
+                            velmax_x=True
                     if event.key==pygame.K_s and not atirou:
-                        m_1.vx-=2
+                        if m_1.vx!=0:
+                            if trocou_de_mao:
+                                m_1.vx+=2
+                            else:
+                                m_1.vx-=2
+                        else:
+                            velmin_x=True
 
                         
                     if event.key==pygame.K_UP and not atirou:
@@ -353,6 +383,13 @@ while not sair:
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
+        if velmax_x:
+            max_x=font3.render("Velocidade maxima", True, (red))
+            tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
+        elif velmin_x:
+            max_x=font3.render("Velocidade minima", True, (red))
+            tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
+            
         for m in mamadeira:
             m.pre_move(tela)
         if b_2.vida<=0 or b_1.vida<=0:
