@@ -12,7 +12,7 @@ red = (255,0,0)
 purple =(150,150,255)
 blue=(20,20,255)
 
-FPS = 30
+FPS = 60
 
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
@@ -66,7 +66,7 @@ class Mamadeira (pygame.sprite.Sprite):
         self.movendo = False
         self.passos = 0  # DEBUG
         self.pre_vy=self.vy 
-        self.pre_x=self.rect.x 
+        self.pre_x=self.rect.x-10 
         self.pre_y=self.rect.y
         self.pre_vx=self.vx
 
@@ -131,9 +131,13 @@ b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
 p_1=Plataforma(x,y+by_p,100,10)
 p_2=Plataforma(ex,ey+by_p,100,10)
 p_baixo_direita=Plataforma(0,tela_y-10,10000,100)
-p_baixo_esquerda=Plataforma(0,1000+tela_y-10,(10000),100)
+p_aleatoria1=Plataforma(randrange(200,600),randrange(50,200),100,10)
+p_aleatoria2=Plataforma(randrange(200,600),randrange(200,350),100,10)
+p_aleatoria3=Plataforma(randrange(200,600),randrange(350,450),100,10)
+plataforma_group.add(p_aleatoria2)
+plataforma_group.add(p_aleatoria3)
+plataforma_group.add(p_aleatoria1)
 plataforma_group.add(p_baixo_direita)
-plataforma_group.add(p_baixo_esquerda)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 #criando mamadeiras
@@ -172,11 +176,13 @@ vx_inicial=m_2.vx
 vy_inicial=m_2.vy
 velmax_x=False
 velmin_x=False
+timer=0
 while not sair:
     m_2.move()
-    m_1.move()  
+    m_1.move()
+    timer+=1/FPS
     for event in pygame.event.get():
-        print(m_2.vx)
+        
         if event.type == pygame.QUIT:
                 sair = True
         if inicio:
@@ -207,6 +213,8 @@ while not sair:
             velmin_x=False
             if not movimento_1:
                 
+                if timer>10:
+                    m_bebe=3
                 if event.type == pygame.KEYDOWN:  
                         
                         if event.key== pygame.K_RETURN:
@@ -262,8 +270,9 @@ while not sair:
                         vy_inicial2=m_2.vy
                         
             if movimento_1:
-                velmax_x=False
-                velmin_x=False
+                timer+=1/FPS
+                if timer>10:
+                    m_bebe=3
                 if event.type == pygame.KEYDOWN:  
                     vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
@@ -345,9 +354,16 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
+            if trocou_de_mao:
+                b_1.rect.x-=50
+                m_1.rect.x-=50
+            elif not trocou_de_mao:
+                b_1.rect.x+=50
+                m_1.rect.x+=50
             if b_1.vida==0:
                 bebe_1.remove(b_1)
                 mamadeira_1.remove(m_1)
+            
         trocou_de_mao=False
         movimento_1=True
         atirou=False
@@ -363,6 +379,12 @@ while not sair:
         m_bebe=0
         if colisao_b_m1:
             b_2.vida-=20
+            if trocou_de_mao:
+                b_2.rect.x-=50
+                m_2.rect.x-=50
+            elif not trocou_de_mao:
+                b_2.rect.x+=50
+                m_2.rect.x+=50
             b_2.health()
         trocou_de_mao=False
         movimento_1=False
@@ -373,10 +395,12 @@ while not sair:
 #desenho do jogo
     if m_bebe<=0:
         movimento_1=False
-        mamadeira=mamadeira_2 
+        mamadeira=mamadeira_2
+        timer=0
     if m_bebe>=3:
         movimento_1=True
-        mamadeira=mamadeira_1 
+        mamadeira=mamadeira_1
+        timer=0
     if not inicio and not control and not rules:
         tela.fill(white)
         bebe_1.draw(tela)
@@ -385,6 +409,8 @@ while not sair:
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
+        a=font3.render(str(timer), True, (black))
+        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
         if velmax_x:
             max_x=font3.render("Velocidade maxima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
@@ -405,6 +431,7 @@ while not sair:
             final_jogar=font3.render("Jogar de novo", True, (blue))
             tela.blit(final,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
