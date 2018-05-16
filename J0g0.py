@@ -212,7 +212,7 @@ while not sair:
                         if event.key== pygame.K_RETURN:
                             m_2.atira()
                             atirou=True
-                            m_bebe=3
+                            
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                             m_2.rect.x-=d_mao_mao
@@ -228,10 +228,7 @@ while not sair:
     
                         if event.key==pygame.K_DOWN and not atirou:
                             m_2.vy+=tela_y-498
-                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50):
-                            b_2.rect.x+=50
-                            m_2.rect.x+=50
-                            m_bebe+=1
+
                         if event.key==pygame.K_w and not atirou:
                             if m_2.vx!=16 and m_2.vx!=-16:
                                 if trocou_de_mao:
@@ -240,6 +237,10 @@ while not sair:
                                     m_2.vx+=2
                             else:
                                 velmax_x=True
+                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50) and not atirou:
+                            b_2.rect.x+=50
+                            m_2.rect.x+=50
+                            m_bebe+=1
                         if event.key==pygame.K_s and not atirou:
                             if m_2.vx!=0:
                                 if trocou_de_mao:
@@ -248,12 +249,12 @@ while not sair:
                                     m_2.vx-=2
                             else:
                                 velmin_x=True
-                        if event.key==pygame.K_a and b_2.rect.x>0:
+                        if event.key==pygame.K_a and b_2.rect.x>0 and not atirou:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
                             m_bebe+=1
                         
-                        if event.key==pygame.K_SPACE:
+                        if event.key==pygame.K_SPACE and not atirou:
                            
                             b_2.rect.y-=200
                             m_2.rect.y-=200
@@ -267,8 +268,7 @@ while not sair:
                     vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
                         m_1.atira()
-                        atirou=True
-                        m_bebe=0
+                        atirou=True                        
                     if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
                         m_1.rect.x-=d_mao_mao
                         m_1.vx=-m_1.vx
@@ -300,28 +300,23 @@ while not sair:
 
                     if event.key==pygame.K_DOWN and not atirou:
                         m_1.vy+=tela_y-498
-                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50):
+                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50) and not atirou:
                         b_1.rect.x+=50
                         m_1.rect.x+=50
                         m_bebe-=1
 
-                    if event.key==pygame.K_a and b_1.rect.x>0:
+                    if event.key==pygame.K_a and b_1.rect.x>0 and not atirou:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
                         m_bebe-=1
 
-                    if event.key==pygame.K_SPACE:
+                    if event.key==pygame.K_SPACE and not atirou:
                         
                         b_1.rect.y-=200
                         m_1.rect.y-=200
                         m_bebe-=1
                     vy_inicial1=m_1.vy
-    if m_bebe<=0:
-        movimento_1=False
-        mamadeira=mamadeira_2 
-    if m_bebe>=3:
-        movimento_1=True
-        mamadeira=mamadeira_1               
+              
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
@@ -346,6 +341,7 @@ while not sair:
         m_2.rect.x=b_2.rect.x+d_mao_pe
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         m_2.parar_atirar()
+        m_bebe=3
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
@@ -364,6 +360,7 @@ while not sair:
         m_1.rect.x=b_1.rect.x+d_mao_pe
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         m_1.parar_atirar()
+        m_bebe=0
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
@@ -374,7 +371,12 @@ while not sair:
         m_1.vx=vx_inicial
         
 #desenho do jogo
-
+    if m_bebe<=0:
+        movimento_1=False
+        mamadeira=mamadeira_2 
+    if m_bebe>=3:
+        movimento_1=True
+        mamadeira=mamadeira_1 
     if not inicio and not control and not rules:
         tela.fill(white)
         bebe_1.draw(tela)
@@ -389,9 +391,9 @@ while not sair:
         elif velmin_x:
             max_x=font3.render("Velocidade minima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
-            
-        for m in mamadeira:
-            m.pre_move(tela)
+        if not atirou:   
+            for m in mamadeira:
+                m.pre_move(tela)
         if b_2.vida<=0 or b_1.vida<=0:
             if b_2.vida<=0:
                 bebe_2.remove(b_2)
