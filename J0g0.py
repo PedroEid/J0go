@@ -201,28 +201,17 @@ while not sair:
             regras=font2.render("Regras",True,blue)
             #Controles
             controle0=font1.render("CONTROLES", True, (black))
-            controle0a=font1.render("AGUDADA", True,(white))
             controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
-            controle1a=font3.render("GUGU DADA, AAA BLURURUR = CAPABU TCHA LUM", True,(red))
             controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
-            controle2a=font3.render("AGAGA BABULU, HABAGU LEBABUGA CALA TCHABUM",True, (red))
             controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
-            controle3a=font3.render('AGABULABU BACALA SU COLEGABLU',True,(red))
             controle4=font3.render('TECLAS W & E = VELOCIDADE DO TIRO',True,(green))
-            controle4a=font3.render('AGABUBUBALU SEGALA SUGU BATALU',True,(red))
             #Regras
             regra0=font2.render("REGRAS",True,blue)
-            regra0a=font3.render('BAGUGU', True, black)
             regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
-            regra1a=font3.render('GABALU BEBE GACALUBU TEPOLUCI CAGU BALACO SEBU GRA', True, purple)
             regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
-            regra2a=font3.render('BAGU BALUCA SELUTU GAPU BELU', True, purple)
             regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
-            regra3a=font3.render('CAGU PALU BATU TE MOTU GOLO CABU', True, purple)
             regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
-            regra4a=font3.render('BALU SE RA, BAGDU PALU SE VUCUBU',True,purple )
             voltar=font2.render("VOLTAR",True,black)
-            voltara=font2.render('BALUBU',True,white)
 
 
         else:
@@ -512,18 +501,11 @@ while not sair:
     elif control:
         tela.fill(gray)
         tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
-        tela.blit(controle0a,(420 - text1.get_width() // 2, 167 - text1.get_height() // 2))
         tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
-        tela.blit(controle1a,(420 - text1.get_width() // 2, 240 - text1.get_height() // 2))
         tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-        tela.blit(controle2a,(420 - text1.get_width() // 2, 310 - text1.get_height() // 2))
         tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
-        tela.blit(controle3a,(420 - text1.get_width() // 2, 390 - text1.get_height() // 2))
         tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-        tela.blit(controle4a,(420 - text1.get_width() // 2, 465 - text1.get_height() // 2))
-        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 400 - text1.get_height() // 2))
-        volt=tela.blit(voltara,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-
+        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
             if volt.collidepoint(mouse_posicao):
@@ -532,18 +514,11 @@ while not sair:
     elif rules:
         tela.fill(gray)
         tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-        tela.blit(regra0a,(420 - text.get_width() // 2, 167 - text.get_height() // 2))
-        tela.blit(regra1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
-        tela.blit(regra1a,(420 - text.get_width() // 2, 240 - text.get_height() // 2))
-        tela.blit(regra2,(470 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-        tela.blit(regra2a,(420 - text.get_width() // 2, 310 - text.get_height() // 2))
-        tela.blit(regra3,(450 - text1.get_width() // 2, 355 - text1.get_height() // 2))
-        tela.blit(regra3a,(420 - text.get_width() // 2, 390 - text.get_height() // 2))
-        tela.blit(regra4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-        tela.blit(regra4a,(420 - text.get_width() // 2, 465 - text.get_height() // 2))
-        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 400 - text1.get_height() // 2))
-        volt=tela.blit(voltara,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-
+        tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+        tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
+        tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
+        tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
         if event.type == pygame.MOUSEBUTTONDOWN:            
             mouse_posicao=pygame.mouse.get_pos()
             if volt.collidepoint(mouse_posicao):
