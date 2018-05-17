@@ -15,7 +15,7 @@ purple =(150,150,255)
 blue=(20,20,255)
 azul=(0,200,250)
 
-FPS = 60
+FPS = 100
 
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
@@ -462,7 +462,7 @@ while not sair:
                 vez=font3.render("Vez do player 1", True, (black))
             else:
                 vez=font3.render("Vez do player 2", True, (black))
-            tela.blit(vez,(450 - text1.get_width() // 2, 100 - text1.get_height() // 2))
+            tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
         
 
                 
