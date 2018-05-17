@@ -15,7 +15,8 @@ purple =(150,150,255)
 blue=(20,20,255)
 azul=(0,200,250)
 
-FPS = 100
+FPS = 60
+grav=20
 
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
@@ -90,7 +91,7 @@ class Mamadeira (pygame.sprite.Sprite):
         self.pre_y=self.rect.y+15
         self.pre_vx=self.vx
         lista.append([self.pre_x,self.pre_y])    
-        for i in range(12):
+        for i in range(20):
             self.pre_vy+= self.g/FPS        
             self.pre_x+=self.pre_vx
             self.pre_y+= self.pre_vy
@@ -145,8 +146,8 @@ plataforma_group.add(p_baixo_direita)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 #criando mamadeiras
-m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(10))
-m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(10))
+m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(grav))
+m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(grav))
 
 #adicionando nos grupos
 bebe_1.add(b_1)
@@ -270,8 +271,8 @@ while not sair:
                         
                         if event.key==pygame.K_SPACE and not atirou:
                            
-                            b_2.rect.y-=200
-                            m_2.rect.y-=200
+                            b_2.rect.y-=500
+                            m_2.rect.y-=500
                             m_bebe+=1
                         vy_inicial2=m_2.vy
                         
@@ -335,8 +336,8 @@ while not sair:
 #gravidade do bebe2                    
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
-        b_2.rect.y+=8
-        m_2.rect.y+=8
+        b_2.rect.y+=grav
+        m_2.rect.y+=grav
         
         
         
@@ -345,8 +346,8 @@ while not sair:
     gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
     
     if not gravidade1:
-        b_1.rect.y+=8
-        m_1.rect.y+=8
+        b_1.rect.y+=grav
+        m_1.rect.y+=grav
             
 #colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
@@ -437,7 +438,7 @@ while not sair:
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
             final_jogar=font3.render("Jogar de novo", True, (blue))
-            tela.blit(final,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+            tela.blit(final,(420 - text.get_width() // 2, 100 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
 
             if event.type == pygame.MOUSEBUTTONDOWN:            
@@ -450,8 +451,8 @@ while not sair:
                 b_1= Bebe('bbbravo.jpg',x,y,tela,100)
                 b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
                 #criando mamadeiras
-                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(10))
-                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(10))
+                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(grav))
+                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(grav))
                 #adicionando nos grupos
                 bebe_1.add(b_1)
                 bebe_2.add(b_2)
