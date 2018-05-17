@@ -360,17 +360,16 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            
-            
-            if trocou_de_mao:
-                b_1.rect.x-=50
-                m_1.rect.x-=50
-            elif not trocou_de_mao:
-                b_1.rect.x+=50
-                m_1.rect.x+=50
-            if b_1.vida==0:
-                bebe_1.remove(b_1)
-                mamadeira_1.remove(m_1)
+            if b_2.rect.x<850 and b_2.rect.x>0:
+                if trocou_de_mao:
+                    b_1.rect.x-=50
+                    m_1.rect.x-=50
+                elif not trocou_de_mao:
+                    b_1.rect.x+=50
+                    m_1.rect.x+=50
+                if b_1.vida==0:
+                    bebe_1.remove(b_1)
+                    mamadeira_1.remove(m_1)
             
         trocou_de_mao=False
         movimento_1=True
@@ -387,13 +386,14 @@ while not sair:
         m_bebe=0
         if colisao_b_m1:
             b_2.vida-=20
-            if trocou_de_mao:
-                b_2.rect.x-=50
-                m_2.rect.x-=50
-            elif not trocou_de_mao:
-                b_2.rect.x+=50
-                m_2.rect.x+=50
             b_2.health()
+            if b_2.rect.x<850 and b_2.rect.x>0:
+                if trocou_de_mao:
+                    b_2.rect.x-=50
+                    m_2.rect.x-=50
+                elif not trocou_de_mao:
+                    b_2.rect.x+=50
+                    m_2.rect.x+=50
         trocou_de_mao=False
         movimento_1=False
         atirou=False
