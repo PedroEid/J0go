@@ -169,7 +169,8 @@ relogio = pygame.time.Clock()
 sair = False
 inicio=True
 control=False
-trocou_de_mao=False
+trocou_de_mao_1=False
+trocou_de_mao_2=False
 atirou=False
 rules=False
 
@@ -182,11 +183,11 @@ vx_inicial=m_2.vx
 vy_inicial=m_2.vy
 velmax_x=False
 velmin_x=False
-timer=0
+#timer=0
 while not sair:
     m_2.move()
     m_1.move()
-    timer+=1/FPS
+
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT:
@@ -220,8 +221,8 @@ while not sair:
             velmin_x=False
             if not movimento_1:
                 
-                if timer>10:
-                    m_bebe=3
+#                if timer>10:
+#                    m_bebe=3
                 if event.type == pygame.KEYDOWN:  
                         
                         if event.key== pygame.K_RETURN:
@@ -229,15 +230,15 @@ while not sair:
                             atirou=True
                             
     
-                        if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
+                        if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou:
                             m_2.rect.x-=d_mao_mao
                             m_2.vx=-m_2.vx
-                            trocou_de_mao=d_mao_mao
+                            trocou_de_mao_2=True
                             
-                        if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
+                        if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou:
                                 m_2.rect.x+=d_mao_mao
                                 m_2.vx=-m_2.vx
-                                trocou_de_mao=False
+                                trocou_de_mao_2=False
                         if event.key==pygame.K_UP and not atirou:
                             m_2.vy-=tela_y-498
     
@@ -246,7 +247,7 @@ while not sair:
 
                         if event.key==pygame.K_w and not atirou:
                             if m_2.vx!=16 and m_2.vx!=-16:
-                                if trocou_de_mao:
+                                if trocou_de_mao_2:
                                     m_2.vx-=2
                                 else:
                                     m_2.vx+=2
@@ -258,7 +259,7 @@ while not sair:
                             m_bebe+=1
                         if event.key==pygame.K_s and not atirou:
                             if m_2.vx!=0:
-                                if trocou_de_mao:
+                                if trocou_de_mao_2:
                                     m_2.vx+=2
                                 else:
                                     m_2.vx-=2
@@ -277,25 +278,25 @@ while not sair:
                         vy_inicial2=m_2.vy
                         
             if movimento_1:
-                timer+=1/FPS
-                if timer>10:
-                    m_bebe=3
+#                timer+=1/FPS
+#                if timer>10:
+#                    m_bebe=3
                 if event.type == pygame.KEYDOWN:  
                     vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
                         m_1.atira()
                         atirou=True                        
-                    if event.key==pygame.K_LEFT and not trocou_de_mao and not atirou:
+                    if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou:
                         m_1.rect.x-=d_mao_mao
                         m_1.vx=-m_1.vx
-                        trocou_de_mao=True
-                    if event.key==pygame.K_RIGHT and trocou_de_mao and not atirou:
+                        trocou_de_mao_1=True
+                    if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou:
                             m_1.rect.x+=d_mao_mao
                             m_1.vx=-m_1.vx
-                            trocou_de_mao=False
+                            trocou_de_mao_1=False
                     if event.key==pygame.K_w and not atirou:
                         if m_1.vx!=16 and m_1.vx!=(-16):
-                            if trocou_de_mao:
+                            if trocou_de_mao_1:
                                 m_1.vx-=2
                             else:
                                 m_1.vx+=2
@@ -303,7 +304,7 @@ while not sair:
                             velmax_x=True
                     if event.key==pygame.K_s and not atirou:
                         if m_1.vx!=0:
-                            if trocou_de_mao:
+                            if trocou_de_mao_1:
                                 m_1.vx+=2
                             else:
                                 m_1.vx-=2
@@ -358,21 +359,21 @@ while not sair:
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         m_2.parar_atirar()
         m_bebe=3
+        
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
             if b_2.rect.x<850 and b_2.rect.x>0:
-                if trocou_de_mao:
+                if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
-                elif not trocou_de_mao:
+                elif not trocou_de_mao_2:
                     b_1.rect.x+=50
                     m_1.rect.x+=50
                 if b_1.vida==0:
                     bebe_1.remove(b_1)
                     mamadeira_1.remove(m_1)
-            
-        trocou_de_mao=False
+        trocou_de_mao_2=False
         movimento_1=True
         atirou=False
         m_2.vx=vx_inicial
@@ -385,31 +386,33 @@ while not sair:
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         m_1.parar_atirar()
         m_bebe=0
+        
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
             if b_2.rect.x<850 and b_2.rect.x>0:
-                if trocou_de_mao:
+                if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
-                elif not trocou_de_mao:
+                elif not trocou_de_mao_1:
                     b_2.rect.x+=50
                     m_2.rect.x+=50
-        trocou_de_mao=False
+
         movimento_1=False
         atirou=False
-
+        trocou_de_mao_1=False
         m_1.vx=vx_inicial
         
 #desenho do jogo
     if m_bebe<=0:
         movimento_1=False
         mamadeira=mamadeira_2
-        timer=0
+        
+#        timer=0
     if m_bebe>=3:
         movimento_1=True
         mamadeira=mamadeira_1
-        timer=0
+#        timer=0
     if not inicio and not control and not rules:
         tela.fill(white)
         bebe_1.draw(tela)
@@ -418,8 +421,9 @@ while not sair:
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
-        a=font3.render(str(timer), True, (black))
-        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
+#        timer+=1/FPS
+#        a=font3.render(str(timer), True, (black))
+#        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
         if velmax_x:
             max_x=font3.render("Velocidade maxima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
@@ -475,7 +479,8 @@ while not sair:
         jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
         cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
         rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
-        trocou_de_mao=False
+        trocou_de_mao_1=False
+        trocou_de_mao_2=False
         atirou=False        
         movimento_1=False
         m_bebe=0
