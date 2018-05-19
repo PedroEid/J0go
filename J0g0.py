@@ -39,9 +39,6 @@ class Bebe (pygame.sprite.Sprite):
         pygame.draw.rect(self.image,white,[0,0,100,5])
         if self.vida>0:
             pygame.draw.rect(self.image, red, [0,0,self.vida,5])
-    def gravidade(self,gravidade):
-        if gravidade:
-            self.rect.y+=10
         
     
 #criando classe de plataforma       
@@ -183,11 +180,13 @@ vx_inicial=m_2.vx
 vy_inicial=m_2.vy
 velmax_x=False
 velmin_x=False
+pulo2=0
+pulo1=0
 #timer=0
 while not sair:
     m_2.move()
     m_1.move()
-
+    
     for event in pygame.event.get():
         
         if event.type == pygame.QUIT:
@@ -272,8 +271,7 @@ while not sair:
                         
                         if event.key==pygame.K_SPACE and not atirou:
                            
-                            b_2.rect.y-=500
-                            m_2.rect.y-=500
+                            pulo2=-10
                             m_bebe+=1
                         vy_inicial2=m_2.vy
                         
@@ -329,26 +327,32 @@ while not sair:
 
                     if event.key==pygame.K_SPACE and not atirou:
                         
-                        b_1.rect.y-=200
-                        m_1.rect.y-=200
+                        pulo1=-10
                         m_bebe-=1
+                         
                     vy_inicial1=m_1.vy
               
-#gravidade do bebe2                    
+#gravidade do bebe2
+    if not atirou:
+        b_2.rect.y+=pulo2
+        m_2.rect.y=b_2.rect.y+d_mao_mao-10
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
     if not gravidade2:
-        b_2.rect.y+=grav
-        m_2.rect.y+=grav
+        pulo2+=grav*1/FPS
+    else:
+        pulo2=0
         
         
         
-        
-#gravidade do bebe2        
+#gravidade do bebe2
+    if not atirou:
+        b_1.rect.y+=pulo1
+        m_1.rect.y=b_1.rect.y+d_mao_mao-10       
     gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
-    
     if not gravidade1:
-        b_1.rect.y+=grav
-        m_1.rect.y+=grav
+        pulo1+=grav*1/FPS
+    else:
+        pulo1=0
             
 #colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
