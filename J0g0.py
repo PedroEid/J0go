@@ -438,6 +438,8 @@ while not sair:
                 bebe_2.remove(b_2)
             if b_1.vida<=0:
                 bebe_1.remove(b_1)
+                pygame.mixer.music.load('choro.mp3')
+                pygame.mixer.music.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
@@ -534,5 +536,6 @@ while not sair:
     relogio.tick(FPS)
     
 
+pygame.mixer.music.stop()
 
 pygame.display.quit()
