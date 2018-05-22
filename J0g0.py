@@ -382,7 +382,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<850 and b_1.rect.x>0:
+            if b_1.rect.x<800 and b_1.rect.x>50:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -409,7 +409,7 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<850 and b_2.rect.x>0:
+            if b_2.rect.x<800 and b_2.rect.x>50:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
