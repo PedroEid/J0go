@@ -218,7 +218,7 @@ while not sair:
             regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
             regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
             regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
-            regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARÁ DE CASTIGO",True,green)
+            regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
             voltar=font2.render("VOLTAR",True,black)
 
 
