@@ -21,6 +21,13 @@ grav=20
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
 
+pygame.mixer.pre_init()
+pygame.init()
+
+choro = pygame.mixer.Sound('choro2.ogg')
+
+
+
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
@@ -102,7 +109,7 @@ class Mamadeira (pygame.sprite.Sprite):
                 
     # Criando tela.
 
-pygame.init()
+
 tela_y=500
 tela_x=900
 tela = pygame.display.set_mode([tela_x,tela_y])
@@ -452,8 +459,7 @@ while not sair:
                 bebe_2.remove(b_2)
             if b_1.vida<=0:
                 bebe_1.remove(b_1)
-                pygame.mixer.music.load('choro.mp3')
-                pygame.mixer.music.play()
+            choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
@@ -551,5 +557,6 @@ while not sair:
     
 
 pygame.mixer.music.stop()
+choro.stop()
 
 pygame.display.quit()
