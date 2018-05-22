@@ -21,13 +21,6 @@ grav=20
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
 
-pygame.mixer.pre_init()
-pygame.init()
-
-choro = pygame.mixer.Sound('choro2.ogg')
-
-
-
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
@@ -105,11 +98,32 @@ class Mamadeira (pygame.sprite.Sprite):
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
 
-            
+font = pygame.font.SysFont("Algerian", (tela_x-850))
+text = font.render("Bem Vindo ao Baby Fight", True, (green))
+font1 = pygame.font.SysFont("Algerian", tela_x-872)
+font2= pygame.font.SysFont("Algerian", tela_x-880)
+font3=pygame.font.SysFont('Aharoni',tela_x-880)
+text1 = font1.render("Jogar", True, (blue))
+controles=font2.render("Controles",True,blue)
+regras=font2.render("Regras",True,blue)
+#Controles
+controle0=font1.render("CONTROLES", True, (black))
+controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
+controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
+controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
+controle4=font3.render('TECLAS W & E = VELOCIDADE DO TIRO',True,(green))
+#Regras
+regra0=font2.render("REGRAS",True,blue)
+regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
+regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
+regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
+regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
+voltar=font2.render("VOLTAR",True,black)
+
                 
     # Criando tela.
 
-
+pygame.init()
 tela_y=500
 tela_x=900
 tela = pygame.display.set_mode([tela_x,tela_y])
@@ -165,7 +179,7 @@ mamadeira_2.add(m_2)
 #    adicionando musica de fundo
 
 pygame.mixer.music.load('babyfight.mp3')
-pygame.mixer.music.play(-1)
+#pygame.mixer.music.play(-1)
 
 
 #Relogio
@@ -198,28 +212,7 @@ while not sair:
         
         if event.type == pygame.QUIT:
                 sair = True
-        if inicio:
-            font = pygame.font.SysFont("Algerian", (tela_x-850))
-            text = font.render("Bem Vindo ao Baby Fight", True, (green))
-            font1 = pygame.font.SysFont("Algerian", tela_x-872)
-            font2= pygame.font.SysFont("Algerian", tela_x-880)
-            font3=pygame.font.SysFont('Aharoni',tela_x-880)
-            text1 = font1.render("Jogar", True, (blue))
-            controles=font2.render("Controles",True,blue)
-            regras=font2.render("Regras",True,blue)
-            #Controles
-            controle0=font1.render("CONTROLES", True, (black))
-            controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
-            controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
-            controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
-            controle4=font3.render('TECLAS W & E = VELOCIDADE DO TIRO',True,(green))
-            #Regras
-            regra0=font2.render("REGRAS",True,blue)
-            regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
-            regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
-            regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
-            regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARÁ DE CASTIGO",True,green)
-            voltar=font2.render("VOLTAR",True,black)
+
 
 
         else:
@@ -459,7 +452,8 @@ while not sair:
                 bebe_2.remove(b_2)
             if b_1.vida<=0:
                 bebe_1.remove(b_1)
-            choro.play()
+                pygame.mixer.music.load('choro.mp3')
+                pygame.mixer.music.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
@@ -557,6 +551,5 @@ while not sair:
     
 
 pygame.mixer.music.stop()
-choro.stop()
 
 pygame.display.quit()
