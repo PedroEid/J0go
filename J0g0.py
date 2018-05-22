@@ -21,6 +21,11 @@ grav=20
 tela = pygame.display.set_mode([1000,700])
 tela.fill(white)
 
+pygame.mixer.pre_init()
+pygame.init()
+
+choro = pygame.mixer.Sound('choro2.ogg')
+
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
@@ -97,7 +102,8 @@ class Mamadeira (pygame.sprite.Sprite):
             if i%2!=0:
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
-
+tela_y=500
+tela_x=900
 font = pygame.font.SysFont("Algerian", (tela_x-850))
 text = font.render("Bem Vindo ao Baby Fight", True, (green))
 font1 = pygame.font.SysFont("Algerian", tela_x-872)
@@ -124,8 +130,7 @@ voltar=font2.render("VOLTAR",True,black)
     # Criando tela.
 
 pygame.init()
-tela_y=500
-tela_x=900
+
 tela = pygame.display.set_mode([tela_x,tela_y])
 pygame.display.set_caption("Bem vindo ao jogo")
 
@@ -179,7 +184,7 @@ mamadeira_2.add(m_2)
 #    adicionando musica de fundo
 
 pygame.mixer.music.load('babyfight.mp3')
-#pygame.mixer.music.play(-1)
+pygame.mixer.music.play(-1)
 
 
 #Relogio
@@ -452,8 +457,7 @@ while not sair:
                 bebe_2.remove(b_2)
             if b_1.vida<=0:
                 bebe_1.remove(b_1)
-                pygame.mixer.music.load('choro.mp3')
-                pygame.mixer.music.play()
+            choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
@@ -549,7 +553,7 @@ while not sair:
     pygame.display.update()
     relogio.tick(FPS)
     
-
+choro.stop()
 pygame.mixer.music.stop()
 
 pygame.display.quit()
