@@ -336,8 +336,13 @@ while not sair:
     if not atirou:
         b_2.rect.y+=pulo2
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
+        
+        
+        
+        
+        
     gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
-    if not gravidade2:
+    if not gravidade2 or pulo2<0:
         pulo2+=grav*1/FPS
     else:
         pulo2=0
@@ -347,13 +352,18 @@ while not sair:
 #gravidade do bebe2
     if not atirou:
         b_1.rect.y+=pulo1
-        m_1.rect.y=b_1.rect.y+d_mao_mao-10       
+        m_1.rect.y=b_1.rect.y+d_mao_mao-10
+        
+        
+        
+        
+        
+        
     gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
-    if not gravidade1:
+    if not gravidade1 or pulo1<0:
         pulo1+=grav*1/FPS
     else:
         pulo1=0
-            
 #colisao do bebe2            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
@@ -367,7 +377,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_2.rect.x<850 and b_2.rect.x>0:
+            if b_1.rect.x<850 and b_1.rect.x>0:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
