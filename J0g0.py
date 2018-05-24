@@ -26,6 +26,7 @@ pygame.mixer.pre_init()
 pygame.init()
 
 choro = pygame.mixer.Sound('choro2.ogg')
+musica = pygame.mixer.Sound('music.ogg')
 
 
 # Criando classe bebe
@@ -119,7 +120,7 @@ controle0=font1.render("CONTROLES", True, (black))
 controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
 controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
 controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
-controle4=font3.render('TECLAS W & E = VELOCIDADE DO TIRO',True,(green))
+controle4=font3.render('TECLAS W & S = VELOCIDADE DO TIRO',True,(green))
 #Regras
 regra0=font2.render("REGRAS",True,blue)
 regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
@@ -351,7 +352,7 @@ while not sair:
                     inicio=True
                         
                         
-                        
+            
                         
 #MOVIMENTO DOS PERSONAGENS                        
         else:
@@ -622,6 +623,8 @@ while not sair:
         mamadeira=mamadeira_1
 #        timer=0
     if not inicio and not control and not rules:
+        pygame.mixer.music.stop()
+        musica.play(-1)
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -653,7 +656,7 @@ while not sair:
                 b_choro= Bebe('bebe bonitinho(1).png',b_1.rect.x,b_1.rect.y,tela,100,0,0)
                 bebe_1.add(b_choro)
                 bebe_1.remove(b_1)
-            pygame.mixer.music.stop()
+            musica.stop()
             choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
@@ -703,5 +706,6 @@ while not sair:
     
 choro.stop()
 pygame.mixer.music.stop()
+musica.stop()
 
 pygame.display.quit()
