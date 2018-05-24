@@ -17,9 +17,10 @@ azul=(0,200,250)
 
 FPS = 60
 grav=20
-
-tela = pygame.display.set_mode([1000,700])
-tela.fill(white)
+tela_y=500
+tela_x=900
+tela = pygame.display.set_mode([tela_x,tela_y])
+tela.fill(black)
 
 pygame.mixer.pre_init()
 pygame.init()
@@ -29,10 +30,12 @@ choro = pygame.mixer.Sound('choro2.ogg')
 
 # Criando classe bebe
 class Bebe (pygame.sprite.Sprite):
-    def __init__(self, imbebe, pos_x, pos_y,tela,vida):
+    def __init__(self, imbebe, pos_x, pos_y,tela,vida,cortex1,cortex2):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(imbebe)
-        self.image = pygame.transform.scale(self.image,(100,100))
+        self.image = pygame.image.load(imbebe)       
+        self.image = pygame.transform.scale(self.image,(180,150))
+        self.image=pygame.transform.chop(self.image, (140, 120, cortex1,30 ))
+        self.image=pygame.transform.chop(self.image, (0, 0, cortex2, 20))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -41,19 +44,19 @@ class Bebe (pygame.sprite.Sprite):
 
         
     def health(self):
-        pygame.draw.rect(self.image,white,[0,0,100,5])
+        pygame.draw.rect(self.image,white,[0,0,100,1])
         if self.vida>0:
-            pygame.draw.rect(self.image, red, [0,0,self.vida,5])
+            pygame.draw.rect(self.image, red, [0,0,self.vida,1])
         
     
 #criando classe de plataforma       
 class Plataforma(pygame.sprite.Sprite):    
-    def __init__(self,pos_x,pos_y, width, height):
+    def __init__(self,pos_x,pos_y, width, height,cor):
         pygame.sprite.Sprite.__init__(self)
         # Set the background color and set it to be transparent
         self.image = pygame.Surface([width, height])
         # Draw the ellipse
-        pygame.draw.ellipse(self.image, black, [0, 0, width, height])
+        pygame.draw.ellipse(self.image, cor, [0, 0, width, height])
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -66,7 +69,7 @@ class Mamadeira (pygame.sprite.Sprite):
         self.vy = vel_y
         self.g = g
         self.image = pygame.image.load(immadeira)
-        self.image = pygame.transform.scale(self.image,(30,30))
+        self.image = pygame.transform.scale(self.image,(40,40))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -102,8 +105,7 @@ class Mamadeira (pygame.sprite.Sprite):
             if i%2!=0:
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
-tela_y=500
-tela_x=900
+
 font = pygame.font.SysFont("Algerian", (tela_x-850))
 text = font.render("Bem Vindo ao Baby Fight", True, (green))
 font1 = pygame.font.SysFont("Algerian", tela_x-872)
@@ -142,26 +144,83 @@ mamadeira_2 = pygame.sprite.Group()
 bebe_2 = pygame.sprite.Group()
 #plataforma=[]
 plataforma_group=pygame.sprite.Group()
+paredeb=pygame.sprite.Group()
+paredele=pygame.sprite.Group()
+paredeld=pygame.sprite.Group()
 #costantes
 #dimensoes do bebe
-d_mao_mao = 60
+d_mao_mao = 50
 d_mao_pe = 70
 by_p=90
 #localizacoa bebe:
 x = tela_x-200
-y = tela_y-200
+y = tela_y-400
 ex = tela_x-800
 ey = tela_y-400
+px1=randrange(200,600)
+py1=randrange(50,200)
+
+
+px2=randrange(200,600)
+py2=randrange(200,350)
+
+
+px3=randrange(200,600)
+py3=randrange(300,350)
+
 #criando os bebes
-b_1= Bebe('bbbravo.jpg',x,y,tela,100)
-b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
+b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
+b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
 #criando as plataformas
-p_1=Plataforma(x,y+by_p,100,10)
-p_2=Plataforma(ex,ey+by_p,100,10)
-p_baixo_direita=Plataforma(0,tela_y-10,10000,100)
-p_aleatoria1=Plataforma(randrange(200,600),randrange(50,200),100,10)
-p_aleatoria2=Plataforma(randrange(200,600),randrange(200,350),100,10)
-p_aleatoria3=Plataforma(randrange(200,600),randrange(350,450),100,10)
+p_1=Plataforma(x,y+by_p,100,10,black)
+
+paredeladod=Plataforma(x-1,y+by_p+5,0.01,0.01,black)
+paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
+paredeladoe=Plataforma(x+100,y+by_p+5,0.01,0.01,black)
+
+p_2=Plataforma(ex,ey+by_p,100,10,black)
+
+paredeladod0=Plataforma(ex-1,ey+by_p+5,0.01,0.01,black)
+paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
+paredeladoe0=Plataforma(ex+100,ey+by_p+5,0.01,0.01,black)
+
+
+p_baixo_direita=Plataforma(0,tela_y-10,10000,100,black)
+p_aleatoria1=Plataforma(px1,py1,100,10,black)
+
+paredeladod1=Plataforma(px1-1,py1+5,0.01,0.01,black)
+paredebaixo1=Plataforma(px1+10,py1+10,80,0.01,black)
+paredeladoe1=Plataforma(px1+100,py1+5,0.01,0.01,black)
+
+p_aleatoria2=Plataforma(px2,py2,100,10,black)
+
+paredeladod2=Plataforma(px2-1,py2+5,0.01,0.01,black)
+paredebaixo2=Plataforma(px2+10,py2+10,80,0.01,black)
+paredeladoe2=Plataforma(px2+100,py2+5,0.01,0.01,black)
+
+p_aleatoria3=Plataforma(px3,py3,100,10,black)
+
+paredeladod3=Plataforma(px3-1,py3+5,0.01,0.01,black)
+paredebaixo3=Plataforma(px3+10,py3+10,80,0.01,black)
+paredeladoe3=Plataforma(px3+100,py3+5,0.01,0.01,black)
+
+paredeld.add(paredeladod)
+paredele.add(paredeladoe)
+paredeb.add(paredebaixo)
+paredeld.add(paredeladod0)
+paredele.add(paredeladoe0)
+paredeb.add(paredebaixo0)
+paredeld.add(paredeladod1)
+paredele.add(paredeladoe1)
+paredeb.add(paredebaixo1)
+paredeld.add(paredeladod2)
+paredele.add(paredeladoe2)
+paredeb.add(paredebaixo2)
+paredeld.add(paredeladod3)
+paredele.add(paredeladoe3)
+paredeb.add(paredebaixo3)
+
+
 plataforma_group.add(p_aleatoria2)
 plataforma_group.add(p_aleatoria3)
 plataforma_group.add(p_aleatoria1)
@@ -169,8 +228,8 @@ plataforma_group.add(p_baixo_direita)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 #criando mamadeiras
-m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(grav))
-m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(grav))
+m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
+m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
 
 #adicionando nos grupos
 bebe_1.add(b_1)
@@ -203,11 +262,14 @@ m_bebe=0
 b=0
 vx_inicial=m_2.vx
 #Looping principal
-vy_inicial=m_2.vy
+vy_inicial2=m_2.vy
+vy_inicial1=m_1.vy
 velmax_x=False
 velmin_x=False
 pulo2=0
 pulo1=0
+g1=0
+g2=0
 #timer=0
 while not sair:
     m_2.move()
@@ -218,8 +280,80 @@ while not sair:
         if event.type == pygame.QUIT:
                 sair = True
 
-
-
+#TElA DE INICIO
+        elif inicio:
+            tela.fill(azul)
+            tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+            jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+            rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
+            trocou_de_mao_1=False
+            trocou_de_mao_2=False
+            atirou=False        
+            movimento_1=False
+            m_bebe=0
+            b=0
+            vx_inicial=m_2.vx
+            if event.type == pygame.MOUSEBUTTONDOWN:            
+                mouse_posicao=pygame.mouse.get_pos()
+                if jogar.collidepoint(mouse_posicao):
+                    inicio=False
+                    control=False
+                    rules=False
+                elif cont.collidepoint(mouse_posicao):
+                        inicio=False
+                        control=True
+                        rules=False
+                elif rule.collidepoint(mouse_posicao):
+                            inicio=False
+                            control=False
+                            rules=True
+                            
+                            
+                            
+                            
+                            
+#TELA DE CONTROLES 
+                            
+                            
+                            
+        elif control:
+            tela.fill(gray)
+            tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
+            tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
+            tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+            tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
+            tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            if event.type == pygame.MOUSEBUTTONDOWN:            
+                mouse_posicao=pygame.mouse.get_pos()
+                if volt.collidepoint(mouse_posicao):
+                        control=False
+                        inicio=True
+                        
+                        
+#TELA DE REGRAS
+                        
+                        
+                        
+        elif rules:
+            tela.fill(gray)
+            tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
+            tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
+            tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
+            tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+            volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            if event.type == pygame.MOUSEBUTTONDOWN:            
+                mouse_posicao=pygame.mouse.get_pos()
+                if volt.collidepoint(mouse_posicao):
+                    control=False
+                    inicio=True
+                        
+                        
+                        
+                        
+#MOVIMENTO DOS PERSONAGENS                        
         else:
             velmax_x=False
             velmin_x=False
@@ -235,13 +369,15 @@ while not sair:
                             
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou:
-                            m_2.rect.x-=d_mao_mao
+                            m_2.rect.x-=d_mao_mao+20
+                            b_2.image=pygame.transform.flip(b_2.image, True, False)
                             m_2.vx=-m_2.vx
                             trocou_de_mao_2=True
                             
                         if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou:
-                                m_2.rect.x+=d_mao_mao
+                                m_2.rect.x+=d_mao_mao+20
                                 m_2.vx=-m_2.vx
+                                b_2.image=pygame.transform.flip(b_2.image, True, False)
                                 trocou_de_mao_2=False
                         if event.key==pygame.K_UP and not atirou:
                             m_2.vy-=tela_y-498
@@ -280,6 +416,10 @@ while not sair:
                             m_bebe+=1
                         vy_inicial2=m_2.vy
                         
+
+
+
+
             if movimento_1:
 #                timer+=1/FPS
 #                if timer>10:
@@ -290,12 +430,14 @@ while not sair:
                         m_1.atira()
                         atirou=True                        
                     if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou:
-                        m_1.rect.x-=d_mao_mao
+                        m_1.rect.x-=d_mao_mao+20
                         m_1.vx=-m_1.vx
+                        b_1.image=pygame.transform.flip(b_1.image, True, False)
                         trocou_de_mao_1=True
                     if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou:
-                            m_1.rect.x+=d_mao_mao
+                            m_1.rect.x+=d_mao_mao+20
                             m_1.vx=-m_1.vx
+                            b_1.image=pygame.transform.flip(b_1.image, True, False)
                             trocou_de_mao_1=False
                     if event.key==pygame.K_w and not atirou:
                         if m_1.vx!=16 and m_1.vx!=(-16):
@@ -337,24 +479,39 @@ while not sair:
                          
                     vy_inicial1=m_1.vy
               
-#gravidade do bebe2
+#GRAVIDADE DOS BEBES
     if not atirou:
         b_2.rect.y+=pulo2
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         
-        
-        
-        
-        
-    gravidade2=pygame.sprite.spritecollide(b_2,plataforma_group, False)
-    if not gravidade2 or pulo2<0:
-        pulo2+=grav*1/FPS
+    gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
+    gravidadeb2_pb=pygame.sprite.spritecollide(b_2,paredeb, False)
+    gravidedeb2_ple=pygame.sprite.spritecollide(b_2,paredele,False)
+    gravidadeb2_pld=pygame.sprite.spritecollide(b_2,paredeld,False)
+    if not gravidadeb2_1 and not gravidadeb2_pb:
+        g2=grav*1/FPS
+        pulo2+=g2
+    elif gravidadeb2_pb:
+        pulo2=0
+        b_2.rect.y+=2
+        m_2.rect.y+=2
+    elif gravidedeb2_ple:
+        pulo2=0
+        b_2.rect.x+=2
+        m_2.rect.x+=2
+    elif gravidadeb2_pld:
+        pulo2=0
+        b_2.rect.x-=2
+        m_2.rect.x-=2
     else:
         pulo2=0
+        g2=0
+
         
         
-        
-#gravidade do bebe2
+
+
+
     if not atirou:
         b_1.rect.y+=pulo1
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
@@ -364,12 +521,33 @@ while not sair:
         
         
         
-    gravidade1=pygame.sprite.spritecollide(b_1,plataforma_group, False)
-    if not gravidade1 or pulo1<0:
-        pulo1+=grav*1/FPS
+    gravidadeb1_1=pygame.sprite.spritecollide(b_1,plataforma_group, False)    
+    gravidadeb1_pb=pygame.sprite.spritecollide(b_1,paredeb, False)
+    gravidedeb1_ple=pygame.sprite.spritecollide(b_1,paredele,False)
+    gravidadeb1_pld=pygame.sprite.spritecollide(b_1,paredeld,False)
+    if not gravidadeb1_1 and not gravidadeb1_pb:
+        g1=grav*1/FPS
+        pulo1+=g1
+    elif gravidadeb1_pb:
+        pulo1=0
+        b_1.rect.y+=2
+        m_1.rect.y+=2
+    elif gravidedeb1_ple:
+        pulo1=0
+        b_1.rect.x+=2
+        m_1.rect.x+=2
+    elif gravidadeb1_pld:
+        pulo1=0
+        b_1.rect.x-=2
+        m_1.rect.x-=2
     else:
         pulo1=0
-#colisao do bebe2            
+        
+        
+        
+        
+        
+#COLISAO DOS BEBES COM AS MAMADEIRAS E PLATAFORMAS            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
@@ -378,7 +556,8 @@ while not sair:
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         m_2.parar_atirar()
         m_bebe=3
-        
+        if trocou_de_mao_2:
+            b_2.image=pygame.transform.flip(b_2.image, True, False)
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
@@ -396,7 +575,11 @@ while not sair:
         movimento_1=True
         atirou=False
         m_2.vx=vx_inicial
-#colisao do bebe1       
+
+
+
+
+       
     colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
     colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
     if colisao_b_m1 or colisao_m_p1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
@@ -405,7 +588,8 @@ while not sair:
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         m_1.parar_atirar()
         m_bebe=0
-        
+        if trocou_de_mao_1:
+            b_1.image=pygame.transform.flip(b_1.image, True, False)
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
@@ -416,13 +600,16 @@ while not sair:
                 elif not trocou_de_mao_1:
                     b_2.rect.x+=50
                     m_2.rect.x+=50
-
         movimento_1=False
         atirou=False
         trocou_de_mao_1=False
         m_1.vx=vx_inicial
         
-#desenho do jogo
+        
+        
+        
+        
+#TELA DO JOGO
     if m_bebe<=0:
         movimento_1=False
         mamadeira=mamadeira_2
@@ -437,6 +624,9 @@ while not sair:
         bebe_1.draw(tela)
         bebe_2.draw(tela)
         plataforma_group.draw(tela)
+        paredeb.draw(tela)
+        paredeld.draw(tela)
+        paredele.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
@@ -454,8 +644,12 @@ while not sair:
                 m.pre_move(tela)
         if b_2.vida<=0 or b_1.vida<=0:
             if b_2.vida<=0:
+                b_choro= Bebe('bebe bonitinho(2).png',b_2.rect.x,b_2.rect.y,tela,100,0,0)
+                bebe_2.add(b_choro)
                 bebe_2.remove(b_2)
             if b_1.vida<=0:
+                b_choro= Bebe('bebe bonitinho(1).png',b_1.rect.x,b_1.rect.y,tela,100,0,0)
+                bebe_1.add(b_choro)
                 bebe_1.remove(b_1)
             choro.play()
             mamadeira_2.remove(m_2)
@@ -464,7 +658,6 @@ while not sair:
             final_jogar=font3.render("Jogar de novo", True, (blue))
             tela.blit(final,(420 - text.get_width() // 2, 100 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
@@ -472,8 +665,8 @@ while not sair:
                 control=False
                 bebe_2 = pygame.sprite.Group()
                 bebe_1 = pygame.sprite.Group()
-                b_1= Bebe('bbbravo.jpg',x,y,tela,100)
-                b_2= Bebe('bbbravo.jpg',ex,ey,tela,100)
+                b_1= Bebe('bebe bonitinho0.png',x,y,tela,100,40,40)
+                b_2= Bebe('bebe bonitinho(3).png',ex,ey,tela,100,40,40)
                 #criando mamadeiras
                 m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(grav))
                 m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(grav))
@@ -493,63 +686,13 @@ while not sair:
                 
 
 #desenho tela de inicio
-    elif inicio:
-        tela.fill(azul)
-        tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-        jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-        cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-        rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
-        trocou_de_mao_1=False
-        trocou_de_mao_2=False
-        atirou=False        
-        movimento_1=False
-        m_bebe=0
-        b=0
-        vx_inicial=m_2.vx
-        if event.type == pygame.MOUSEBUTTONDOWN:            
-            mouse_posicao=pygame.mouse.get_pos()
-            if jogar.collidepoint(mouse_posicao):
-                inicio=False
-                control=False
-                rules=False
-            elif cont.collidepoint(mouse_posicao):
-                inicio=False
-                control=True
-                rules=False
-            elif rule.collidepoint(mouse_posicao):
-                inicio=False
-                control=False
-                rules=True
+
                 
 
 
 #desenho tela dos cpntroles
-    elif control:
-        tela.fill(gray)
-        tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
-        tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
-        tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-        tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
-        tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-        if event.type == pygame.MOUSEBUTTONDOWN:            
-            mouse_posicao=pygame.mouse.get_pos()
-            if volt.collidepoint(mouse_posicao):
-                control=False
-                inicio=True
-    elif rules:
-        tela.fill(gray)
-        tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-        tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-        tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
-        tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-        tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
-        volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
-        if event.type == pygame.MOUSEBUTTONDOWN:            
-            mouse_posicao=pygame.mouse.get_pos()
-            if volt.collidepoint(mouse_posicao):
-                control=False
-                inicio=True
+    
+
     pygame.display.update()
     relogio.tick(FPS)
     
