@@ -36,7 +36,7 @@ class Bebe (pygame.sprite.Sprite):
         self.image = pygame.image.load(imbebe)       
         self.image = pygame.transform.scale(self.image,(180,150))
         self.image=pygame.transform.chop(self.image, (140, 120, cortex1,30 ))
-        self.image=pygame.transform.chop(self.image, (0, 0, cortex2, 20))
+        self.image=pygame.transform.chop(self.image, (0, 0, cortex2, 15))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -45,9 +45,9 @@ class Bebe (pygame.sprite.Sprite):
 
         
     def health(self):
-        pygame.draw.rect(self.image,white,[0,0,100,1])
+        pygame.draw.rect(self.image,white,[0,0,100,3])
         if self.vida>0:
-            pygame.draw.rect(self.image, red, [0,0,self.vida,1])
+            pygame.draw.rect(self.image, red, [0,0,self.vida,3])
         
     
 #criando classe de plataforma       
