@@ -424,6 +424,8 @@ while not sair:
 #                timer+=1/FPS
 #                if timer>10:
 #                    m_bebe=3
+                for i in range(5*FPS):
+                    pass
                 if event.type == pygame.KEYDOWN:  
                     vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
@@ -455,23 +457,23 @@ while not sair:
                                 m_1.vx-=2
                         else:
                             velmin_x=True
-
+    
                         
                     if event.key==pygame.K_UP and not atirou:
                         m_1.vy-=tela_y-498
-
+    
                     if event.key==pygame.K_DOWN and not atirou:
                         m_1.vy+=tela_y-498
                     if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50) and not atirou:
                         b_1.rect.x+=50
                         m_1.rect.x+=50
                         m_bebe-=1
-
+    
                     if event.key==pygame.K_a and b_1.rect.x>0 and not atirou:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
                         m_bebe-=1
-
+    
                     if event.key==pygame.K_SPACE and not atirou:
                         
                         pulo1=-10
@@ -651,6 +653,7 @@ while not sair:
                 b_choro= Bebe('bebe bonitinho(1).png',b_1.rect.x,b_1.rect.y,tela,100,0,0)
                 bebe_1.add(b_choro)
                 bebe_1.remove(b_1)
+            pygame.mixer.music.stop()
             choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
@@ -661,6 +664,8 @@ while not sair:
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
+                choro.stop()
+                pygame.mixer.music.play(-1)
                 inicio=True
                 control=False
                 bebe_2 = pygame.sprite.Group()
