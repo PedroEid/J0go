@@ -271,6 +271,7 @@ pulo2=0
 pulo1=0
 g1=0
 g2=0
+morte=False
 #timer=0
 while not sair:
     m_2.move()
@@ -355,7 +356,7 @@ while not sair:
             
                         
 #MOVIMENTO DOS PERSONAGENS                        
-        else:
+        elif not morte:
             velmax_x=False
             velmin_x=False
             if not movimento_1:
@@ -623,8 +624,6 @@ while not sair:
         mamadeira=mamadeira_1
 #        timer=0
     if not inicio and not control and not rules:
-        pygame.mixer.music.stop()
-        musica.play(-1)
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -652,10 +651,12 @@ while not sair:
                 b_choro= Bebe('bebe bonitinho(2).png',b_2.rect.x,b_2.rect.y,tela,100,0,0)
                 bebe_2.add(b_choro)
                 bebe_2.remove(b_2)
+                morte=True
             if b_1.vida<=0:
                 b_choro= Bebe('bebe bonitinho(1).png',b_1.rect.x,b_1.rect.y,tela,100,0,0)
                 bebe_1.add(b_choro)
                 bebe_1.remove(b_1)
+                morte=True
             musica.stop()
             choro.play()
             mamadeira_2.remove(m_2)
@@ -669,6 +670,7 @@ while not sair:
             if jogar_de_novo.collidepoint(mouse_posicao):
                 choro.stop()
                 pygame.mixer.music.play(-1)
+                morte=False
                 inicio=True
                 control=False
                 bebe_2 = pygame.sprite.Group()
@@ -689,7 +691,10 @@ while not sair:
             else:
                 vez=font3.render("Vez do player 2", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
+        pygame.mixer.music.stop()
+        musica.play(-1)
         
+
 
                 
 
