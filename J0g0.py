@@ -241,23 +241,15 @@ mamadeira_2.add(m_2)
 #    ex=x
 #    ey=y
 
-#    adicionando musica de fundo
-
-pygame.mixer.music.load('babyfight.mp3')
-pygame.mixer.music.play(-1)
-
-
-#Relogio
-relogio = pygame.time.Clock()
-sair = False
-inicio=True
+#    adicionando musica de fundo 
 control=False
 trocou_de_mao_1=False
 trocou_de_mao_2=False
 atirou=False
 rules=False
 
-
+sair=False
+inicio=True
 movimento_1=False
 m_bebe=0
 b=0
@@ -669,17 +661,17 @@ while not sair:
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
                 choro.stop()
-                pygame.mixer.music.play(-1)
                 morte=False
+                pygame.mixer.music.play(-1)
                 inicio=True
                 control=False
                 bebe_2 = pygame.sprite.Group()
                 bebe_1 = pygame.sprite.Group()
-                b_1= Bebe('bebe bonitinho0.png',x,y,tela,100,40,40)
-                b_2= Bebe('bebe bonitinho(3).png',ex,ey,tela,100,40,40)
+                b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
+                b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
                 #criando mamadeiras
-                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao-10),10,(-10),(grav))
-                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao-10),8,(-10),(grav))
+                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
+                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
                 #adicionando nos grupos
                 bebe_1.add(b_1)
                 bebe_2.add(b_2)
