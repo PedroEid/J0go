@@ -25,6 +25,8 @@ tela.fill(black)
 pygame.mixer.pre_init()
 pygame.init()
 
+
+relogio = pygame.time.Clock()
 choro = pygame.mixer.Sound('choro2.ogg')
 musica = pygame.mixer.Sound('music.ogg')
 
@@ -57,7 +59,8 @@ class Plataforma(pygame.sprite.Sprite):
         # Set the background color and set it to be transparent
         self.image = pygame.Surface([width, height])
         # Draw the ellipse
-        pygame.draw.ellipse(self.image, cor, [0, 0, width, height])
+        pygame.draw.ellipse(self.image, cor, [10, 10, width, height])
+        self.image.fill(cor)
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -93,8 +96,8 @@ class Mamadeira (pygame.sprite.Sprite):
     def pre_move(self,tela):
         lista=[]
         self.pre_vy=self.vy 
-        self.pre_x=self.rect.x+10 
-        self.pre_y=self.rect.y+15
+        self.pre_x=self.rect.x+10
+        self.pre_y=self.rect.y+25
         self.pre_vx=self.vx
         lista.append([self.pre_x,self.pre_y])    
         for i in range(20):
@@ -148,6 +151,7 @@ plataforma_group=pygame.sprite.Group()
 paredeb=pygame.sprite.Group()
 paredele=pygame.sprite.Group()
 paredeld=pygame.sprite.Group()
+lava=pygame.sprite.Group()
 #costantes
 #dimensoes do bebe
 d_mao_mao = 50
@@ -186,7 +190,7 @@ paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
 paredeladoe0=Plataforma(ex+100,ey+by_p+5,0.01,0.01,black)
 
 
-p_baixo_direita=Plataforma(0,tela_y-10,10000,100,black)
+p_baixo_direita=Plataforma(0,tela_y-10,10000,100,red)
 p_aleatoria1=Plataforma(px1,py1,100,10,black)
 
 paredeladod1=Plataforma(px1-1,py1+5,0.01,0.01,black)
@@ -220,12 +224,12 @@ paredeb.add(paredebaixo2)
 paredeld.add(paredeladod3)
 paredele.add(paredeladoe3)
 paredeb.add(paredebaixo3)
+lava.add(p_baixo_direita)
 
 
 plataforma_group.add(p_aleatoria2)
 plataforma_group.add(p_aleatoria3)
 plataforma_group.add(p_aleatoria1)
-plataforma_group.add(p_baixo_direita)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
 #criando mamadeiras
@@ -241,7 +245,11 @@ mamadeira_2.add(m_2)
 #    ex=x
 #    ey=y
 
-#    adicionando musica de fundo 
+#    adicionando musica de fundo
+pygame.mixer.music.load('babyfight.mp3')
+pygame.mixer.music.play(-1)
+
+ 
 control=False
 trocou_de_mao_1=False
 trocou_de_mao_2=False
@@ -265,6 +273,9 @@ g1=0
 g2=0
 morte=False
 #timer=0
+pygame.mixer.music.play(-1)
+jump1=False
+jump2=False
 while not sair:
     m_2.move()
     m_1.move()
@@ -288,6 +299,7 @@ while not sair:
             m_bebe=0
             b=0
             vx_inicial=m_2.vx
+
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
                 if jogar.collidepoint(mouse_posicao):
@@ -404,10 +416,11 @@ while not sair:
                             m_2.rect.x-=50
                             m_bebe+=1
                         
-                        if event.key==pygame.K_SPACE and not atirou:
+                        if event.key==pygame.K_SPACE and not atirou and not jump2:
                            
                             pulo2=-10
                             m_bebe+=1
+                            jump2=True
                         vy_inicial2=m_2.vy
                         
 
@@ -468,23 +481,26 @@ while not sair:
                         m_1.rect.x-=50
                         m_bebe-=1
     
-                    if event.key==pygame.K_SPACE and not atirou:
+                    if event.key==pygame.K_SPACE and not atirou and not jump1:
                         
                         pulo1=-10
                         m_bebe-=1
+                        jump1=True
                          
                     vy_inicial1=m_1.vy
               
 #GRAVIDADE DOS BEBES
+
+    b_2.rect.y+=pulo2
     if not atirou:
-        b_2.rect.y+=pulo2
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         
     gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
     gravidadeb2_pb=pygame.sprite.spritecollide(b_2,paredeb, False)
     gravidedeb2_ple=pygame.sprite.spritecollide(b_2,paredele,False)
     gravidadeb2_pld=pygame.sprite.spritecollide(b_2,paredeld,False)
-    if not gravidadeb2_1 and not gravidadeb2_pb:
+    gravlava2=pygame.sprite.spritecollide(b_2,lava,False)
+    if not gravidadeb2_1 and not gravidadeb2_pb and not gravlava2:
         g2=grav*1/FPS
         pulo2+=g2
     elif gravidadeb2_pb:
@@ -499,17 +515,27 @@ while not sair:
         pulo2=0
         b_2.rect.x-=2
         m_2.rect.x-=2
+    elif gravlava2:
+        
+        pulo2=0
+        if not morte:
+            pulo2-=15
+            b_2.vida-=10
+            jump2=False
+            b_2.health()
     else:
         pulo2=0
         g2=0
+        jump2=False
 
         
         
 
 
 
+
+    b_1.rect.y+=pulo1
     if not atirou:
-        b_1.rect.y+=pulo1
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         
         
@@ -521,7 +547,8 @@ while not sair:
     gravidadeb1_pb=pygame.sprite.spritecollide(b_1,paredeb, False)
     gravidedeb1_ple=pygame.sprite.spritecollide(b_1,paredele,False)
     gravidadeb1_pld=pygame.sprite.spritecollide(b_1,paredeld,False)
-    if not gravidadeb1_1 and not gravidadeb1_pb:
+    gravlava1=pygame.sprite.spritecollide(b_1,lava,False)
+    if not gravidadeb1_1 and not gravidadeb1_pb and not gravlava1:
         g1=grav*1/FPS
         pulo1+=g1
     elif gravidadeb1_pb:
@@ -536,8 +563,16 @@ while not sair:
         pulo1=0
         b_1.rect.x-=2
         m_1.rect.x-=2
+    elif gravlava1:
+        pulo1=0
+        if not morte:
+            pulo1-=15
+            b_1.vida-=10
+            b_1.health()
+            jump1=False
     else:
         pulo1=0
+        jump1=False
         
         
         
@@ -557,7 +592,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<800 and b_1.rect.x>50:
+            if b_1.rect.x<=850 and b_1.rect.x>=50:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -589,7 +624,7 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<800 and b_2.rect.x>50:
+            if b_2.rect.x<=850 and b_2.rect.x>=50:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
@@ -619,6 +654,7 @@ while not sair:
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
+        lava.draw(tela)
         plataforma_group.draw(tela)
         paredeb.draw(tela)
         paredeld.draw(tela)
@@ -626,6 +662,7 @@ while not sair:
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         m=0
+        pygame.mixer.music.stop()
 #        timer+=1/FPS
 #        a=font3.render(str(timer), True, (black))
 #        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
@@ -662,7 +699,7 @@ while not sair:
             if jogar_de_novo.collidepoint(mouse_posicao):
                 choro.stop()
                 morte=False
-                pygame.mixer.music.play(-1)
+                musica.play()
                 inicio=True
                 control=False
                 bebe_2 = pygame.sprite.Group()
