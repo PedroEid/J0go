@@ -178,36 +178,40 @@ b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
 #criando as plataformas
 p_1=Plataforma(x,y+by_p,100,10,black)
-
-paredeladod=Plataforma(x-1,y+by_p+5,0.01,0.01,black)
-paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
-paredeladoe=Plataforma(x+100,y+by_p+5,0.01,0.01,black)
-
 p_2=Plataforma(ex,ey+by_p,100,10,black)
-
-paredeladod0=Plataforma(ex-1,ey+by_p+5,0.01,0.01,black)
-paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
-paredeladoe0=Plataforma(ex+100,ey+by_p+5,0.01,0.01,black)
-
-
 p_baixo_direita=Plataforma(0,tela_y-10,10000,100,red)
 p_aleatoria1=Plataforma(px1,py1,100,10,black)
-
-paredeladod1=Plataforma(px1-1,py1+5,0.01,0.01,black)
-paredebaixo1=Plataforma(px1+10,py1+10,80,0.01,black)
-paredeladoe1=Plataforma(px1+100,py1+5,0.01,0.01,black)
-
+p_aleatoria3=Plataforma(px3,py3,100,10,black)
 p_aleatoria2=Plataforma(px2,py2,100,10,black)
 
-paredeladod2=Plataforma(px2-1,py2+5,0.01,0.01,black)
+paredeladod=Plataforma(x,y+by_p+8,1,2,black)
+paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
+paredeladoe=Plataforma(x+98,y+by_p+8,1,2,black)
+
+
+
+paredeladod0=Plataforma(ex,ey+by_p+8,1,2,black)
+paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
+paredeladoe0=Plataforma(ex+98,ey+by_p+8,1,2,black)
+
+
+
+
+paredeladod1=Plataforma(px1,py1+5,1,2,black)
+paredebaixo1=Plataforma(px1+10,py1+10,80,0.01,black)
+paredeladoe1=Plataforma(px1+98,py1+5,1,2,black)
+
+
+
+paredeladod2=Plataforma(px2,py2+8,1,2,black)
 paredebaixo2=Plataforma(px2+10,py2+10,80,0.01,black)
-paredeladoe2=Plataforma(px2+100,py2+5,0.01,0.01,black)
+paredeladoe2=Plataforma(px2+98,py2+8,1,2,black)
 
-p_aleatoria3=Plataforma(px3,py3,100,10,black)
 
-paredeladod3=Plataforma(px3-1,py3+5,0.01,0.01,black)
+
+paredeladod3=Plataforma(px3,py3+8,1,2,black)
 paredebaixo3=Plataforma(px3+10,py3+10,80,0.01,black)
-paredeladoe3=Plataforma(px3+100,py3+5,0.01,0.01,black)
+paredeladoe3=Plataforma(px3+98,py3+8,1,2,black)
 
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
@@ -253,7 +257,8 @@ pygame.mixer.music.play(-1)
 control=False
 trocou_de_mao_1=False
 trocou_de_mao_2=False
-atirou=False
+atirou2=False
+atirou1=False
 rules=False
 
 sair=False
@@ -261,10 +266,14 @@ inicio=True
 movimento_1=False
 m_bebe=0
 b=0
-vx_inicial=m_2.vx
+
 #Looping principal
 vy_inicial2=m_2.vy
 vy_inicial1=m_1.vy
+vx_inicial2=m_2.vx
+vx_inicial1=m_1.vx
+
+
 velmax_x=False
 velmin_x=False
 pulo2=0
@@ -294,11 +303,10 @@ while not sair:
             rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
             trocou_de_mao_1=False
             trocou_de_mao_2=False
-            atirou=False        
+            atirou2=False        
             movimento_1=False
             m_bebe=0
             b=0
-            vx_inicial=m_2.vx
 
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -306,6 +314,7 @@ while not sair:
                     inicio=False
                     control=False
                     rules=False
+                    musica.play(-1)
                 elif cont.collidepoint(mouse_posicao):
                         inicio=False
                         control=True
@@ -364,34 +373,31 @@ while not sair:
             velmax_x=False
             velmin_x=False
             if not movimento_1:
-                
-#                if timer>10:
-#                    m_bebe=3
                 if event.type == pygame.KEYDOWN:  
                         
                         if event.key== pygame.K_RETURN:
                             m_2.atira()
-                            atirou=True
+                            atirou2=True
                             
     
-                        if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou:
+                        if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou2:
                             m_2.rect.x-=d_mao_mao+20
                             b_2.image=pygame.transform.flip(b_2.image, True, False)
                             m_2.vx=-m_2.vx
                             trocou_de_mao_2=True
                             
-                        if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou:
+                        if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou2:
                                 m_2.rect.x+=d_mao_mao+20
                                 m_2.vx=-m_2.vx
                                 b_2.image=pygame.transform.flip(b_2.image, True, False)
                                 trocou_de_mao_2=False
-                        if event.key==pygame.K_UP and not atirou:
+                        if event.key==pygame.K_UP and not atirou2:
                             m_2.vy-=tela_y-498
     
-                        if event.key==pygame.K_DOWN and not atirou:
+                        if event.key==pygame.K_DOWN and not atirou2:
                             m_2.vy+=tela_y-498
 
-                        if event.key==pygame.K_w and not atirou:
+                        if event.key==pygame.K_w and not atirou2:
                             if m_2.vx!=16 and m_2.vx!=-16:
                                 if trocou_de_mao_2:
                                     m_2.vx-=2
@@ -399,11 +405,11 @@ while not sair:
                                     m_2.vx+=2
                             else:
                                 velmax_x=True
-                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50) and not atirou:
+                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50) and not atirou2:
                             b_2.rect.x+=50
                             m_2.rect.x+=50
                             m_bebe+=1
-                        if event.key==pygame.K_s and not atirou:
+                        if event.key==pygame.K_s and not atirou2:
                             if m_2.vx!=0:
                                 if trocou_de_mao_2:
                                     m_2.vx+=2
@@ -411,44 +417,38 @@ while not sair:
                                     m_2.vx-=2
                             else:
                                 velmin_x=True
-                        if event.key==pygame.K_a and b_2.rect.x>0 and not atirou:
+                        if event.key==pygame.K_a and b_2.rect.x>0 and not atirou2:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
                             m_bebe+=1
                         
-                        if event.key==pygame.K_SPACE and not atirou and not jump2:
+                        if event.key==pygame.K_SPACE and not atirou2 and not jump2:
                            
                             pulo2=-10
                             m_bebe+=1
                             jump2=True
-                        vy_inicial2=m_2.vy
+
                         
 
 
 
 
             if movimento_1:
-#                timer+=1/FPS
-#                if timer>10:
-#                    m_bebe=3
-                for i in range(5*FPS):
-                    pass
                 if event.type == pygame.KEYDOWN:  
-                    vy_inicial1=m_1.vy
                     if event.key== pygame.K_RETURN:
                         m_1.atira()
-                        atirou=True                        
-                    if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou:
+                        atirou1=True                        
+                    if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou1:
                         m_1.rect.x-=d_mao_mao+20
                         m_1.vx=-m_1.vx
                         b_1.image=pygame.transform.flip(b_1.image, True, False)
                         trocou_de_mao_1=True
-                    if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou:
+                    if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou1:
                             m_1.rect.x+=d_mao_mao+20
                             m_1.vx=-m_1.vx
                             b_1.image=pygame.transform.flip(b_1.image, True, False)
                             trocou_de_mao_1=False
-                    if event.key==pygame.K_w and not atirou:
+                    if event.key==pygame.K_w and not atirou1:
                         if m_1.vx!=16 and m_1.vx!=(-16):
                             if trocou_de_mao_1:
                                 m_1.vx-=2
@@ -456,7 +456,7 @@ while not sair:
                                 m_1.vx+=2
                         else:
                             velmax_x=True
-                    if event.key==pygame.K_s and not atirou:
+                    if event.key==pygame.K_s and not atirou1:
                         if m_1.vx!=0:
                             if trocou_de_mao_1:
                                 m_1.vx+=2
@@ -466,33 +466,41 @@ while not sair:
                             velmin_x=True
     
                         
-                    if event.key==pygame.K_UP and not atirou:
+                    if event.key==pygame.K_UP and not atirou1:
                         m_1.vy-=tela_y-498
     
-                    if event.key==pygame.K_DOWN and not atirou:
+                    if event.key==pygame.K_DOWN and not atirou1:
                         m_1.vy+=tela_y-498
-                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50) and not atirou:
+                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50) and not atirou1:
                         b_1.rect.x+=50
                         m_1.rect.x+=50
                         m_bebe-=1
     
-                    if event.key==pygame.K_a and b_1.rect.x>0 and not atirou:
+                    if event.key==pygame.K_a and b_1.rect.x>0 and not atirou1:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
                         m_bebe-=1
     
-                    if event.key==pygame.K_SPACE and not atirou and not jump1:
+                    if event.key==pygame.K_SPACE and not atirou1 and not jump1:
                         
                         pulo1=-10
                         m_bebe-=1
                         jump1=True
-                         
-                    vy_inicial1=m_1.vy
+#TROCA DE MOVIMENTOS
+    if m_bebe<=0:
+        movimento_1=False
+        mamadeira=mamadeira_2
+        
+
+    if m_bebe>=3:
+        movimento_1=True
+        mamadeira=mamadeira_1
               
 #GRAVIDADE DOS BEBES
+                    
 
     b_2.rect.y+=pulo2
-    if not atirou:
+    if not atirou2:
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         
     gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
@@ -508,34 +516,33 @@ while not sair:
         b_2.rect.y+=2
         m_2.rect.y+=2
     elif gravidedeb2_ple:
-        pulo2=0
-        b_2.rect.x+=2
-        m_2.rect.x+=2
-    elif gravidadeb2_pld:
+        print('a')
         pulo2=0
         b_2.rect.x-=2
         m_2.rect.x-=2
-    elif gravlava2:
-        
+    elif gravidadeb2_pld:
         pulo2=0
+        b_2.rect.x+=2
+        m_2.rect.x+=2
+    elif gravlava2:
+        pulo2=0
+        jump2=False
         if not morte:
             pulo2-=15
             b_2.vida-=10
-            jump2=False
             b_2.health()
+            
     else:
         pulo2=0
-        g2=0
         jump2=False
 
-        
-        
+         
 
 
 
 
     b_1.rect.y+=pulo1
-    if not atirou:
+    if not atirou1:
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         
         
@@ -557,19 +564,20 @@ while not sair:
         m_1.rect.y+=2
     elif gravidedeb1_ple:
         pulo1=0
-        b_1.rect.x+=2
-        m_1.rect.x+=2
+        b_1.rect.x-=5
+        m_1.rect.x-=5
     elif gravidadeb1_pld:
         pulo1=0
-        b_1.rect.x-=2
-        m_1.rect.x-=2
+        b_1.rect.x+=5
+        m_1.rect.x+=5
     elif gravlava1:
         pulo1=0
+        jump1=False
         if not morte:
             pulo1-=15
             b_1.vida-=10
             b_1.health()
-            jump1=False
+            
     else:
         pulo1=0
         jump1=False
@@ -581,12 +589,10 @@ while not sair:
 #COLISAO DOS BEBES COM AS MAMADEIRAS E PLATAFORMAS            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
-    if colisao_b_m2 or colisao_m_p2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
-        m_2.vy=vy_inicial2
+    if colisao_b_m2 or colisao_m_p2 and atirou2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
         m_2.rect.x=b_2.rect.x+d_mao_pe
         m_2.rect.y=b_2.rect.y+d_mao_mao-10
         m_2.parar_atirar()
-        m_bebe=3
         if trocou_de_mao_2:
             b_2.image=pygame.transform.flip(b_2.image, True, False)
         if colisao_b_m2:
@@ -599,13 +605,11 @@ while not sair:
                 elif not trocou_de_mao_2:
                     b_1.rect.x+=50
                     m_1.rect.x+=50
-                if b_1.vida==0:
-                    bebe_1.remove(b_1)
-                    mamadeira_1.remove(m_1)
+        m_2.vy=vy_inicial2
+        m_2.vx=vx_inicial2
+        m_bebe=3
         trocou_de_mao_2=False
-        movimento_1=True
-        atirou=False
-        m_2.vx=vx_inicial
+        atirou2=False
 
 
 
@@ -613,12 +617,10 @@ while not sair:
        
     colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
     colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
-    if colisao_b_m1 or colisao_m_p1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
-        m_1.vy=vy_inicial1
+    if colisao_b_m1 or colisao_m_p1 and atirou1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
         m_1.rect.x=b_1.rect.x+d_mao_pe
         m_1.rect.y=b_1.rect.y+d_mao_mao-10
         m_1.parar_atirar()
-        m_bebe=0
         if trocou_de_mao_1:
             b_1.image=pygame.transform.flip(b_1.image, True, False)
         if colisao_b_m1:
@@ -631,24 +633,18 @@ while not sair:
                 elif not trocou_de_mao_1:
                     b_2.rect.x+=50
                     m_2.rect.x+=50
-        movimento_1=False
-        atirou=False
+        m_1.vy=vy_inicial1
+        m_1.vx=vx_inicial1
+        m_bebe=0
+        atirou1=False
         trocou_de_mao_1=False
-        m_1.vx=vx_inicial
         
         
         
         
         
 #TELA DO JOGO
-    if m_bebe<=0:
-        movimento_1=False
-        mamadeira=mamadeira_2
-        
-#        timer=0
-    if m_bebe>=3:
-        movimento_1=True
-        mamadeira=mamadeira_1
+
 #        timer=0
     if not inicio and not control and not rules:
         tela.fill(white)
@@ -663,6 +659,7 @@ while not sair:
         mamadeira_2.draw(tela)
         m=0
         pygame.mixer.music.stop()
+        
 #        timer+=1/FPS
 #        a=font3.render(str(timer), True, (black))
 #        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
@@ -672,10 +669,10 @@ while not sair:
         elif velmin_x:
             max_x=font3.render("Velocidade minima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
-        if not atirou:   
+        if not atirou2 and not atirou1:   
             for m in mamadeira:
                 m.pre_move(tela)
-        if b_2.vida<=0 or b_1.vida<=0:
+        if  (b_2.vida<=0 or b_1.vida<=0) and not morte:
             if b_2.vida<=0:
                 b_choro= Bebe('bebe bonitinho(2).png',b_2.rect.x,b_2.rect.y,tela,100,0,0)
                 bebe_2.add(b_choro)
@@ -692,6 +689,7 @@ while not sair:
             mamadeira_1.remove(m_1)
             final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
             final_jogar=font3.render("Jogar de novo", True, (blue))
+        if morte:
             tela.blit(final,(420 - text.get_width() // 2, 100 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
@@ -699,7 +697,8 @@ while not sair:
             if jogar_de_novo.collidepoint(mouse_posicao):
                 choro.stop()
                 morte=False
-                musica.play()
+                musica.stop()
+                pygame.mixer.music.play(-1)
                 inicio=True
                 control=False
                 bebe_2 = pygame.sprite.Group()
@@ -721,7 +720,7 @@ while not sair:
                 vez=font3.render("Vez do player 2", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
         pygame.mixer.music.stop()
-        musica.play(-1)
+            
         
 
 
