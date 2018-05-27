@@ -37,7 +37,7 @@ class Bebe (pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imbebe)       
         self.image = pygame.transform.scale(self.image,(180,150))
-        self.image=pygame.transform.chop(self.image, (140, 120, cortex1,30 ))
+        self.image=pygame.transform.chop(self.image, (135, 120, cortex1,30 ))
         self.image=pygame.transform.chop(self.image, (0, 0, cortex2, 15))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
@@ -174,8 +174,8 @@ px3=randrange(200,600)
 py3=randrange(300,350)
 
 #criando os bebes
-b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
-b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
+b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,50,40)
+b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,45,40)
 #criando as plataformas
 p_1=Plataforma(x,y+by_p,100,10,black)
 p_2=Plataforma(ex,ey+by_p,100,10,black)
@@ -184,34 +184,34 @@ p_aleatoria1=Plataforma(px1,py1,100,10,black)
 p_aleatoria3=Plataforma(px3,py3,100,10,black)
 p_aleatoria2=Plataforma(px2,py2,100,10,black)
 
-paredeladod=Plataforma(x,y+by_p+8,1,2,black)
+paredeladoe=Plataforma(x,y+by_p+8,1,2,black)
 paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
-paredeladoe=Plataforma(x+98,y+by_p+8,1,2,black)
+paredeladod=Plataforma(x+98,y+by_p+8,1,2,black)
 
 
 
-paredeladod0=Plataforma(ex,ey+by_p+8,1,2,black)
+paredeladoe0=Plataforma(ex-1,ey+by_p+8,1,2,black)
 paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
-paredeladoe0=Plataforma(ex+98,ey+by_p+8,1,2,black)
+paredeladod0=Plataforma(ex+98,ey+by_p+8,1,2,black)
 
 
 
 
-paredeladod1=Plataforma(px1,py1+5,1,2,black)
+paredeladoe1=Plataforma(px1,py1+5,1,2,black)
 paredebaixo1=Plataforma(px1+10,py1+10,80,0.01,black)
-paredeladoe1=Plataforma(px1+98,py1+5,1,2,black)
+paredeladod1=Plataforma(px1+98,py1+5,1,2,black)
 
 
 
-paredeladod2=Plataforma(px2,py2+8,1,2,black)
+paredeladoe2=Plataforma(px2,py2+8,1,2,black)
 paredebaixo2=Plataforma(px2+10,py2+10,80,0.01,black)
-paredeladoe2=Plataforma(px2+98,py2+8,1,2,black)
+paredeladod2=Plataforma(px2+98,py2+8,1,2,black)
 
 
 
-paredeladod3=Plataforma(px3,py3+8,1,2,black)
+paredeladoe3=Plataforma(px3,py3+8,1,2,black)
 paredebaixo3=Plataforma(px3+10,py3+10,80,0.01,black)
-paredeladoe3=Plataforma(px3+98,py3+8,1,2,black)
+paredeladod3=Plataforma(px3+98,py3+8,1,2,black)
 
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
@@ -505,25 +505,24 @@ while not sair:
         
     gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
     gravidadeb2_pb=pygame.sprite.spritecollide(b_2,paredeb, False)
-    gravidedeb2_ple=pygame.sprite.spritecollide(b_2,paredele,False)
+    gravidadeb2_ple=pygame.sprite.spritecollide(b_2,paredele,False)
     gravidadeb2_pld=pygame.sprite.spritecollide(b_2,paredeld,False)
     gravlava2=pygame.sprite.spritecollide(b_2,lava,False)
-    if not gravidadeb2_1 and not gravidadeb2_pb and not gravlava2:
+    if not gravidadeb2_1 and not gravidadeb2_pb and not gravlava2 and not gravidadeb2_pld and not gravidadeb2_ple:
         g2=grav*1/FPS
         pulo2+=g2
     elif gravidadeb2_pb:
-        pulo2=0
-        b_2.rect.y+=2
-        m_2.rect.y+=2
-    elif gravidedeb2_ple:
-        print('a')
-        pulo2=0
-        b_2.rect.x-=2
-        m_2.rect.x-=2
+            pulo2=0
+            b_2.rect.y+=2
+            m_2.rect.y+=2
     elif gravidadeb2_pld:
         pulo2=0
         b_2.rect.x+=2
         m_2.rect.x+=2
+    elif gravidadeb2_ple:
+        pulo2=0
+        b_2.rect.x-=2
+        m_2.rect.x-=2
     elif gravlava2:
         pulo2=0
         jump2=False
@@ -552,24 +551,27 @@ while not sair:
         
     gravidadeb1_1=pygame.sprite.spritecollide(b_1,plataforma_group, False)    
     gravidadeb1_pb=pygame.sprite.spritecollide(b_1,paredeb, False)
-    gravidedeb1_ple=pygame.sprite.spritecollide(b_1,paredele,False)
+    gravidadeb1_ple=pygame.sprite.spritecollide(b_1,paredele,False)
     gravidadeb1_pld=pygame.sprite.spritecollide(b_1,paredeld,False)
     gravlava1=pygame.sprite.spritecollide(b_1,lava,False)
-    if not gravidadeb1_1 and not gravidadeb1_pb and not gravlava1:
+    if not gravidadeb1_1 and not gravidadeb1_pb and not gravlava1 and not gravidadeb1_pld and not gravidadeb1_ple:
         g1=grav*1/FPS
         pulo1+=g1
+        if gravidadeb1_ple:
+            b_1.rect.x+=5
+            m_1.rect.x+=5
     elif gravidadeb1_pb:
         pulo1=0
         b_1.rect.y+=2
         m_1.rect.y+=2
-    elif gravidedeb1_ple:
-        pulo1=0
-        b_1.rect.x-=5
-        m_1.rect.x-=5
     elif gravidadeb1_pld:
         pulo1=0
         b_1.rect.x+=5
         m_1.rect.x+=5
+    elif gravidadeb1_ple:
+        pulo1=0
+        b_1.rect.x-=5
+        m_1.rect.x-=5
     elif gravlava1:
         pulo1=0
         jump1=False
@@ -719,7 +721,7 @@ while not sair:
             else:
                 vez=font3.render("Vez do player 2", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
-        pygame.mixer.music.stop()
+
             
         
 
