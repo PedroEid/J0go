@@ -55,8 +55,8 @@ class Bebe (pygame.sprite.Sprite):
         
     
 #criando classe de plataforma
-class Imagens(pygame.sprite.Sprite):    
-    def __init__(self,pos_x,pos_y, imagem,tamx, tamy):
+class Plataformas(pygame.sprite.Sprite):    
+    def __init__(self,pos_x,pos_y, imagem):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imagem)       
         self.image = pygame.transform.scale(self.image,(120,100))
@@ -77,6 +77,20 @@ class Parede(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+        
+        
+        
+class Cookie(pygame.sprite.Sprite):    
+    def __init__(self,pos_x,pos_y, imagem):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(imagem)       
+        self.image = pygame.transform.scale(self.image,(20,20))
+#        self.image=pygame.transform.chop(self.image, (0, 65,0 ,35 ))
+#        self.image=pygame.transform.chop(self.image, (0, 0, 0, 40))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        
         
 #criando classe de mamadeira    
 class Mamadeira (pygame.sprite.Sprite):
@@ -155,6 +169,7 @@ pygame.display.set_caption("Bem vindo ao jogo")
 
 #bebe=[]
 #m_normal=[]
+cookie= pygame.sprite.Group()
 bebe_1 = pygame.sprite.Group()
 mamadeira_1 = pygame.sprite.Group()
 mamadeira_2 = pygame.sprite.Group()
@@ -186,18 +201,18 @@ py2=randrange(200,350)
 px3=randrange(200,600)
 py3=randrange(300,350)
 
+
 #criando os bebes
 b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,70,40)
 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,70,40)
 #criando as plataformas
-p_1=Imagens(x,y+by_p,'nuvens(1).png',100,10)
-p_2=Imagens(ex,ey+by_p,'nuvens(1).png',100,10)
+p_1=Plataformas(x,y+by_p,'nuvens(1).png')
+p_2=Plataformas(ex,ey+by_p,'nuvens(1).png')
 p_baixo_direita=Parede(0,tela_y-10,10000,100,red)
-p_aleatoria1=Imagens(px1,py1,'nuvens(1).png',100,10)
-p_aleatoria3=Imagens(px3,py3,'nuvens(1).png',100,10)
-p_aleatoria2=Imagens(px2,py2,'nuvens(1).png',100,10)
+p_aleatoria1=Plataformas(px1,py1,'nuvens(1).png')
+p_aleatoria3=Plataformas(px3,py3,'nuvens(1).png')
+p_aleatoria2=Plataformas(px2,py2,'nuvens(1).png')
 
-<<<<<<< HEAD
 paredeladoe=Parede(x+2,y+by_p+20,0.1,2,black)
 paredebaixo=Parede(x+20,y+by_p+25,80,0.01,black)
 paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
@@ -207,22 +222,10 @@ paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
 paredeladoe0=Parede(ex+2,ey+by_p+20,0.1,2,black)
 paredebaixo0=Parede(ex+20,ey+by_p+25,80,0.01,red)
 paredeladod0=Parede(ex+120,ey+by_p+20,0.1,2,black)
-=======
-paredeladoe=Plataforma(x,y+by_p+5,1,2,black)
-paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
-paredeladod=Plataforma(x+98,y+by_p+5,1,2,black)
-
-
-
-paredeladoe0=Plataforma(ex,ey+by_p+5,1,2,black)
-paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
-paredeladod0=Plataforma(ex+98,ey+by_p+5,1,2,black)
->>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
 
 
 
 
-<<<<<<< HEAD
 paredeladoe1=Parede(px1+2,py1+20,0.01,0.001,black)
 paredebaixo1=Parede(px1+20,py1+25,80,0.001,black)
 paredeladod1=Parede(px1+120,py1+20,0.01,0.001,black)
@@ -238,23 +241,6 @@ paredeladod2=Parede(px2+120,py2+20,0.01,0.001,black)
 paredeladoe3=Parede(px3+2,py3+20,0.01,0.001,black)
 paredebaixo3=Parede(px3+20,py3+25,80,0.001,black)
 paredeladod3=Parede(px3+120,py3+20,0.01,0.001,black)
-=======
-paredeladoe1=Plataforma(px1,py1+9,0.01,0.001,black)
-paredebaixo1=Plataforma(px1+10,py1+10,80,0.001,black)
-paredeladod1=Plataforma(px1+98,py1+5,0.01,0.001,black)
-
-
-
-paredeladoe2=Plataforma(px2,py2+5,0.01,0.001,black)
-paredebaixo2=Plataforma(px2+10,py2+10,80,0.001,black)
-paredeladod2=Plataforma(px2+98,py2+5,0.01,0.001,black)
-
-
-
-paredeladoe3=Plataforma(px3,py3+5,0.01,0.001,black)
-paredebaixo3=Plataforma(px3+10,py3+10,80,0.001,black)
-paredeladod3=Plataforma(px3+98,py3+5,0.01,0.001,black)
->>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
 
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
@@ -284,6 +270,7 @@ m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
 m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
 
 #adicionando nos grupos
+
 bebe_1.add(b_1)
 bebe_2.add(b_2)
 mamadeira_1.add(m_1)
@@ -331,6 +318,7 @@ jump2=False
 while not sair:
     m_2.move()
     m_1.move()
+    aparece=randrange(0,600)
     
     for event in pygame.event.get():
         
@@ -476,7 +464,7 @@ while not sair:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
                             m_bebe+=1
-                            movimentou=True
+                            movimentou2=True
                         if event.key==pygame.K_SPACE and not atirou2 and not jump2:
                            
                             pulo2=-10
@@ -531,14 +519,14 @@ while not sair:
                             b_1.rect.x+=50
                             m_1.rect.x+=50
                             m_bebe-=1
-                            movimentou=True
+                            movimentou1=True
                             
     
                     if event.key==pygame.K_a and b_1.rect.x>0 and not atirou1:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
                         m_bebe-=1
-                        movimentou=True
+                        movimentou1=True
     
                     if event.key==pygame.K_SPACE and not atirou1 and not jump1:
                         
@@ -612,13 +600,8 @@ while not sair:
             b_1.vida-=10
             b_1.health()
             
-<<<<<<< HEAD
     elif gravidadeb1_1 and not gravidadeb1_pb:
-=======
-    elif gravidadeb1_1:
->>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
         pulo1=0
-        g1=0
         jump1=False
     else:
         g1=grav*1/FPS
@@ -627,7 +610,7 @@ while not sair:
         
         
         
-#COLISAO DOS BEBES COM AS MAMADEIRAS E PLATAFORMAS            
+#COLISAO DAS MAMADEIRAS COM OS BEBES E PLATAFORMAS            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 and atirou2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
@@ -639,7 +622,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<=850 and b_1.rect.x>=50:
+            if b_1.rect.x<(900-d_mao_mao-50) and b_1.rect.x>0:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -667,7 +650,7 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<=850 and b_2.rect.x>=50:
+            if b_2.rect.x<(900-d_mao_mao-50) and b_2.rect.x>0:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
@@ -679,6 +662,15 @@ while not sair:
         m_bebe=0
         atirou1=False
         trocou_de_mao_1=False
+    comer2=pygame.sprite.spritecollide(b_2,cookie,True)
+    comer1=pygame.sprite.spritecollide(b_1,cookie,True)
+    if comer2:
+        b_2.vida+=20
+        b_2.health()
+    if comer1:
+        b_1.vida+=20
+        b_1.health()
+        
         
 #SISTEMA DE COLISAO COM PAREDES LATERAIS        
     colisao_pesquerda2=pygame.sprite.spritecollide(b_2,paredele,False)
@@ -699,17 +691,10 @@ while not sair:
                 
     if colisao_pdireita2:
         if movimentou2:
-            b_2.rect.x+=50
+            b_2.rect.x+=500
             if not atirou2:
                 m_2.rect.x+=50
-<<<<<<< HEAD
 
-=======
-        else:
-            b_2.rect.x+=5
-            if not atirou2:
-                m_2.rect.x+=5
->>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
                 
                 
                 
@@ -721,10 +706,7 @@ while not sair:
             b_1.rect.x-=50
             if not atirou1:
                 m_1.rect.x-=50
-        else:
-            b_1.rect.x-=5
-            if not atirou1:
-                m_1.rect.x-=5
+
             
             
     if colisao_pdireita1:
@@ -732,14 +714,7 @@ while not sair:
             b_1.rect.x+=50
             if not atirou1:
                 m_1.rect.x+=50
-<<<<<<< HEAD
 
-=======
-        else:
-            b_1.rect.x+=5
-            if not atirou1:
-                m_1.rect.x+=5
->>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
         
 #TELA DO JOGO
 
@@ -747,6 +722,10 @@ while not sair:
     if not inicio and not control and not rules:
         
 #        tela.blit(fundo, (0, 0))
+        if aparece==5:
+            ck=Cookie(randrange(0,800),randrange(0,450),'índice.png')
+            cookie.add(ck)
+
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -757,12 +736,10 @@ while not sair:
         paredele.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
+        cookie.draw(tela)
         m=0
         pygame.mixer.music.stop()
         
-#        timer+=1/FPS
-#        a=font3.render(str(timer), True, (black))
-#        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
         if velmax_x:
             max_x=font3.render("Velocidade maxima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
@@ -819,7 +796,7 @@ while not sair:
             else:
                 vez=font3.render("Vez do player 2", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
-
+        
             
         
 
