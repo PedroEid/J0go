@@ -137,22 +137,22 @@ class Mamadeira (pygame.sprite.Sprite):
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
 
-font = pygame.font.SysFont("Algerian", (tela_x-850))
+font = pygame.font.SysFont("Boo.Fixed Sys", (tela_x-850))
 text = font.render("Bem Vindo ao Baby Fight", True, (green))
-font1 = pygame.font.SysFont("Algerian", tela_x-872)
-font2= pygame.font.SysFont("Algerian", tela_x-880)
-font3=pygame.font.SysFont('Aharoni',tela_x-880)
-text1 = font1.render("Jogar", True, (blue))
-controles=font2.render("Controles",True,blue)
-regras=font2.render("Regras",True,blue)
+font1 = pygame.font.SysFont("segoe ui", tela_x-872)
+font2= pygame.font.SysFont("segoe ui", tela_x-880)
+font3=pygame.font.SysFont('segoe ui',tela_x-880)
+text1 = font1.render("JOGAR", True, (blue))
+controles=font2.render("CONTROLES",True,blue)
+regras=font2.render("REGRAS",True,blue)
 #Controles
-controle0=font1.render("CONTROLES", True, (black))
+controle0=font.render("CONTROLES", True, (black))
 controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
 controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
 controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
 controle4=font3.render('TECLAS W & S = VELOCIDADE DO TIRO',True,(green))
 #Regras
-regra0=font2.render("REGRAS",True,blue)
+regra0=font.render("REGRAS",True,black)
 regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
 regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
 regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
@@ -186,7 +186,7 @@ d_mao_mao = 50
 d_mao_pe = 70
 by_p=90
 #localizacoa bebe:
-x = tela_x-200
+x = tela_x-220
 y = tela_y-400
 ex = tela_x-800
 ey = tela_y-400
@@ -329,9 +329,9 @@ while not sair:
         elif inicio:
             tela.fill(azul)
             tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-            jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            jogar=tela.blit(text1,(425 - text1.get_width() // 2, 230 - text1.get_height() // 2))
             cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-            rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
+            rule=tela.blit(regras,(435 - text1.get_width() // 2, 310 - text1.get_height() // 2))
             trocou_de_mao_1=False
             trocou_de_mao_2=False
             atirou2=False        
@@ -365,11 +365,11 @@ while not sair:
                             
         elif control:
             tela.fill(gray)
-            tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
-            tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
-            tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-            tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
-            tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            tela.blit(controle0,(350 - text1.get_width() // 2, 100 - text1.get_height() // 2))
+            tela.blit(controle1,(350 - text1.get_width() // 2, 205 - text1.get_height() // 2))
+            tela.blit(controle2,(350 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+            tela.blit(controle3,(350 - text1.get_width() // 2, 355 - text1.get_height() // 2))
+            tela.blit(controle4,(350 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -384,11 +384,11 @@ while not sair:
                         
         elif rules:
             tela.fill(gray)
-            tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-            tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-            tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
-            tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-            tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+            tela.blit(regra0,(525 - text.get_width() // 2, 130 - text.get_height() // 2))
+            tela.blit(regra1,(350 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            tela.blit(regra2,(350 - text1.get_width() // 2, 250 - text1.get_height() // 2))
+            tela.blit(regra3,(350 - text1.get_width() // 2, 300 - text1.get_height() // 2))
+            tela.blit(regra4,(350 - text1.get_width() // 2, 350 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -764,10 +764,10 @@ while not sair:
             choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
-            final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
+            final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (black))
             final_jogar=font3.render("Jogar de novo", True, (blue))
         if morte:
-            tela.blit(final,(420 - text.get_width() // 2, 100 - text.get_height() // 2))
+            tela.blit(final,(400 - text.get_width() // 2, 20 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
