@@ -21,6 +21,8 @@ tela_y=500
 tela_x=900
 tela = pygame.display.set_mode([tela_x,tela_y])
 tela.fill(black)
+#fundo = pygame.image.load("ceu.png").convert()
+#fundo = pygame.transform.scale(fundo,(tela_x,tela_y))
 
 pygame.mixer.pre_init()
 pygame.init()
@@ -52,8 +54,19 @@ class Bebe (pygame.sprite.Sprite):
             pygame.draw.rect(self.image, red, [0,0,self.vida,3])
         
     
-#criando classe de plataforma       
-class Plataforma(pygame.sprite.Sprite):    
+#criando classe de plataforma
+class Plataformas(pygame.sprite.Sprite):    
+    def __init__(self,pos_x,pos_y, imagem):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(imagem)       
+        self.image = pygame.transform.scale(self.image,(120,100))
+        self.image=pygame.transform.chop(self.image, (0, 65,0 ,35 ))
+        self.image=pygame.transform.chop(self.image, (0, 0, 0, 40))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        
+class Parede(pygame.sprite.Sprite):    
     def __init__(self,pos_x,pos_y, width, height,cor):
         pygame.sprite.Sprite.__init__(self)
         # Set the background color and set it to be transparent
@@ -64,6 +77,20 @@ class Plataforma(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
+        
+        
+        
+class Cookie(pygame.sprite.Sprite):    
+    def __init__(self,pos_x,pos_y, imagem):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(imagem)       
+        self.image = pygame.transform.scale(self.image,(20,20))
+#        self.image=pygame.transform.chop(self.image, (0, 65,0 ,35 ))
+#        self.image=pygame.transform.chop(self.image, (0, 0, 0, 40))
+        self.rect = self.image.get_rect()
+        self.rect.x = pos_x
+        self.rect.y = pos_y
+        
         
 #criando classe de mamadeira    
 class Mamadeira (pygame.sprite.Sprite):
@@ -110,22 +137,22 @@ class Mamadeira (pygame.sprite.Sprite):
                 pygame.draw.aalines(tela,blue ,False,listapre)
                 
 
-font = pygame.font.SysFont("Algerian", (tela_x-850))
+font = pygame.font.SysFont("Boo.Fixed Sys", (tela_x-850))
 text = font.render("Bem Vindo ao Baby Fight", True, (green))
-font1 = pygame.font.SysFont("Algerian", tela_x-872)
-font2= pygame.font.SysFont("Algerian", tela_x-880)
-font3=pygame.font.SysFont('Aharoni',tela_x-880)
-text1 = font1.render("Jogar", True, (blue))
-controles=font2.render("Controles",True,blue)
-regras=font2.render("Regras",True,blue)
+font1 = pygame.font.SysFont("segoe ui", tela_x-872)
+font2= pygame.font.SysFont("segoe ui", tela_x-880)
+font3=pygame.font.SysFont('segoe ui',tela_x-880)
+text1 = font1.render("JOGAR", True, (blue))
+controles=font2.render("CONTROLES",True,blue)
+regras=font2.render("REGRAS",True,blue)
 #Controles
-controle0=font1.render("CONTROLES", True, (black))
+controle0=font.render("CONTROLES", True, (black))
 controle1=font3.render("SETAS PARA CIMA & BAIXO = CONTROLA A INCLINAÇÃO DO TIRO", True, (green))
 controle2=font3.render("SETAS PARA OS LADOS = CONTROLE DA DIREÇÃO DO TIRO", True, (green))
 controle3=font3.render("TECLAS A, BARRA DE ESPAÇO & D = MOVIMENTO DO BEBE",True,(green))
 controle4=font3.render('TECLAS W & S = VELOCIDADE DO TIRO',True,(green))
 #Regras
-regra0=font2.render("REGRAS",True,blue)
+regra0=font.render("REGRAS",True,black)
 regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", True, (green))
 regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
 regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
@@ -142,6 +169,7 @@ pygame.display.set_caption("Bem vindo ao jogo")
 
 #bebe=[]
 #m_normal=[]
+cookie= pygame.sprite.Group()
 bebe_1 = pygame.sprite.Group()
 mamadeira_1 = pygame.sprite.Group()
 mamadeira_2 = pygame.sprite.Group()
@@ -158,7 +186,7 @@ d_mao_mao = 50
 d_mao_pe = 70
 by_p=90
 #localizacoa bebe:
-x = tela_x-200
+x = tela_x-220
 y = tela_y-400
 ex = tela_x-800
 ey = tela_y-400
@@ -173,45 +201,46 @@ py2=randrange(200,350)
 px3=randrange(200,600)
 py3=randrange(300,350)
 
+
 #criando os bebes
 b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,70,40)
 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,70,40)
 #criando as plataformas
-p_1=Plataforma(x,y+by_p,100,10,black)
-p_2=Plataforma(ex,ey+by_p,100,10,black)
-p_baixo_direita=Plataforma(0,tela_y-10,10000,100,red)
-p_aleatoria1=Plataforma(px1,py1,100,10,black)
-p_aleatoria3=Plataforma(px3,py3,100,10,black)
-p_aleatoria2=Plataforma(px2,py2,100,10,black)
+p_1=Plataformas(x,y+by_p,'nuvens(1).png')
+p_2=Plataformas(ex,ey+by_p,'nuvens(1).png')
+p_baixo_direita=Parede(0,tela_y-10,10000,100,red)
+p_aleatoria1=Plataformas(px1,py1,'nuvens(1).png')
+p_aleatoria3=Plataformas(px3,py3,'nuvens(1).png')
+p_aleatoria2=Plataformas(px2,py2,'nuvens(1).png')
 
-paredeladoe=Plataforma(x,y+by_p+5,1,2,black)
-paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
-paredeladod=Plataforma(x+98,y+by_p+5,1,2,black)
-
-
-
-paredeladoe0=Plataforma(ex,ey+by_p+5,1,2,black)
-paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
-paredeladod0=Plataforma(ex+98,ey+by_p+5,1,2,black)
+paredeladoe=Parede(x+2,y+by_p+20,0.1,2,black)
+paredebaixo=Parede(x+20,y+by_p+25,80,0.01,black)
+paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
 
 
 
-
-paredeladoe1=Plataforma(px1,py1+9,0.01,0.001,black)
-paredebaixo1=Plataforma(px1+10,py1+10,80,0.001,black)
-paredeladod1=Plataforma(px1+98,py1+5,0.01,0.001,black)
-
-
-
-paredeladoe2=Plataforma(px2,py2+5,0.01,0.001,black)
-paredebaixo2=Plataforma(px2+10,py2+10,80,0.001,black)
-paredeladod2=Plataforma(px2+98,py2+5,0.01,0.001,black)
+paredeladoe0=Parede(ex+2,ey+by_p+20,0.1,2,black)
+paredebaixo0=Parede(ex+20,ey+by_p+25,80,0.01,red)
+paredeladod0=Parede(ex+120,ey+by_p+20,0.1,2,black)
 
 
 
-paredeladoe3=Plataforma(px3,py3+5,0.01,0.001,black)
-paredebaixo3=Plataforma(px3+10,py3+10,80,0.001,black)
-paredeladod3=Plataforma(px3+98,py3+5,0.01,0.001,black)
+
+paredeladoe1=Parede(px1+2,py1+20,0.01,0.001,black)
+paredebaixo1=Parede(px1+20,py1+25,80,0.001,black)
+paredeladod1=Parede(px1+120,py1+20,0.01,0.001,black)
+
+
+
+paredeladoe2=Parede(px2+2,py2+20,0.01,0.001,black)
+paredebaixo2=Parede(px2+20,py2+25,80,0.001,black)
+paredeladod2=Parede(px2+120,py2+20,0.01,0.001,black)
+
+
+
+paredeladoe3=Parede(px3+2,py3+20,0.01,0.001,black)
+paredebaixo3=Parede(px3+20,py3+25,80,0.001,black)
+paredeladod3=Parede(px3+120,py3+20,0.01,0.001,black)
 
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
@@ -241,6 +270,7 @@ m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
 m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
 
 #adicionando nos grupos
+
 bebe_1.add(b_1)
 bebe_2.add(b_2)
 mamadeira_1.add(m_1)
@@ -288,6 +318,7 @@ jump2=False
 while not sair:
     m_2.move()
     m_1.move()
+    aparece=randrange(0,600)
     
     for event in pygame.event.get():
         
@@ -298,9 +329,9 @@ while not sair:
         elif inicio:
             tela.fill(azul)
             tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-            jogar=tela.blit(text1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            jogar=tela.blit(text1,(425 - text1.get_width() // 2, 230 - text1.get_height() // 2))
             cont=tela.blit(controles,(416 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-            rule=tela.blit(regras,(430 - text1.get_width() // 2, 320 - text1.get_height() // 2))
+            rule=tela.blit(regras,(435 - text1.get_width() // 2, 310 - text1.get_height() // 2))
             trocou_de_mao_1=False
             trocou_de_mao_2=False
             atirou2=False        
@@ -334,11 +365,11 @@ while not sair:
                             
         elif control:
             tela.fill(gray)
-            tela.blit(controle0,(420 - text1.get_width() // 2, 130 - text1.get_height() // 2))
-            tela.blit(controle1,(420 - text1.get_width() // 2, 205 - text1.get_height() // 2))
-            tela.blit(controle2,(420 - text1.get_width() // 2, 280 - text1.get_height() // 2))
-            tela.blit(controle3,(420 - text1.get_width() // 2, 355 - text1.get_height() // 2))
-            tela.blit(controle4,(420 - text1.get_width() // 2, 430 - text1.get_height() // 2))
+            tela.blit(controle0,(350 - text1.get_width() // 2, 100 - text1.get_height() // 2))
+            tela.blit(controle1,(350 - text1.get_width() // 2, 205 - text1.get_height() // 2))
+            tela.blit(controle2,(350 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+            tela.blit(controle3,(350 - text1.get_width() // 2, 355 - text1.get_height() // 2))
+            tela.blit(controle4,(350 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -353,11 +384,11 @@ while not sair:
                         
         elif rules:
             tela.fill(gray)
-            tela.blit(regra0,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
-            tela.blit(regra1,(420 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-            tela.blit(regra2,(470 - text1.get_width() // 2, 250 - text1.get_height() // 2))
-            tela.blit(regra3,(450 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-            tela.blit(regra4,(420 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+            tela.blit(regra0,(525 - text.get_width() // 2, 130 - text.get_height() // 2))
+            tela.blit(regra1,(350 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            tela.blit(regra2,(350 - text1.get_width() // 2, 250 - text1.get_height() // 2))
+            tela.blit(regra3,(350 - text1.get_width() // 2, 300 - text1.get_height() // 2))
+            tela.blit(regra4,(350 - text1.get_width() // 2, 350 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -433,7 +464,7 @@ while not sair:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
                             m_bebe+=1
-                            movimentou=True
+                            movimentou2=True
                         if event.key==pygame.K_SPACE and not atirou2 and not jump2:
                            
                             pulo2=-10
@@ -488,14 +519,14 @@ while not sair:
                             b_1.rect.x+=50
                             m_1.rect.x+=50
                             m_bebe-=1
-                            movimentou=True
+                            movimentou1=True
                             
     
                     if event.key==pygame.K_a and b_1.rect.x>0 and not atirou1:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
                         m_bebe-=1
-                        movimentou=True
+                        movimentou1=True
     
                     if event.key==pygame.K_SPACE and not atirou1 and not jump1:
                         
@@ -559,6 +590,7 @@ while not sair:
     gravlava1=pygame.sprite.spritecollide(b_1,lava,False)       
     if gravidadeb1_pb:
         pulo1=0
+        g1=grav*1/FPS
         b_1.rect.y+=2
     elif gravlava1:
         pulo1=0
@@ -568,9 +600,8 @@ while not sair:
             b_1.vida-=10
             b_1.health()
             
-    elif gravidadeb1_1:
+    elif gravidadeb1_1 and not gravidadeb1_pb:
         pulo1=0
-        g1=0
         jump1=False
     else:
         g1=grav*1/FPS
@@ -579,7 +610,7 @@ while not sair:
         
         
         
-#COLISAO DOS BEBES COM AS MAMADEIRAS E PLATAFORMAS            
+#COLISAO DAS MAMADEIRAS COM OS BEBES E PLATAFORMAS            
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 and atirou2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
@@ -591,7 +622,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<=850 and b_1.rect.x>=50:
+            if b_1.rect.x<(900-d_mao_mao-50) and b_1.rect.x>0:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -619,7 +650,7 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<=850 and b_2.rect.x>=50:
+            if b_2.rect.x<(900-d_mao_mao-50) and b_2.rect.x>0:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
@@ -631,6 +662,15 @@ while not sair:
         m_bebe=0
         atirou1=False
         trocou_de_mao_1=False
+    comer2=pygame.sprite.spritecollide(b_2,cookie,True)
+    comer1=pygame.sprite.spritecollide(b_1,cookie,True)
+    if comer2:
+        b_2.vida+=20
+        b_2.health()
+    if comer1:
+        b_1.vida+=20
+        b_1.health()
+        
         
 #SISTEMA DE COLISAO COM PAREDES LATERAIS        
     colisao_pesquerda2=pygame.sprite.spritecollide(b_2,paredele,False)
@@ -651,13 +691,10 @@ while not sair:
                 
     if colisao_pdireita2:
         if movimentou2:
-            b_2.rect.x+=50
+            b_2.rect.x+=500
             if not atirou2:
                 m_2.rect.x+=50
-        else:
-            b_2.rect.x+=5
-            if not atirou2:
-                m_2.rect.x+=5
+
                 
                 
                 
@@ -669,10 +706,7 @@ while not sair:
             b_1.rect.x-=50
             if not atirou1:
                 m_1.rect.x-=50
-        else:
-            b_1.rect.x-=5
-            if not atirou1:
-                m_1.rect.x-=5
+
             
             
     if colisao_pdireita1:
@@ -680,15 +714,18 @@ while not sair:
             b_1.rect.x+=50
             if not atirou1:
                 m_1.rect.x+=50
-        else:
-            b_1.rect.x+=5
-            if not atirou1:
-                m_1.rect.x+=5
+
         
 #TELA DO JOGO
 
 
     if not inicio and not control and not rules:
+        
+#        tela.blit(fundo, (0, 0))
+        if aparece==5:
+            ck=Cookie(randrange(0,800),randrange(0,450),'índice.png')
+            cookie.add(ck)
+
         tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
@@ -699,12 +736,10 @@ while not sair:
         paredele.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
+        cookie.draw(tela)
         m=0
         pygame.mixer.music.stop()
         
-#        timer+=1/FPS
-#        a=font3.render(str(timer), True, (black))
-#        tela.blit(a,(100 - text1.get_width() // 2, 400 - text1.get_height() // 2))
         if velmax_x:
             max_x=font3.render("Velocidade maxima", True, (red))
             tela.blit(max_x,(350 - text.get_width() // 2, 500 - text.get_height() // 2))
@@ -729,10 +764,10 @@ while not sair:
             choro.play()
             mamadeira_2.remove(m_2)
             mamadeira_1.remove(m_1)
-            final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (green))
+            final=font1.render("Parabéns, você fez o bebe chorar, seu MONSTRO", True, (black))
             final_jogar=font3.render("Jogar de novo", True, (blue))
         if morte:
-            tela.blit(final,(420 - text.get_width() // 2, 100 - text.get_height() // 2))
+            tela.blit(final,(400 - text.get_width() // 2, 20 - text.get_height() // 2))
             jogar_de_novo=tela.blit(final_jogar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -757,11 +792,11 @@ while not sair:
                 mamadeira_2.add(m_2)
         elif m_bebe<=0 or m_bebe>=3:
             if m_bebe<=0:
-                vez=font3.render("Vez do player 1", True, (black))
+                vez=font3.render("Vez da Valentina", True, (black))
             else:
-                vez=font3.render("Vez do player 2", True, (black))
+                vez=font3.render("Vez do Enzo", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
-
+        
             
         
 
