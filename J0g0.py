@@ -197,6 +197,7 @@ p_aleatoria1=Imagens(px1,py1,'nuvens(1).png',100,10)
 p_aleatoria3=Imagens(px3,py3,'nuvens(1).png',100,10)
 p_aleatoria2=Imagens(px2,py2,'nuvens(1).png',100,10)
 
+<<<<<<< HEAD
 paredeladoe=Parede(x+2,y+by_p+20,0.1,2,black)
 paredebaixo=Parede(x+20,y+by_p+25,80,0.01,black)
 paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
@@ -206,10 +207,22 @@ paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
 paredeladoe0=Parede(ex+2,ey+by_p+20,0.1,2,black)
 paredebaixo0=Parede(ex+20,ey+by_p+25,80,0.01,red)
 paredeladod0=Parede(ex+120,ey+by_p+20,0.1,2,black)
+=======
+paredeladoe=Plataforma(x,y+by_p+5,1,2,black)
+paredebaixo=Plataforma(x+10,y+by_p+10,80,0.01,black)
+paredeladod=Plataforma(x+98,y+by_p+5,1,2,black)
+
+
+
+paredeladoe0=Plataforma(ex,ey+by_p+5,1,2,black)
+paredebaixo0=Plataforma(ex+10,ey+by_p+10,80,0.01,red)
+paredeladod0=Plataforma(ex+98,ey+by_p+5,1,2,black)
+>>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
 
 
 
 
+<<<<<<< HEAD
 paredeladoe1=Parede(px1+2,py1+20,0.01,0.001,black)
 paredebaixo1=Parede(px1+20,py1+25,80,0.001,black)
 paredeladod1=Parede(px1+120,py1+20,0.01,0.001,black)
@@ -225,6 +238,23 @@ paredeladod2=Parede(px2+120,py2+20,0.01,0.001,black)
 paredeladoe3=Parede(px3+2,py3+20,0.01,0.001,black)
 paredebaixo3=Parede(px3+20,py3+25,80,0.001,black)
 paredeladod3=Parede(px3+120,py3+20,0.01,0.001,black)
+=======
+paredeladoe1=Plataforma(px1,py1+9,0.01,0.001,black)
+paredebaixo1=Plataforma(px1+10,py1+10,80,0.001,black)
+paredeladod1=Plataforma(px1+98,py1+5,0.01,0.001,black)
+
+
+
+paredeladoe2=Plataforma(px2,py2+5,0.01,0.001,black)
+paredebaixo2=Plataforma(px2+10,py2+10,80,0.001,black)
+paredeladod2=Plataforma(px2+98,py2+5,0.01,0.001,black)
+
+
+
+paredeladoe3=Plataforma(px3,py3+5,0.01,0.001,black)
+paredebaixo3=Plataforma(px3+10,py3+10,80,0.001,black)
+paredeladod3=Plataforma(px3+98,py3+5,0.01,0.001,black)
+>>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
 
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
@@ -582,8 +612,13 @@ while not sair:
             b_1.vida-=10
             b_1.health()
             
+<<<<<<< HEAD
     elif gravidadeb1_1 and not gravidadeb1_pb:
+=======
+    elif gravidadeb1_1:
+>>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
         pulo1=0
+        g1=0
         jump1=False
     else:
         g1=grav*1/FPS
@@ -667,7 +702,14 @@ while not sair:
             b_2.rect.x+=50
             if not atirou2:
                 m_2.rect.x+=50
+<<<<<<< HEAD
 
+=======
+        else:
+            b_2.rect.x+=5
+            if not atirou2:
+                m_2.rect.x+=5
+>>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
                 
                 
                 
@@ -690,7 +732,14 @@ while not sair:
             b_1.rect.x+=50
             if not atirou1:
                 m_1.rect.x+=50
+<<<<<<< HEAD
 
+=======
+        else:
+            b_1.rect.x+=5
+            if not atirou1:
+                m_1.rect.x+=5
+>>>>>>> d1ec3b6a217e9a04f736454b9460de1349adf915
         
 #TELA DO JOGO
 
