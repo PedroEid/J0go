@@ -792,9 +792,9 @@ while not sair:
                 mamadeira_2.add(m_2)
         elif m_bebe<=0 or m_bebe>=3:
             if m_bebe<=0:
-                vez=font3.render("Vez do player 1", True, (black))
+                vez=font3.render("Vez da Valentina", True, (black))
             else:
-                vez=font3.render("Vez do player 2", True, (black))
+                vez=font3.render("Vez do Enzo", True, (black))
             tela.blit(vez,(450 - text1.get_width() // 2, 50 - text1.get_height() // 2))
         
             
