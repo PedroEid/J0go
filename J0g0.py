@@ -21,8 +21,8 @@ tela_y=500
 tela_x=900
 tela = pygame.display.set_mode([tela_x,tela_y])
 tela.fill(black)
-#fundo = pygame.image.load("ceu.png").convert()
-#fundo = pygame.transform.scale(fundo,(tela_x,tela_y))
+fundo = pygame.image.load("ceu novo.png").convert()
+fundo = pygame.transform.scale(fundo,(tela_x,tela_y))
 
 pygame.mixer.pre_init()
 pygame.init()
@@ -85,8 +85,6 @@ class Cookie(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(imagem)       
         self.image = pygame.transform.scale(self.image,(20,20))
-#        self.image=pygame.transform.chop(self.image, (0, 65,0 ,35 ))
-#        self.image=pygame.transform.chop(self.image, (0, 0, 0, 40))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -160,36 +158,84 @@ regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,gree
 voltar=font2.render("VOLTAR",True,black)
 
                 
-    # Criando tela.
+#CRIANDO TELA
 
 pygame.init()
 
 tela = pygame.display.set_mode([tela_x,tela_y])
 pygame.display.set_caption("Bem vindo ao jogo")
 
-#bebe=[]
-#m_normal=[]
+
+#CRIANDO GRUPOS
+
+
 cookie= pygame.sprite.Group()
 bebe_1 = pygame.sprite.Group()
 mamadeira_1 = pygame.sprite.Group()
 mamadeira_2 = pygame.sprite.Group()
 bebe_2 = pygame.sprite.Group()
-#plataforma=[]
+
 plataforma_group=pygame.sprite.Group()
 paredeb=pygame.sprite.Group()
 paredele=pygame.sprite.Group()
 paredeld=pygame.sprite.Group()
 lava=pygame.sprite.Group()
-#costantes
-#dimensoes do bebe
-d_mao_mao = 50
-d_mao_pe = 70
-by_p=90
-#localizacoa bebe:
+
+
+
+#CONSTANTES E VARIAVIES
+    #DIMENSOES DOS BEBES
+    
+    
+mamadeira_bebe_y = 45
+mamadeira_bebe_x = 70
+plataforma_bebe_y=90
+
+    #FALSE/TRUE
+control=False
+trocou_de_mao_1=False
+trocou_de_mao_2=False
+atirou2=False
+atirou1=False
+rules=False
+sair=False
+inicio=True
+movimento_1=False
+velmax_x=False
+velmin_x=False
+morte=False
+jump2=False
+jump1=False
+
+    #MOVIMENTO DOS BEBES
+m_bebe=0
+
+
+    #GRAVIDADE
+pulo2=0
+pulo1=0
+g1=0
+g2=0
+
+#timer=0
+
+
+
+
+
+    #LOCALIZACOES DOS BEBES:
+
+
+
 x = tela_x-220
 y = tela_y-400
 ex = tela_x-800
 ey = tela_y-400
+
+
+    #LOCALIZACOES DAS PLATAFORMAS
+    
+    
 px1=randrange(200,600)
 py1=randrange(50,200)
 
@@ -201,47 +247,71 @@ py2=randrange(200,350)
 px3=randrange(200,600)
 py3=randrange(300,350)
 
+#CRIANDO
+    #BEBES
 
-#criando os bebes
+
 b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,70,40)
 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,70,40)
-#criando as plataformas
-p_1=Plataformas(x,y+by_p,'nuvens(1).png')
-p_2=Plataformas(ex,ey+by_p,'nuvens(1).png')
-p_baixo_direita=Parede(0,tela_y-10,10000,100,red)
+
+    #MAMADEIRAS
+
+m_1= Mamadeira('mamadeira2.png',(x+mamadeira_bebe_x),(y+mamadeira_bebe_y),10,(-10),(grav))
+m_2=Mamadeira('mamadeira2.png',(ex+mamadeira_bebe_x),(ey+mamadeira_bebe_y),8,(-10),(grav))
+
+    #PLATAFORMAS
+
+
+p_1=Plataformas(x,y+plataforma_bebe_y,'nuvens(1).png')
+p_2=Plataformas(ex,ey+plataforma_bebe_y,'nuvens(1).png')
 p_aleatoria1=Plataformas(px1,py1,'nuvens(1).png')
 p_aleatoria3=Plataformas(px3,py3,'nuvens(1).png')
 p_aleatoria2=Plataformas(px2,py2,'nuvens(1).png')
 
-paredeladoe=Parede(x+2,y+by_p+20,0.1,2,black)
-paredebaixo=Parede(x+20,y+by_p+25,80,0.01,black)
-paredeladod=Parede(x+120,y+by_p+20,0.1,2,black)
+
+    #LAVA
+p_baixo_direita=Parede(0,tela_y-10,10000,100,red)
 
 
 
-paredeladoe0=Parede(ex+2,ey+by_p+20,0.1,2,black)
-paredebaixo0=Parede(ex+20,ey+by_p+25,80,0.01,red)
-paredeladod0=Parede(ex+120,ey+by_p+20,0.1,2,black)
+    #PAREDES
+
+ 
+paredeladoe=Parede(x+2,y+plataforma_bebe_y+20,0.1,2,black)
+paredebaixo=Parede(x+15,y+plataforma_bebe_y+25,90,0.01,black)
+paredeladod=Parede(x+120,y+plataforma_bebe_y+20,0.1,2,black)
+
+
+
+paredeladoe0=Parede(ex+2,ey+plataforma_bebe_y+20,0.1,2,black)
+paredebaixo0=Parede(ex+15,ey+plataforma_bebe_y+25,90,0.01,black)
+paredeladod0=Parede(ex+120,ey+plataforma_bebe_y+20,0.1,2,black)
 
 
 
 
 paredeladoe1=Parede(px1+2,py1+20,0.01,0.001,black)
-paredebaixo1=Parede(px1+20,py1+25,80,0.001,black)
+paredebaixo1=Parede(px1+15,py1+25,90,0.001,black)
 paredeladod1=Parede(px1+120,py1+20,0.01,0.001,black)
 
 
 
 paredeladoe2=Parede(px2+2,py2+20,0.01,0.001,black)
-paredebaixo2=Parede(px2+20,py2+25,80,0.001,black)
+paredebaixo2=Parede(px2+15,py2+25,90,0.001,black)
 paredeladod2=Parede(px2+120,py2+20,0.01,0.001,black)
 
 
 
 paredeladoe3=Parede(px3+2,py3+20,0.01,0.001,black)
-paredebaixo3=Parede(px3+20,py3+25,80,0.001,black)
+paredebaixo3=Parede(px3+15,py3+25,90,0.001,black)
 paredeladod3=Parede(px3+120,py3+20,0.01,0.001,black)
 
+
+#ADICIONANDO AOS GRUPOS
+
+
+    #PAREDE
+    
 paredeld.add(paredeladod)
 paredele.add(paredeladoe)
 paredeb.add(paredebaixo)
@@ -257,67 +327,56 @@ paredeb.add(paredebaixo2)
 paredeld.add(paredeladod3)
 paredele.add(paredeladoe3)
 paredeb.add(paredebaixo3)
+
+    #LAVA
+    
 lava.add(p_baixo_direita)
 
-
+    #PLATAFORMA
+    
 plataforma_group.add(p_aleatoria2)
 plataforma_group.add(p_aleatoria3)
 plataforma_group.add(p_aleatoria1)
 plataforma_group.add(p_1)
 plataforma_group.add(p_2)
-#criando mamadeiras
-m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
-m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
 
-#adicionando nos grupos
-
+    #BEBES
+    
 bebe_1.add(b_1)
 bebe_2.add(b_2)
+
+
+    #MAMADEIRAS
+    
+    
 mamadeira_1.add(m_1)
-
 mamadeira_2.add(m_2)
-#    ex=x
-#    ey=y
 
-#    adicionando musica de fundo
+
+#MUSICA DE FUNDO
+
+
 pygame.mixer.music.load('babyfight.mp3')
 pygame.mixer.music.play(-1)
 
  
-control=False
-trocou_de_mao_1=False
-trocou_de_mao_2=False
-atirou2=False
-atirou1=False
-rules=False
+#VELOCIDADE INICIAL DA MAMADEIRA
 
-sair=False
-inicio=True
-movimento_1=False
-m_bebe=0
-b=0
 
-#Looping principal
 vy_inicial2=m_2.vy
 vy_inicial1=m_1.vy
 vx_inicial2=m_2.vx
 vx_inicial1=m_1.vx
 
-
-velmax_x=False
-velmin_x=False
-pulo2=0
-pulo1=0
-g1=0
-g2=0
-morte=False
-#timer=0
-pygame.mixer.music.play(-1)
-jump1=False
-jump2=False
+#LOOPING PRICIPAL
 while not sair:
+    # MOVIMENTO DA MAMADEIRA
+    
     m_2.move()
     m_1.move()
+    
+    #APARECIMENTO DO COOKIE
+    
     aparece=randrange(0,600)
     
     for event in pygame.event.get():
@@ -325,7 +384,7 @@ while not sair:
         if event.type == pygame.QUIT:
                 sair = True
 
-#TElA DE INICIO
+        #TElA DE INICIO
         elif inicio:
             tela.fill(azul)
             tela.blit(text,(420 - text.get_width() // 2, 130 - text.get_height() // 2))
@@ -337,7 +396,7 @@ while not sair:
             atirou2=False        
             movimento_1=False
             m_bebe=0
-            b=0
+
 
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -359,7 +418,7 @@ while not sair:
                             
                             
                             
-#TELA DE CONTROLES 
+        #TELA DE CONTROLES 
                             
                             
                             
@@ -378,7 +437,7 @@ while not sair:
                         inicio=True
                         
                         
-#TELA DE REGRAS
+        #TELA DE REGRAS
                         
                         
                         
@@ -399,12 +458,15 @@ while not sair:
                         
             
                         
-#MOVIMENTO DOS PERSONAGENS                        
+                               
         elif not morte:
             velmax_x=False
             velmin_x=False           
             movimentou2=False
             movimentou1=False
+            
+            
+            #MOVIMENTO DOS PERSONAGENS 
             if not movimento_1:
                 pode=True
                 
@@ -416,13 +478,13 @@ while not sair:
                             
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou2:
-                            m_2.rect.x-=d_mao_mao+20
+                            m_2.rect.x-=mamadeira_bebe_y+30
                             b_2.image=pygame.transform.flip(b_2.image, True, False)
                             m_2.vx=-m_2.vx
                             trocou_de_mao_2=True
                             
                         if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou2:
-                                m_2.rect.x+=d_mao_mao+20
+                                m_2.rect.x+=mamadeira_bebe_y+30
                                 m_2.vx=-m_2.vx
                                 b_2.image=pygame.transform.flip(b_2.image, True, False)
                                 trocou_de_mao_2=False
@@ -440,7 +502,7 @@ while not sair:
                                     m_2.vx+=2
                             else:
                                 velmax_x=True
-                        if event.key==pygame.K_d and b_2.rect.x<(900-d_mao_mao-50) and not atirou2:
+                        if event.key==pygame.K_d and b_2.rect.x<(900-mamadeira_bebe_y-50) and not atirou2:
                                 
                             
                                     b_2.rect.x+=50
@@ -483,12 +545,12 @@ while not sair:
                         m_1.atira()
                         atirou1=True                        
                     if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou1:
-                        m_1.rect.x-=d_mao_mao+20
+                        m_1.rect.x-=mamadeira_bebe_y+30
                         m_1.vx=-m_1.vx
                         b_1.image=pygame.transform.flip(b_1.image, True, False)
                         trocou_de_mao_1=True
                     if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou1:
-                            m_1.rect.x+=d_mao_mao+20
+                            m_1.rect.x+=mamadeira_bebe_y+30
                             m_1.vx=-m_1.vx
                             b_1.image=pygame.transform.flip(b_1.image, True, False)
                             trocou_de_mao_1=False
@@ -515,7 +577,7 @@ while not sair:
     
                     if event.key==pygame.K_DOWN and not atirou1:
                         m_1.vy+=tela_y-498
-                    if event.key==pygame.K_d and b_1.rect.x<(900-d_mao_mao-50) and not atirou1:
+                    if event.key==pygame.K_d and b_1.rect.x<(700) and not atirou1:
                             b_1.rect.x+=50
                             m_1.rect.x+=50
                             m_bebe-=1
@@ -548,7 +610,7 @@ while not sair:
 
     b_2.rect.y+=pulo2
     if not atirou2:
-        m_2.rect.y=b_2.rect.y+d_mao_mao-10    
+        m_2.rect.y=b_2.rect.y+mamadeira_bebe_y    
     gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
     gravidadeb2_pb=pygame.sprite.spritecollide(b_2,paredeb, False)
 
@@ -578,7 +640,7 @@ while not sair:
 
     b_1.rect.y+=pulo1
     if not atirou1:
-        m_1.rect.y=b_1.rect.y+d_mao_mao-10
+        m_1.rect.y=b_1.rect.y+mamadeira_bebe_y
         
         
         
@@ -614,15 +676,15 @@ while not sair:
     colisao_b_m2= pygame.sprite.spritecollide(b_1,mamadeira_2, False)
     colisao_m_p2=pygame.sprite.spritecollide(m_2,plataforma_group, False)
     if colisao_b_m2 or colisao_m_p2 and atirou2 or m_2.rect.x>900 or m_2.rect.x<0 or m_2.rect.y<-500:
-        m_2.rect.x=b_2.rect.x+d_mao_pe
-        m_2.rect.y=b_2.rect.y+d_mao_mao-10
+        m_2.rect.x=b_2.rect.x+mamadeira_bebe_x
+        m_2.rect.y=b_2.rect.y+mamadeira_bebe_y
         m_2.parar_atirar()
         if trocou_de_mao_2:
             b_2.image=pygame.transform.flip(b_2.image, True, False)
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<(900-d_mao_mao-50) and b_1.rect.x>0:
+            if b_1.rect.x<(700) and b_1.rect.x>0:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -642,15 +704,15 @@ while not sair:
     colisao_b_m1 = pygame.sprite.spritecollide(b_2,mamadeira_1, False)
     colisao_m_p1=pygame.sprite.spritecollide(m_1,plataforma_group, False)
     if colisao_b_m1 or colisao_m_p1 and atirou1 or m_1.rect.x>900 or m_1.rect.x<0 or m_1.rect.y<-500:
-        m_1.rect.x=b_1.rect.x+d_mao_pe
-        m_1.rect.y=b_1.rect.y+d_mao_mao-10
+        m_1.rect.x=b_1.rect.x+mamadeira_bebe_x
+        m_1.rect.y=b_1.rect.y+mamadeira_bebe_y
         m_1.parar_atirar()
         if trocou_de_mao_1:
             b_1.image=pygame.transform.flip(b_1.image, True, False)
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<(900-d_mao_mao-50) and b_2.rect.x>0:
+            if b_2.rect.x<(700) and b_2.rect.x>0:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
@@ -662,13 +724,19 @@ while not sair:
         m_bebe=0
         atirou1=False
         trocou_de_mao_1=False
+        
+        
+        
+#COLISAO COOKIE E BEBES
+
+        
     comer2=pygame.sprite.spritecollide(b_2,cookie,True)
     comer1=pygame.sprite.spritecollide(b_1,cookie,True)
     if comer2:
-        b_2.vida+=20
+        b_2.vida+=40
         b_2.health()
     if comer1:
-        b_1.vida+=20
+        b_1.vida+=40
         b_1.health()
         
         
@@ -701,6 +769,8 @@ while not sair:
         
     colisao_pesquerda1=pygame.sprite.spritecollide(b_1,paredele,False)
     colisao_pdireita1=pygame.sprite.spritecollide(b_1,paredeld,False)
+    
+    
     if colisao_pesquerda1:
         if movimentou1:
             b_1.rect.x-=50
@@ -720,16 +790,17 @@ while not sair:
 
 
     if not inicio and not control and not rules:
-        
-#        tela.blit(fundo, (0, 0))
+        lava.draw(tela)
+        tela.blit(fundo, (0, 0))
         if aparece==5:
+            #CRIACAO DOS COOKIES
             ck=Cookie(randrange(0,800),randrange(0,450),'índice.png')
             cookie.add(ck)
 
-        tela.fill(white)
+#        tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
-        lava.draw(tela)
+
         plataforma_group.draw(tela)
         paredeb.draw(tela)
         paredeld.draw(tela)
@@ -772,6 +843,7 @@ while not sair:
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
             if jogar_de_novo.collidepoint(mouse_posicao):
+                cookie= pygame.sprite.Group()
                 choro.stop()
                 morte=False
                 musica.stop()
@@ -783,8 +855,8 @@ while not sair:
                 b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
                 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
                 #criando mamadeiras
-                m_1= Mamadeira('mamadeira2.png',(x+d_mao_pe),(y+d_mao_mao),10,(-10),(grav))
-                m_2=Mamadeira('mamadeira2.png',(ex+d_mao_pe),(ey+d_mao_mao),8,(-10),(grav))
+                m_1= Mamadeira('mamadeira2.png',(x+mamadeira_bebe_x),(y+mamadeira_bebe_y),10,(-10),(grav))
+                m_2=Mamadeira('mamadeira2.png',(ex+mamadeira_bebe_x),(ey+mamadeira_bebe_y),8,(-10),(grav))
                 #adicionando nos grupos
                 bebe_1.add(b_1)
                 bebe_2.add(b_2)
