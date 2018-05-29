@@ -502,7 +502,7 @@ while not sair:
                                     m_2.vx+=2
                             else:
                                 velmax_x=True
-                        if event.key==pygame.K_d and b_2.rect.x<(900-mamadeira_bebe_y-50) and not atirou2:
+                        if event.key==pygame.K_d and b_2.rect.x<(781) and not atirou2:
                                 
                             
                                     b_2.rect.x+=50
@@ -577,7 +577,7 @@ while not sair:
     
                     if event.key==pygame.K_DOWN and not atirou1:
                         m_1.vy+=tela_y-498
-                    if event.key==pygame.K_d and b_1.rect.x<(700) and not atirou1:
+                    if event.key==pygame.K_d and b_1.rect.x<(781) and not atirou1:
                             b_1.rect.x+=50
                             m_1.rect.x+=50
                             m_bebe-=1
@@ -684,7 +684,7 @@ while not sair:
         if colisao_b_m2:
             b_1.vida-=20
             b_1.health()
-            if b_1.rect.x<(700) and b_1.rect.x>0:
+            if b_1.rect.x<(781) and b_1.rect.x>0:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
@@ -712,7 +712,7 @@ while not sair:
         if colisao_b_m1:
             b_2.vida-=20
             b_2.health()
-            if b_2.rect.x<(700) and b_2.rect.x>0:
+            if b_2.rect.x<(781) and b_2.rect.x>0:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
