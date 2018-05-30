@@ -456,13 +456,13 @@ while not sair:
                             
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou2:
-                            m_2.rect.x-=mamadeira_bebe_y+30
+                            m_2.rect.x-=mamadeira_bebe_y+20
                             b_2.image=pygame.transform.flip(b_2.image, True, False)
                             m_2.vx=-m_2.vx
                             trocou_de_mao_2=True
                             
                         if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou2:
-                                m_2.rect.x+=mamadeira_bebe_y+30
+                                m_2.rect.x+=mamadeira_bebe_y+20
                                 m_2.vx=-m_2.vx
                                 b_2.image=pygame.transform.flip(b_2.image, True, False)
                                 trocou_de_mao_2=False
@@ -525,12 +525,12 @@ while not sair:
                         m_1.atira()
                         atirou1=True                        
                     if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou1:
-                        m_1.rect.x-=mamadeira_bebe_y+30
+                        m_1.rect.x-=mamadeira_bebe_y+20
                         m_1.vx=-m_1.vx
                         b_1.image=pygame.transform.flip(b_1.image, True, False)
                         trocou_de_mao_1=True
                     if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou1:
-                            m_1.rect.x+=mamadeira_bebe_y+30
+                            m_1.rect.x+=mamadeira_bebe_y+20
                             m_1.vx=-m_1.vx
                             b_1.image=pygame.transform.flip(b_1.image, True, False)
                             trocou_de_mao_1=False
