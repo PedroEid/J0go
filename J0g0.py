@@ -177,8 +177,7 @@ bebe_2 = pygame.sprite.Group()
 
 plataforma_group=pygame.sprite.Group()
 paredeb=pygame.sprite.Group()
-paredele=pygame.sprite.Group()
-paredeld=pygame.sprite.Group()
+paredebebe=pygame.sprite.Group()
 lava=pygame.sprite.Group()
 
 
@@ -277,56 +276,33 @@ p_baixo_direita=Parede(0,tela_y-10,10000,100,red)
     #PAREDES
 
  
-paredeladoe=Parede(x+2,y+plataforma_bebe_y+20,0.1,2,black)
-paredebaixo=Parede(x+15,y+plataforma_bebe_y+25,90,0.01,black)
-paredeladod=Parede(x+120,y+plataforma_bebe_y+20,0.1,2,black)
 
 
-
-paredeladoe0=Parede(ex+2,ey+plataforma_bebe_y+20,0.1,2,black)
-paredebaixo0=Parede(ex+15,ey+plataforma_bebe_y+25,90,0.01,black)
-paredeladod0=Parede(ex+120,ey+plataforma_bebe_y+20,0.1,2,black)
-
+        #BEBES
+paredebebe1=Parede(x+10,y+plataforma_bebe_y-10,65,15,red)
+paredebebe2=Parede(ex+10,ey+plataforma_bebe_y-10,65,15,red)
 
 
-
-paredeladoe1=Parede(px1+2,py1+20,0.01,0.001,black)
-paredebaixo1=Parede(px1+15,py1+25,90,0.001,black)
-paredeladod1=Parede(px1+120,py1+20,0.01,0.001,black)
-
-
-
-paredeladoe2=Parede(px2+2,py2+20,0.01,0.001,black)
-paredebaixo2=Parede(px2+15,py2+25,90,0.001,black)
-paredeladod2=Parede(px2+120,py2+20,0.01,0.001,black)
+        #PLATAFORMAS   
+paredebaixo=Parede(x+15,y+plataforma_bebe_y,90,1,black)
+paredebaixo0=Parede(ex+15,ey+plataforma_bebe_y,90,1,black)
+paredebaixo1=Parede(px1+15,py1+2,90,0.001,black)
+paredebaixo2=Parede(px2+15,py2+2,90,0.001,black)
+paredebaixo3=Parede(px3+15,py3+2,90,0.001,black)
 
 
-
-paredeladoe3=Parede(px3+2,py3+20,0.01,0.001,black)
-paredebaixo3=Parede(px3+15,py3+25,90,0.001,black)
-paredeladod3=Parede(px3+120,py3+20,0.01,0.001,black)
 
 
 #ADICIONANDO AOS GRUPOS
 
 
     #PAREDE
-    
-paredeld.add(paredeladod)
-paredele.add(paredeladoe)
 paredeb.add(paredebaixo)
-paredeld.add(paredeladod0)
-paredele.add(paredeladoe0)
 paredeb.add(paredebaixo0)
-paredeld.add(paredeladod1)
-paredele.add(paredeladoe1)
 paredeb.add(paredebaixo1)
-paredeld.add(paredeladod2)
-paredele.add(paredeladoe2)
 paredeb.add(paredebaixo2)
-paredeld.add(paredeladod3)
-paredele.add(paredeladoe3)
 paredeb.add(paredebaixo3)
+
 
     #LAVA
     
@@ -507,6 +483,7 @@ while not sair:
                             
                                     b_2.rect.x+=50
                                     m_2.rect.x+=50
+                                    paredebebe2.rect.x=b_2.rect.x+10
                                     m_bebe+=1
                                     movimentou2=True
                             
@@ -525,6 +502,7 @@ while not sair:
                         if event.key==pygame.K_a and b_2.rect.x>0 and not atirou2:
                             b_2.rect.x-=50
                             m_2.rect.x-=50
+                            paredebebe2.rect.x=b_2.rect.x+10
                             m_bebe+=1
                             movimentou2=True
                         if event.key==pygame.K_SPACE and not atirou2 and not jump2:
@@ -580,6 +558,7 @@ while not sair:
                     if event.key==pygame.K_d and b_1.rect.x<(781) and not atirou1:
                             b_1.rect.x+=50
                             m_1.rect.x+=50
+                            paredebebe1.rect.x=b_1.rect.x+10
                             m_bebe-=1
                             movimentou1=True
                             
@@ -587,6 +566,7 @@ while not sair:
                     if event.key==pygame.K_a and b_1.rect.x>0 and not atirou1:
                         b_1.rect.x-=50
                         m_1.rect.x-=50
+                        paredebebe1.rect.x=b_1.rect.x+10
                         m_bebe-=1
                         movimentou1=True
     
@@ -609,17 +589,15 @@ while not sair:
                     
 
     b_2.rect.y+=pulo2
+    paredebebe2.rect.y=b_2.rect.y+90
     if not atirou2:
-        m_2.rect.y=b_2.rect.y+mamadeira_bebe_y    
-    gravidadeb2_1=pygame.sprite.spritecollide(b_2,plataforma_group, False)    
-    gravidadeb2_pb=pygame.sprite.spritecollide(b_2,paredeb, False)
-
+        m_2.rect.y=b_2.rect.y+mamadeira_bebe_y 
+        
+        
+        
+    gravidadeb2_1=pygame.sprite.spritecollide(paredebebe2,paredeb, False)    
     gravlava2=pygame.sprite.spritecollide(b_2,lava,False)        
-    if gravidadeb2_pb:
-            pulo2=0
-            b_2.rect.y+=2
-            m_2.rect.y+=2
-    elif gravlava2:
+    if gravlava2:
         pulo2=0
         jump2=False
         if not morte:
@@ -627,7 +605,7 @@ while not sair:
             b_2.vida-=10
             b_2.health()
             
-    elif gravidadeb2_1:
+    elif gravidadeb2_1 and pulo2>=0:
         pulo2=0
         jump2=False
     else:
@@ -639,6 +617,7 @@ while not sair:
 
 
     b_1.rect.y+=pulo1
+    paredebebe1.rect.y=b_1.rect.y+90
     if not atirou1:
         m_1.rect.y=b_1.rect.y+mamadeira_bebe_y
         
@@ -647,14 +626,9 @@ while not sair:
         
         
         
-    gravidadeb1_1=pygame.sprite.spritecollide(b_1,plataforma_group, False)    
-    gravidadeb1_pb=pygame.sprite.spritecollide(b_1,paredeb, False)
+    gravidadeb1_1=pygame.sprite.spritecollide(paredebebe1,paredeb, False)    
     gravlava1=pygame.sprite.spritecollide(b_1,lava,False)       
-    if gravidadeb1_pb:
-        pulo1=0
-        g1=grav*1/FPS
-        b_1.rect.y+=2
-    elif gravlava1:
+    if gravlava1:
         pulo1=0
         jump1=False
         if not morte:
@@ -662,7 +636,7 @@ while not sair:
             b_1.vida-=10
             b_1.health()
             
-    elif gravidadeb1_1 and not gravidadeb1_pb:
+    elif gravidadeb1_1 and pulo1>=0:
         pulo1=0
         jump1=False
     else:
@@ -688,9 +662,11 @@ while not sair:
                 if trocou_de_mao_2:
                     b_1.rect.x-=50
                     m_1.rect.x-=50
+                    paredebebe1.rect.x=b_1.rect.x+10
                 elif not trocou_de_mao_2:
                     b_1.rect.x+=50
                     m_1.rect.x+=50
+                    paredebebe1.rect.x=b_1.rect.x+10
         m_2.vy=vy_inicial2
         m_2.vx=vx_inicial2
         m_bebe=3
@@ -716,9 +692,11 @@ while not sair:
                 if trocou_de_mao_1:
                     b_2.rect.x-=50
                     m_2.rect.x-=50
+                    paredebebe2.rect.x=b_2.rect.x+10
                 elif not trocou_de_mao_1:
                     b_2.rect.x+=50
                     m_2.rect.x+=50
+                    paredebebe2.rect.x=b_2.rect.x+10
         m_1.vy=vy_inicial1
         m_1.vx=vx_inicial1
         m_bebe=0
@@ -741,49 +719,12 @@ while not sair:
         
         
 #SISTEMA DE COLISAO COM PAREDES LATERAIS        
-    colisao_pesquerda2=pygame.sprite.spritecollide(b_2,paredele,False)
-    colisao_pdireita2=pygame.sprite.spritecollide(b_2,paredeld,False)
-                        
-                        
-                        
-    if colisao_pesquerda2:
-        if movimentou2:
-            b_2.rect.x-=50
-            if not atirou2:
-                m_2.rect.x-=50
-        else:
-            b_2.rect.x-=5
-            if not atirou2:
-                m_2.rect.x-=5
-                
-                
-    if colisao_pdireita2:
-        if movimentou2:
-            b_2.rect.x+=500
-            if not atirou2:
-                m_2.rect.x+=50
+
 
                 
                 
                 
         
-    colisao_pesquerda1=pygame.sprite.spritecollide(b_1,paredele,False)
-    colisao_pdireita1=pygame.sprite.spritecollide(b_1,paredeld,False)
-    
-    
-    if colisao_pesquerda1:
-        if movimentou1:
-            b_1.rect.x-=50
-            if not atirou1:
-                m_1.rect.x-=50
-
-            
-            
-    if colisao_pdireita1:
-        if movimentou1:
-            b_1.rect.x+=50
-            if not atirou1:
-                m_1.rect.x+=50
 
         
 #TELA DO JOGO
@@ -800,11 +741,7 @@ while not sair:
 #        tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
-
         plataforma_group.draw(tela)
-        paredeb.draw(tela)
-        paredeld.draw(tela)
-        paredele.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
         cookie.draw(tela)
@@ -854,9 +791,12 @@ while not sair:
                 bebe_1 = pygame.sprite.Group()
                 b_1= Bebe('bebe bonitinho0.png',x,y-10,tela,80,40,40)
                 b_2= Bebe('bebe bonitinho(3).png',ex,ey-10,tela,80,40,40)
-                #criando mamadeiras
+                #Recriando mamadeiras
                 m_1= Mamadeira('mamadeira2.png',(x+mamadeira_bebe_x),(y+mamadeira_bebe_y),10,(-10),(grav))
                 m_2=Mamadeira('mamadeira2.png',(ex+mamadeira_bebe_x),(ey+mamadeira_bebe_y),8,(-10),(grav))
+                
+                paredebebe1=Parede(x+10,y+plataforma_bebe_y,70,5,red)
+                paredebebe2=Parede(ex+10,ey+plataforma_bebe_y,70,5,red)
                 #adicionando nos grupos
                 bebe_1.add(b_1)
                 bebe_2.add(b_2)
