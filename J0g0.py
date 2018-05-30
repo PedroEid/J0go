@@ -99,6 +99,8 @@ class Mamadeira (pygame.sprite.Sprite):
         self.g = g
         self.image = pygame.image.load(immadeira)
         self.image = pygame.transform.scale(self.image,(40,40))
+        self.image=pygame.transform.chop(self.image, (30, 26, 30,30 ))
+        self.image=pygame.transform.chop(self.image, (0, 0, 0,15 ))
         self.rect = self.image.get_rect()
         self.rect.x = pos_x
         self.rect.y = pos_y
@@ -121,8 +123,8 @@ class Mamadeira (pygame.sprite.Sprite):
     def pre_move(self,tela):
         lista=[]
         self.pre_vy=self.vy 
-        self.pre_x=self.rect.x+10
-        self.pre_y=self.rect.y+25
+        self.pre_x=self.rect.x+20
+        self.pre_y=self.rect.y+5
         self.pre_vx=self.vx
         lista.append([self.pre_x,self.pre_y])    
         for i in range(20):
@@ -186,7 +188,7 @@ lava=pygame.sprite.Group()
     #DIMENSOES DOS BEBES
     
     
-mamadeira_bebe_y = 45
+mamadeira_bebe_y = 60
 mamadeira_bebe_x = 70
 plataforma_bebe_y=90
 
@@ -284,11 +286,11 @@ paredebebe2=Parede(ex+10,ey+plataforma_bebe_y-10,65,15,red)
 
 
         #PLATAFORMAS   
-paredebaixo=Parede(x+15,y+plataforma_bebe_y,90,1,black)
-paredebaixo0=Parede(ex+15,ey+plataforma_bebe_y,90,1,black)
-paredebaixo1=Parede(px1+15,py1+2,90,0.001,black)
-paredebaixo2=Parede(px2+15,py2+2,90,0.001,black)
-paredebaixo3=Parede(px3+15,py3+2,90,0.001,black)
+paredebaixo=Parede(x+15,y+plataforma_bebe_y,90,5,black)
+paredebaixo0=Parede(ex+15,ey+plataforma_bebe_y,90,5,black)
+paredebaixo1=Parede(px1+15,py1+2,90,5,black)
+paredebaixo2=Parede(px2+15,py2+2,90,5,black)
+paredebaixo3=Parede(px3+15,py3+2,90,5,black)
 
 
 
