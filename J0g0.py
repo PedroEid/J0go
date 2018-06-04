@@ -746,9 +746,9 @@ while not sair:
 #        tela.fill(white)
         bebe_1.draw(tela)
         bebe_2.draw(tela)
-        plataforma_group.draw(tela)
         mamadeira_1.draw(tela)
         mamadeira_2.draw(tela)
+        plataforma_group.draw(tela)
         cookie.draw(tela)
         m=0
         pygame.mixer.music.stop()
