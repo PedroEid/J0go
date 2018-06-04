@@ -157,6 +157,7 @@ regra1=font3.render("NESSE JOGO O SEU OBJETIVO É ACABAR COM OS OUTROS BEBES,", 
 regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
 regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
 regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
+regra5=font3.render('CASO CAIA NA LAVA, PERDERÁ VIDA', True, green)
 voltar=font2.render("VOLTAR",True,black)
 
                 
@@ -425,7 +426,8 @@ while not sair:
             tela.blit(regra1,(350 - text1.get_width() // 2, 230 - text1.get_height() // 2))
             tela.blit(regra2,(350 - text1.get_width() // 2, 250 - text1.get_height() // 2))
             tela.blit(regra3,(350 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-            tela.blit(regra4,(350 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+            tela.blit(regra5,(350 - text1.get_width() // 2, 350 - text1.get_height() // 2))
+            tela.blit(regra4,(350 - text1.get_width() // 2, 400 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
@@ -456,13 +458,13 @@ while not sair:
                             
     
                         if event.key==pygame.K_LEFT and not trocou_de_mao_2 and not atirou2:
-                            m_2.rect.x-=mamadeira_bebe_y+20
+                            m_2.rect.x-=mamadeira_bebe_y+15
                             b_2.image=pygame.transform.flip(b_2.image, True, False)
                             m_2.vx=-m_2.vx
                             trocou_de_mao_2=True
                             
                         if event.key==pygame.K_RIGHT and trocou_de_mao_2 and not atirou2:
-                                m_2.rect.x+=mamadeira_bebe_y+20
+                                m_2.rect.x+=mamadeira_bebe_y+15
                                 m_2.vx=-m_2.vx
                                 b_2.image=pygame.transform.flip(b_2.image, True, False)
                                 trocou_de_mao_2=False
@@ -525,12 +527,12 @@ while not sair:
                         m_1.atira()
                         atirou1=True                        
                     if event.key==pygame.K_LEFT and not trocou_de_mao_1 and not atirou1:
-                        m_1.rect.x-=mamadeira_bebe_y+20
+                        m_1.rect.x-=mamadeira_bebe_y+15
                         m_1.vx=-m_1.vx
                         b_1.image=pygame.transform.flip(b_1.image, True, False)
                         trocou_de_mao_1=True
                     if event.key==pygame.K_RIGHT and trocou_de_mao_1 and not atirou1:
-                            m_1.rect.x+=mamadeira_bebe_y+20
+                            m_1.rect.x+=mamadeira_bebe_y+15
                             m_1.vx=-m_1.vx
                             b_1.image=pygame.transform.flip(b_1.image, True, False)
                             trocou_de_mao_1=False
