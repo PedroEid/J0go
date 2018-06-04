@@ -134,7 +134,7 @@ class Mamadeira (pygame.sprite.Sprite):
             lista.append([self.pre_x,self.pre_y])
             listapre=[lista[i],lista[i+1]]
             if i%2!=0:
-                pygame.draw.aalines(tela,blue ,False,listapre)
+                pygame.draw.aalines(tela,black ,False,listapre)
                 
 
 font = pygame.font.SysFont("Boo.Fixed Sys", (tela_x-850))
@@ -712,10 +712,10 @@ while not sair:
         
     comer2=pygame.sprite.spritecollide(b_2,cookie,True)
     comer1=pygame.sprite.spritecollide(b_1,cookie,True)
-    if comer2:
+    if comer2 and b_2.vida<80:
         b_2.vida+=40
         b_2.health()
-    if comer1:
+    if comer1 and b_1.vida<80:
         b_1.vida+=40
         b_1.health()
         
@@ -735,10 +735,11 @@ while not sair:
     if not inicio and not control and not rules:
         lava.draw(tela)
         tela.blit(fundo, (0, 0))
-        if aparece==5:
-            #CRIACAO DOS COOKIES
-            ck=Cookie(randrange(0,800),randrange(0,450),'índice.png')
-            cookie.add(ck)
+        #CRIACAO DOS COOKIES
+        if 10>len(cookie):
+            if aparece==5:              
+                ck=Cookie(randrange(0,800),randrange(0,450),'índice.png')
+                cookie.add(ck)
 
 #        tela.fill(white)
         bebe_1.draw(tela)
