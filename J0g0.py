@@ -1,6 +1,4 @@
 import pygame
-import sys
-from pygame.locals import *
 from random import randrange
 import pygame.mixer
 
