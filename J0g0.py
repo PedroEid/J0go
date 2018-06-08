@@ -156,6 +156,7 @@ regra2=font3.render("MAS NÃO FAÇA ISSO ELES SÃO APENAS BEBES", True, (green))
 regra3=font3.render("CADA JOGADOR TEM 3 MOVIMENTOS OU UM TIRO",True,green)
 regra4=font3.render("NÃO USE HACK, CASO CONTRÁRIO FICARA DE CASTIGO",True,green)
 regra5=font3.render('CASO CAIA NA LAVA, PERDERÁ VIDA', True, green)
+regra6=font3.render('ESTÁ CHEIO DE GULOSEIMAS, COMA E GANHE VIDA', True, green)
 voltar=font2.render("VOLTAR",True,black)
 
                 
@@ -420,12 +421,13 @@ while not sair:
                         
         elif rules:
             tela.fill(gray)
-            tela.blit(regra0,(525 - text.get_width() // 2, 130 - text.get_height() // 2))
-            tela.blit(regra1,(350 - text1.get_width() // 2, 230 - text1.get_height() // 2))
-            tela.blit(regra2,(350 - text1.get_width() // 2, 250 - text1.get_height() // 2))
-            tela.blit(regra3,(350 - text1.get_width() // 2, 300 - text1.get_height() // 2))
-            tela.blit(regra5,(350 - text1.get_width() // 2, 350 - text1.get_height() // 2))
-            tela.blit(regra4,(350 - text1.get_width() // 2, 400 - text1.get_height() // 2))
+            tela.blit(regra0,(525 - text.get_width() // 2, 100 - text.get_height() // 2))
+            tela.blit(regra1,(350 - text1.get_width() // 2, 180 - text1.get_height() // 2))
+            tela.blit(regra2,(350 - text1.get_width() // 2, 230 - text1.get_height() // 2))
+            tela.blit(regra3,(350 - text1.get_width() // 2, 280 - text1.get_height() // 2))
+            tela.blit(regra5,(350 - text1.get_width() // 2, 330 - text1.get_height() // 2))
+            tela.blit(regra4,(350 - text1.get_width() // 2, 380 - text1.get_height() // 2))
+            tela.blit(regra6,(350 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             volt=tela.blit(voltar,(170 - text1.get_width() // 2, 430 - text1.get_height() // 2))
             if event.type == pygame.MOUSEBUTTONDOWN:            
                 mouse_posicao=pygame.mouse.get_pos()
